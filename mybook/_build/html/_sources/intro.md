@@ -1,6 +1,6 @@
-# Selamat Datang di Jupyter Book Saya!
+# Penambangan Data oleh Tuhu Pangestu
 
-Ini adalah buku dokumentasi yang dibuat dengan Jupyter Book.
+Ini adalah buku dokumentasi yang saya buat ketika sedang memepelajari matakuliah penambangan data di semester 4 yang akan berisikan materi dan implementasi cara penambangan data. 
 
 - 📚 Dibuat dengan Markdown dan Jupyter Notebook
 - 🚀 Dapat diakses secara online melalui GitHub Pages
