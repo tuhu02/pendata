@@ -5,5 +5,5 @@ format: jb-book
 root: intro
 chapters:
 - file: Memahami-Data
-- file: Tugas-2
-- file: Tugas-3
+- file: tugas-2
+- file: tugas-3
