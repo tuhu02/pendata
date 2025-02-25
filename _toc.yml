@@ -4,6 +4,7 @@
 format: jb-book
 root: intro
 chapters:
-- file: Memahami-Data
-- file: tugas-2
-- file: tugas-3
+  - file: Memahami-Data
+  - file: tugas-2
+  - file: tugas-3
+  - file: tugas-4
