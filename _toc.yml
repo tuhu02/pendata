@@ -4,6 +4,6 @@
 format: jb-book
 root: intro
 chapters:
-- file: pengumpulan-data
+- file: Memahami-Data
 - file: Tugas-2
 - file: Tugas-3
