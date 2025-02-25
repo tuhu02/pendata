@@ -1,0 +1,1181 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Memahami Data &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Memahami Data';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/data-mining.jpg" class="logo__image only-light" alt="My sample book - Home"/>
+    <img src="_static/data-mining.jpg" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Penambangan Data - Tuhu Pangestu
+                </a>
+            </li>
+        </ul>
+        
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FMemahami Data.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Memahami Data.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Memahami Data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Memahami Data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data">Eksplorasi Data</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-data">Visualisasi Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profiling-data">Profiling Data</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="memahami-data">
+<h1>Memahami Data<a class="headerlink" href="#memahami-data" title="Link to this heading">#</a></h1>
+<p>Memahami data (Data Understanding) merupakan tahap kedua pada data mining sesuai dengan CRISP-DM (The Cross-Industry Standard Process for Data Mining). Data Understanding adalah tahapan untuk memahami data secara mendalam. Di sini, kita melihat struktur datanya, memahami tipe dan distribusinya, serta mencari tahu apakah ada masalah seperti data yang hilang (Missing value), duplikasi, atau nilai yang tidak wajar (outlier). Intinya, tahap ini membantu kita memastikan bahwa data cukup bersih dan tahap ini sangat penting karena menjadi fondasi untuk analisis selanjutnya dan mempengaruhi hasil akhir.</p>
+<p>Beberapa kegiatan  dalam memahami diantaranya adalah:</p>
+<ul class="simple">
+<li><p>Pengumpulan data</p></li>
+<li><p>Ekplorasi data</p></li>
+<li><p>Profilling data</p></li>
+</ul>
+<p>Pengumpulan data adalah tahap awal dalam memahami data, di mana kita mengumpulkan sumber data yang relevan untuk dianalisis. Dalam konteks ini, terdapat dua database yang dibuat menggunakan <a class="reference external" href="http://Aiven.io">Aiven.io</a>, yaitu:</p>
+<ul class="simple">
+<li><p>Database MySQL</p></li>
+<li><p>Database PostgreSQL</p></li>
+</ul>
+<p>Kedua database ini kemudian dikoneksikan agar dapat diakses dan digunakan dalam proses eksplorasi serta analisis data. Proses koneksi ini memungkinkan pengguna untuk mengakses data dari berbagai sumber, melakukan query, serta mengintegrasikan informasi dari kedua sistem manajemen basis data tersebut.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pip</span> install pymysql
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: pymysql in /usr/local/python/3.12.1/lib/python3.12/site-packages (1.1.1)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Note: you may need to restart the kernel to use updated packages.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pip</span> install psycopg2
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: psycopg2 in /usr/local/python/3.12.1/lib/python3.12/site-packages (2.9.10)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Note: you may need to restart the kernel to use updated packages.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Berikut adalah tahapan pengumpulan data dari mysql dan postgre sql</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">psycopg2</span>
+<span class="kn">import</span> <span class="nn">pymysql</span>
+
+<span class="c1"># Koneksi ke PostgreSQL</span>
+<span class="n">pg_conn</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+    <span class="n">dbname</span><span class="o">=</span><span class="s2">&quot;defaultdb&quot;</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="s2">&quot;avnadmin&quot;</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;AVNS_RXRKVCrwzjE7ECInaHa&quot;</span><span class="p">,</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;pg-3e9f6d55-tuhuwkwk-f38a.h.aivencloud.com&quot;</span><span class="p">,</span>
+    <span class="n">port</span><span class="o">=</span><span class="s2">&quot;25886&quot;</span>
+<span class="p">)</span>
+<span class="n">pg_cur</span> <span class="o">=</span> <span class="n">pg_conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<span class="c1"># Koneksi ke MySQL</span>
+<span class="n">mysql_conn</span> <span class="o">=</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;mysql-3f502423-tuhuwkwk-f38a.h.aivencloud.com&quot;</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="s2">&quot;avnadmin&quot;</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;AVNS_2ByB5ZbPXeYhBHP6anG&quot;</span><span class="p">,</span>
+    <span class="n">database</span><span class="o">=</span><span class="s2">&quot;defaultdb&quot;</span><span class="p">,</span>
+    <span class="n">port</span><span class="o">=</span><span class="mi">25886</span><span class="p">,</span>
+    <span class="n">ssl</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;ssl&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+<span class="p">)</span>
+<span class="n">mysql_cur</span> <span class="o">=</span> <span class="n">mysql_conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<span class="c1"># Eksekusi query untuk mengambil data dari PostgreSQL</span>
+<span class="n">query_pg</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM irispostgre&quot;</span>
+<span class="n">pg_cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query_pg</span><span class="p">)</span>
+<span class="n">data_postgre</span> <span class="o">=</span> <span class="n">pg_cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="c1"># Eksekusi query untuk mengambil data dari MySQL</span>
+<span class="n">query_mysql</span> <span class="o">=</span> <span class="s2">&quot;SELECT * FROM irisSQL&quot;</span>
+<span class="n">mysql_cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query_mysql</span><span class="p">)</span>
+<span class="n">data_mysql</span> <span class="o">=</span> <span class="n">mysql_cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="c1"># Menampilkan data dari MySQL</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;DATA SQL&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data_mysql</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+<span class="c1"># Tutup kursor dan koneksi</span>
+<span class="n">pg_cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">pg_conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">mysql_cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">mysql_conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DATA SQL
+(1, &#39;Iris-setosa&#39;, 1.4, 0.2)
+(2, &#39;Iris-setosa&#39;, 1.4, 0.2)
+(3, &#39;Iris-setosa&#39;, 1.3, 0.2)
+(4, &#39;Iris-setosa&#39;, 1.5, 0.2)
+(5, &#39;Iris-setosa&#39;, 1.4, 0.2)
+(6, &#39;Iris-setosa&#39;, 1.7, 0.4)
+(7, &#39;Iris-setosa&#39;, 1.4, 0.3)
+(8, &#39;Iris-setosa&#39;, 1.5, 0.2)
+(9, &#39;Iris-setosa&#39;, 1.4, 0.2)
+(10, &#39;Iris-setosa&#39;, 1.5, 0.1)
+(11, &#39;Iris-setosa&#39;, 1.5, 0.2)
+(12, &#39;Iris-setosa&#39;, 1.6, 0.2)
+(13, &#39;Iris-setosa&#39;, 1.4, 0.1)
+(14, &#39;Iris-setosa&#39;, 1.1, 0.1)
+(15, &#39;Iris-setosa&#39;, 1.2, 0.2)
+(16, &#39;Iris-setosa&#39;, 1.5, 0.4)
+(17, &#39;Iris-setosa&#39;, 1.3, 0.4)
+(18, &#39;Iris-setosa&#39;, 1.4, 0.3)
+(19, &#39;Iris-setosa&#39;, 1.7, 0.3)
+(20, &#39;Iris-setosa&#39;, 1.5, 0.3)
+(21, &#39;Iris-setosa&#39;, 1.7, 0.2)
+(22, &#39;Iris-setosa&#39;, 1.5, 0.4)
+(23, &#39;Iris-setosa&#39;, 1.0, 0.2)
+(24, &#39;Iris-setosa&#39;, 1.7, 0.5)
+(25, &#39;Iris-setosa&#39;, 1.9, 0.2)
+(26, &#39;Iris-setosa&#39;, 1.6, 0.2)
+(27, &#39;Iris-setosa&#39;, 1.6, 0.4)
+(28, &#39;Iris-setosa&#39;, 1.5, 0.2)
+(29, &#39;Iris-setosa&#39;, 1.4, 0.2)
+(30, &#39;Iris-setosa&#39;, 1.6, 0.2)
+(31, &#39;Iris-setosa&#39;, 1.6, 0.2)
+(32, &#39;Iris-setosa&#39;, 1.5, 0.4)
+(33, &#39;Iris-setosa&#39;, 1.5, 0.1)
+(34, &#39;Iris-setosa&#39;, 1.4, 0.2)
+(35, &#39;Iris-setosa&#39;, 1.5, 0.1)
+(36, &#39;Iris-setosa&#39;, 1.2, 0.2)
+(37, &#39;Iris-setosa&#39;, 1.3, 0.2)
+(38, &#39;Iris-setosa&#39;, 1.5, 0.1)
+(39, &#39;Iris-setosa&#39;, 1.3, 0.2)
+(40, &#39;Iris-setosa&#39;, 1.5, 0.2)
+(41, &#39;Iris-setosa&#39;, 1.3, 0.3)
+(42, &#39;Iris-setosa&#39;, 1.3, 0.3)
+(43, &#39;Iris-setosa&#39;, 1.3, 0.2)
+(44, &#39;Iris-setosa&#39;, 1.6, 0.6)
+(45, &#39;Iris-setosa&#39;, 1.9, 0.4)
+(46, &#39;Iris-setosa&#39;, 1.4, 0.3)
+(47, &#39;Iris-setosa&#39;, 1.6, 0.2)
+(48, &#39;Iris-setosa&#39;, 1.4, 0.2)
+(49, &#39;Iris-setosa&#39;, 1.5, 0.2)
+(50, &#39;Iris-setosa&#39;, 1.4, 0.2)
+(51, &#39;Iris-versicolor&#39;, 4.7, 1.4)
+(52, &#39;Iris-versicolor&#39;, 4.5, 1.5)
+(53, &#39;Iris-versicolor&#39;, 4.9, 1.5)
+(54, &#39;Iris-versicolor&#39;, 4.0, 1.3)
+(55, &#39;Iris-versicolor&#39;, 4.6, 1.5)
+(56, &#39;Iris-versicolor&#39;, 4.5, 1.3)
+(57, &#39;Iris-versicolor&#39;, 4.7, 1.6)
+(58, &#39;Iris-versicolor&#39;, 3.3, 1.0)
+(59, &#39;Iris-versicolor&#39;, 4.6, 1.3)
+(60, &#39;Iris-versicolor&#39;, 3.9, 1.4)
+(61, &#39;Iris-versicolor&#39;, 3.5, 1.0)
+(62, &#39;Iris-versicolor&#39;, 4.2, 1.5)
+(63, &#39;Iris-versicolor&#39;, 4.0, 1.0)
+(64, &#39;Iris-versicolor&#39;, 4.7, 1.4)
+(65, &#39;Iris-versicolor&#39;, 3.6, 1.3)
+(66, &#39;Iris-versicolor&#39;, 4.4, 1.4)
+(67, &#39;Iris-versicolor&#39;, 4.5, 1.5)
+(68, &#39;Iris-versicolor&#39;, 4.1, 1.0)
+(69, &#39;Iris-versicolor&#39;, 4.5, 1.5)
+(70, &#39;Iris-versicolor&#39;, 3.9, 1.1)
+(71, &#39;Iris-versicolor&#39;, 4.8, 1.8)
+(72, &#39;Iris-versicolor&#39;, 4.0, 1.3)
+(73, &#39;Iris-versicolor&#39;, 4.9, 1.5)
+(74, &#39;Iris-versicolor&#39;, 4.7, 1.2)
+(75, &#39;Iris-versicolor&#39;, 4.3, 1.3)
+(76, &#39;Iris-versicolor&#39;, 4.4, 1.4)
+(77, &#39;Iris-versicolor&#39;, 4.8, 1.4)
+(78, &#39;Iris-versicolor&#39;, 5.0, 1.7)
+(79, &#39;Iris-versicolor&#39;, 4.5, 1.5)
+(80, &#39;Iris-versicolor&#39;, 3.5, 1.0)
+(81, &#39;Iris-versicolor&#39;, 3.8, 1.1)
+(82, &#39;Iris-versicolor&#39;, 3.7, 1.0)
+(83, &#39;Iris-versicolor&#39;, 3.9, 1.2)
+(84, &#39;Iris-versicolor&#39;, 5.1, 1.6)
+(85, &#39;Iris-versicolor&#39;, 4.5, 1.5)
+(86, &#39;Iris-versicolor&#39;, 4.5, 1.6)
+(87, &#39;Iris-versicolor&#39;, 4.7, 1.5)
+(88, &#39;Iris-versicolor&#39;, 4.4, 1.3)
+(89, &#39;Iris-versicolor&#39;, 4.1, 1.3)
+(90, &#39;Iris-versicolor&#39;, 4.0, 1.3)
+(91, &#39;Iris-versicolor&#39;, 4.4, 1.2)
+(92, &#39;Iris-versicolor&#39;, 4.6, 1.4)
+(93, &#39;Iris-versicolor&#39;, 4.0, 1.2)
+(94, &#39;Iris-versicolor&#39;, 3.3, 1.0)
+(95, &#39;Iris-versicolor&#39;, 4.2, 1.3)
+(96, &#39;Iris-versicolor&#39;, 4.2, 1.2)
+(97, &#39;Iris-versicolor&#39;, 4.2, 1.3)
+(98, &#39;Iris-versicolor&#39;, 4.3, 1.3)
+(99, &#39;Iris-versicolor&#39;, 3.0, 1.1)
+(100, &#39;Iris-versicolor&#39;, 4.1, 1.3)
+(101, &#39;Iris-virginica&#39;, 6.0, 2.5)
+(102, &#39;Iris-virginica&#39;, 5.1, 1.9)
+(103, &#39;Iris-virginica&#39;, 5.9, 2.1)
+(104, &#39;Iris-virginica&#39;, 5.6, 1.8)
+(105, &#39;Iris-virginica&#39;, 5.8, 2.2)
+(106, &#39;Iris-virginica&#39;, 6.6, 2.1)
+(107, &#39;Iris-virginica&#39;, 4.5, 1.7)
+(108, &#39;Iris-virginica&#39;, 6.3, 1.8)
+(109, &#39;Iris-virginica&#39;, 5.8, 1.8)
+(110, &#39;Iris-virginica&#39;, 6.1, 2.5)
+(111, &#39;Iris-virginica&#39;, 5.1, 2.0)
+(112, &#39;Iris-virginica&#39;, 5.3, 1.9)
+(113, &#39;Iris-virginica&#39;, 5.5, 2.1)
+(114, &#39;Iris-virginica&#39;, 5.0, 2.0)
+(115, &#39;Iris-virginica&#39;, 5.1, 2.4)
+(116, &#39;Iris-virginica&#39;, 5.3, 2.3)
+(117, &#39;Iris-virginica&#39;, 5.5, 1.8)
+(118, &#39;Iris-virginica&#39;, 6.7, 2.2)
+(119, &#39;Iris-virginica&#39;, 6.9, 2.3)
+(120, &#39;Iris-virginica&#39;, 5.0, 1.5)
+(121, &#39;Iris-virginica&#39;, 5.7, 2.3)
+(122, &#39;Iris-virginica&#39;, 4.9, 2.0)
+(123, &#39;Iris-virginica&#39;, 6.7, 2.0)
+(124, &#39;Iris-virginica&#39;, 4.9, 1.8)
+(125, &#39;Iris-virginica&#39;, 5.7, 2.1)
+(126, &#39;Iris-virginica&#39;, 6.0, 1.8)
+(127, &#39;Iris-virginica&#39;, 4.8, 1.8)
+(128, &#39;Iris-virginica&#39;, 4.9, 1.8)
+(129, &#39;Iris-virginica&#39;, 5.6, 2.1)
+(130, &#39;Iris-virginica&#39;, 5.8, 1.6)
+(131, &#39;Iris-virginica&#39;, 6.1, 1.9)
+(132, &#39;Iris-virginica&#39;, 6.4, 2.0)
+(133, &#39;Iris-virginica&#39;, 5.6, 2.2)
+(134, &#39;Iris-virginica&#39;, 5.1, 1.5)
+(135, &#39;Iris-virginica&#39;, 5.6, 1.4)
+(136, &#39;Iris-virginica&#39;, 6.1, 2.3)
+(137, &#39;Iris-virginica&#39;, 5.6, 2.4)
+(138, &#39;Iris-virginica&#39;, 5.5, 1.8)
+(139, &#39;Iris-virginica&#39;, 4.8, 1.8)
+(140, &#39;Iris-virginica&#39;, 5.4, 2.1)
+(141, &#39;Iris-virginica&#39;, 5.6, 2.4)
+(142, &#39;Iris-virginica&#39;, 5.1, 2.3)
+(143, &#39;Iris-virginica&#39;, 5.1, 1.9)
+(144, &#39;Iris-virginica&#39;, 5.9, 2.3)
+(145, &#39;Iris-virginica&#39;, 5.7, 2.5)
+(146, &#39;Iris-virginica&#39;, 5.2, 2.3)
+(147, &#39;Iris-virginica&#39;, 5.0, 1.9)
+(148, &#39;Iris-virginica&#39;, 5.2, 2.0)
+(149, &#39;Iris-virginica&#39;, 5.4, 2.3)
+(150, &#39;Iris-virginica&#39;, 5.1, 1.8)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Menampilkan data dari PostgreSQL</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;DATA POSTGRESQL&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data_postgre</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DATA POSTGRESQL
+(1, &#39;Iris-setosa&#39;, 5.1, 3.5)
+(2, &#39;Iris-setosa&#39;, 4.9, 3.0)
+(3, &#39;Iris-setosa&#39;, 4.7, 3.2)
+(4, &#39;Iris-setosa&#39;, 4.6, 3.1)
+(5, &#39;Iris-setosa&#39;, 5.0, 3.6)
+(6, &#39;Iris-setosa&#39;, 5.4, 3.9)
+(7, &#39;Iris-setosa&#39;, 4.6, 3.4)
+(8, &#39;Iris-setosa&#39;, 5.0, 3.4)
+(9, &#39;Iris-setosa&#39;, 4.4, 2.9)
+(10, &#39;Iris-setosa&#39;, 4.9, 3.1)
+(11, &#39;Iris-setosa&#39;, 5.4, 3.7)
+(12, &#39;Iris-setosa&#39;, 4.8, 3.4)
+(13, &#39;Iris-setosa&#39;, 4.8, 3.0)
+(14, &#39;Iris-setosa&#39;, 4.3, 3.0)
+(15, &#39;Iris-setosa&#39;, 5.8, 4.0)
+(16, &#39;Iris-setosa&#39;, 5.7, 4.4)
+(17, &#39;Iris-setosa&#39;, 5.4, 3.9)
+(18, &#39;Iris-setosa&#39;, 5.1, 3.5)
+(19, &#39;Iris-setosa&#39;, 5.7, 3.8)
+(20, &#39;Iris-setosa&#39;, 5.1, 3.8)
+(21, &#39;Iris-setosa&#39;, 5.4, 3.4)
+(22, &#39;Iris-setosa&#39;, 5.1, 3.7)
+(23, &#39;Iris-setosa&#39;, 4.6, 3.6)
+(24, &#39;Iris-setosa&#39;, 5.1, 3.3)
+(25, &#39;Iris-setosa&#39;, 4.8, 3.4)
+(26, &#39;Iris-setosa&#39;, 5.0, 3.0)
+(27, &#39;Iris-setosa&#39;, 5.0, 3.4)
+(28, &#39;Iris-setosa&#39;, 5.2, 3.5)
+(29, &#39;Iris-setosa&#39;, 5.2, 3.4)
+(30, &#39;Iris-setosa&#39;, 4.7, 3.2)
+(31, &#39;Iris-setosa&#39;, 4.8, 3.1)
+(32, &#39;Iris-setosa&#39;, 5.4, 3.4)
+(33, &#39;Iris-setosa&#39;, 5.2, 4.1)
+(34, &#39;Iris-setosa&#39;, 5.5, 4.2)
+(35, &#39;Iris-setosa&#39;, 4.9, 3.1)
+(36, &#39;Iris-setosa&#39;, 5.0, 3.2)
+(37, &#39;Iris-setosa&#39;, 5.5, 3.5)
+(38, &#39;Iris-setosa&#39;, 4.9, 3.1)
+(39, &#39;Iris-setosa&#39;, 4.4, 3.0)
+(40, &#39;Iris-setosa&#39;, 5.1, 3.4)
+(41, &#39;Iris-setosa&#39;, 5.0, 3.5)
+(42, &#39;Iris-setosa&#39;, 4.5, 2.3)
+(43, &#39;Iris-setosa&#39;, 4.4, 3.2)
+(44, &#39;Iris-setosa&#39;, 5.0, 3.5)
+(45, &#39;Iris-setosa&#39;, 5.1, 3.8)
+(46, &#39;Iris-setosa&#39;, 4.8, 3.0)
+(47, &#39;Iris-setosa&#39;, 5.1, 3.8)
+(48, &#39;Iris-setosa&#39;, 4.6, 3.2)
+(49, &#39;Iris-setosa&#39;, 5.3, 3.7)
+(50, &#39;Iris-setosa&#39;, 5.0, 3.3)
+(51, &#39;Iris-versicolor&#39;, 7.0, 3.2)
+(52, &#39;Iris-versicolor&#39;, 6.4, 3.2)
+(53, &#39;Iris-versicolor&#39;, 6.9, 3.1)
+(54, &#39;Iris-versicolor&#39;, 5.5, 2.3)
+(55, &#39;Iris-versicolor&#39;, 6.5, 2.8)
+(56, &#39;Iris-versicolor&#39;, 5.7, 2.8)
+(57, &#39;Iris-versicolor&#39;, 6.3, 3.3)
+(58, &#39;Iris-versicolor&#39;, 4.9, 2.4)
+(59, &#39;Iris-versicolor&#39;, 6.6, 2.9)
+(60, &#39;Iris-versicolor&#39;, 5.2, 2.7)
+(61, &#39;Iris-versicolor&#39;, 5.0, 2.0)
+(62, &#39;Iris-versicolor&#39;, 5.9, 3.0)
+(63, &#39;Iris-versicolor&#39;, 6.0, 2.2)
+(64, &#39;Iris-versicolor&#39;, 6.1, 2.9)
+(65, &#39;Iris-versicolor&#39;, 5.6, 2.9)
+(66, &#39;Iris-versicolor&#39;, 6.7, 3.1)
+(67, &#39;Iris-versicolor&#39;, 5.6, 3.0)
+(68, &#39;Iris-versicolor&#39;, 5.8, 2.7)
+(69, &#39;Iris-versicolor&#39;, 6.2, 2.2)
+(70, &#39;Iris-versicolor&#39;, 5.6, 2.5)
+(71, &#39;Iris-versicolor&#39;, 5.9, 3.2)
+(72, &#39;Iris-versicolor&#39;, 6.1, 2.8)
+(73, &#39;Iris-versicolor&#39;, 6.3, 2.5)
+(74, &#39;Iris-versicolor&#39;, 6.1, 2.8)
+(75, &#39;Iris-versicolor&#39;, 6.4, 2.9)
+(76, &#39;Iris-versicolor&#39;, 6.6, 3.0)
+(77, &#39;Iris-versicolor&#39;, 6.8, 2.8)
+(78, &#39;Iris-versicolor&#39;, 6.7, 3.0)
+(79, &#39;Iris-versicolor&#39;, 6.0, 2.9)
+(80, &#39;Iris-versicolor&#39;, 5.7, 2.6)
+(81, &#39;Iris-versicolor&#39;, 5.5, 2.4)
+(82, &#39;Iris-versicolor&#39;, 5.5, 2.4)
+(83, &#39;Iris-versicolor&#39;, 5.8, 2.7)
+(84, &#39;Iris-versicolor&#39;, 6.0, 2.7)
+(85, &#39;Iris-versicolor&#39;, 5.4, 3.0)
+(86, &#39;Iris-versicolor&#39;, 6.0, 3.4)
+(87, &#39;Iris-versicolor&#39;, 6.7, 3.1)
+(88, &#39;Iris-versicolor&#39;, 6.3, 2.3)
+(89, &#39;Iris-versicolor&#39;, 5.6, 3.0)
+(90, &#39;Iris-versicolor&#39;, 5.5, 2.5)
+(91, &#39;Iris-versicolor&#39;, 5.5, 2.6)
+(92, &#39;Iris-versicolor&#39;, 6.1, 3.0)
+(93, &#39;Iris-versicolor&#39;, 5.8, 2.6)
+(94, &#39;Iris-versicolor&#39;, 5.0, 2.3)
+(95, &#39;Iris-versicolor&#39;, 5.6, 2.7)
+(96, &#39;Iris-versicolor&#39;, 5.7, 3.0)
+(97, &#39;Iris-versicolor&#39;, 5.7, 2.9)
+(98, &#39;Iris-versicolor&#39;, 6.2, 2.9)
+(99, &#39;Iris-versicolor&#39;, 5.1, 2.5)
+(100, &#39;Iris-versicolor&#39;, 5.7, 2.8)
+(101, &#39;Iris-virginica&#39;, 6.3, 3.3)
+(102, &#39;Iris-virginica&#39;, 5.8, 2.7)
+(103, &#39;Iris-virginica&#39;, 7.1, 3.0)
+(104, &#39;Iris-virginica&#39;, 6.3, 2.9)
+(105, &#39;Iris-virginica&#39;, 6.5, 3.0)
+(106, &#39;Iris-virginica&#39;, 7.6, 3.0)
+(107, &#39;Iris-virginica&#39;, 4.9, 2.5)
+(108, &#39;Iris-virginica&#39;, 7.3, 2.9)
+(109, &#39;Iris-virginica&#39;, 6.7, 2.5)
+(110, &#39;Iris-virginica&#39;, 7.2, 3.6)
+(111, &#39;Iris-virginica&#39;, 6.5, 3.2)
+(112, &#39;Iris-virginica&#39;, 6.4, 2.7)
+(113, &#39;Iris-virginica&#39;, 6.8, 3.0)
+(114, &#39;Iris-virginica&#39;, 5.7, 2.5)
+(115, &#39;Iris-virginica&#39;, 5.8, 2.8)
+(116, &#39;Iris-virginica&#39;, 6.4, 3.2)
+(117, &#39;Iris-virginica&#39;, 6.5, 3.0)
+(118, &#39;Iris-virginica&#39;, 7.7, 3.8)
+(119, &#39;Iris-virginica&#39;, 7.7, 2.6)
+(120, &#39;Iris-virginica&#39;, 6.0, 2.2)
+(121, &#39;Iris-virginica&#39;, 6.9, 3.2)
+(122, &#39;Iris-virginica&#39;, 5.6, 2.8)
+(123, &#39;Iris-virginica&#39;, 7.7, 2.8)
+(124, &#39;Iris-virginica&#39;, 6.3, 2.7)
+(125, &#39;Iris-virginica&#39;, 6.7, 3.3)
+(126, &#39;Iris-virginica&#39;, 7.2, 3.2)
+(127, &#39;Iris-virginica&#39;, 6.2, 2.8)
+(128, &#39;Iris-virginica&#39;, 6.1, 3.0)
+(129, &#39;Iris-virginica&#39;, 6.4, 2.8)
+(130, &#39;Iris-virginica&#39;, 7.2, 3.0)
+(131, &#39;Iris-virginica&#39;, 7.4, 2.8)
+(132, &#39;Iris-virginica&#39;, 7.9, 3.8)
+(133, &#39;Iris-virginica&#39;, 6.4, 2.8)
+(134, &#39;Iris-virginica&#39;, 6.3, 2.8)
+(135, &#39;Iris-virginica&#39;, 6.1, 2.6)
+(136, &#39;Iris-virginica&#39;, 7.7, 3.0)
+(137, &#39;Iris-virginica&#39;, 6.3, 3.4)
+(138, &#39;Iris-virginica&#39;, 6.4, 3.1)
+(139, &#39;Iris-virginica&#39;, 6.0, 3.0)
+(140, &#39;Iris-virginica&#39;, 6.9, 3.1)
+(141, &#39;Iris-virginica&#39;, 6.7, 3.1)
+(142, &#39;Iris-virginica&#39;, 6.9, 3.1)
+(143, &#39;Iris-virginica&#39;, 5.8, 2.7)
+(144, &#39;Iris-virginica&#39;, 6.8, 3.2)
+(145, &#39;Iris-virginica&#39;, 6.7, 3.3)
+(146, &#39;Iris-virginica&#39;, 6.7, 3.0)
+(147, &#39;Iris-virginica&#39;, 6.3, 2.5)
+(148, &#39;Iris-virginica&#39;, 6.5, 3.0)
+(149, &#39;Iris-virginica&#39;, 6.2, 3.4)
+(150, &#39;Iris-virginica&#39;, 5.9, 3.0)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="eksplorasi-data">
+<h1>Eksplorasi Data<a class="headerlink" href="#eksplorasi-data" title="Link to this heading">#</a></h1>
+<p>melakukan deskripsi statistik untuk memahami distribusi data ,seperti mean, median, modus, standar deviasi, minimum, dan maksimum</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pymysql</span>
+<span class="kn">import</span> <span class="nn">psycopg2</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+
+<span class="c1"># Buat engine SQLAlchemy untuk MySQL</span>
+<span class="n">mysql_engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span>
+    <span class="s2">&quot;mysql+pymysql://avnadmin:AVNS_ofBDTy2O0wCAbsGzXZ0@mysql-20593d66-mysqlirispendata.i.aivencloud.com:13456/defaultdb&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Buat engine SQLAlchemy untuk PostgreSQL</span>
+<span class="n">postgres_engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span>
+    <span class="s2">&quot;postgresql+psycopg2://avnadmin:AVNS_rrHJJKrYc-FwnSuk8Lt@pg-9969a87-postgreirispendata.i.aivencloud.com:27075/defaultdb&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Query untuk mengambil data</span>
+<span class="n">mysql_query</span> <span class="o">=</span> <span class="s2">&quot;SELECT id, class, petal_length, petal_width FROM iris&quot;</span>
+<span class="n">postgres_query</span> <span class="o">=</span> <span class="s2">&quot;SELECT id, sepal_length, sepal_width FROM iris&quot;</span>
+
+<span class="c1"># Ambil data dari MySQL dan PostgreSQL sebagai DataFrame Pandas</span>
+<span class="n">df_mysql</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">mysql_query</span><span class="p">,</span> <span class="n">mysql_engine</span><span class="p">,</span> <span class="n">coerce_float</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_postgres</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">postgres_query</span><span class="p">,</span> <span class="n">postgres_engine</span><span class="p">,</span> <span class="n">coerce_float</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># **Gabungkan Data berdasarkan &#39;id&#39;**</span>
+<span class="n">df_combined</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_mysql</span><span class="p">,</span> <span class="n">df_postgres</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+
+<span class="c1"># Tampilkan hasil</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_combined</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="c1"># Jika ingin menyimpan hasil ke CSV</span>
+<span class="n">df_combined</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;hasil_gabungan.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   id        class  petal_length  petal_width  sepal_length  sepal_width
+0   1  Iris-setosa           1.4          0.2           5.1          3.5
+1   2  Iris-setosa           1.4          0.2           4.9          3.0
+2   3  Iris-setosa           1.3          0.2           4.7          3.2
+3   4  Iris-setosa           1.5          0.2           4.6          3.1
+4   5  Iris-setosa           1.4          0.2           5.0          3.6
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Baca data dari hasil_gabungan.csv</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;hasil_gabungan.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Tampilkan beberapa baris pertama</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+
+<span class="c1"># Statistik umum</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   id        class  petal_length  petal_width  sepal_length  sepal_width
+0   1  Iris-setosa           1.4          0.2           5.1          3.5
+1   2  Iris-setosa           1.4          0.2           4.9          3.0
+2   3  Iris-setosa           1.3          0.2           4.7          3.2
+3   4  Iris-setosa           1.5          0.2           4.6          3.1
+4   5  Iris-setosa           1.4          0.2           5.0          3.6
+               id  petal_length  petal_width  sepal_length  sepal_width
+count  150.000000    150.000000   150.000000    150.000000   150.000000
+mean    75.500000      3.758667     1.198667      5.843333     3.054000
+std     43.445368      1.764420     0.763161      0.828066     0.433594
+min      1.000000      1.000000     0.100000      4.300000     2.000000
+25%     38.250000      1.600000     0.300000      5.100000     2.800000
+50%     75.500000      4.350000     1.300000      5.800000     3.000000
+75%    112.750000      5.100000     1.800000      6.400000     3.300000
+max    150.000000      6.900000     2.500000      7.900000     4.400000
+</pre></div>
+</div>
+</div>
+</div>
+<p>menampilkan informasi dataset</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 150 entries, 0 to 149
+Data columns (total 6 columns):
+ #   Column        Non-Null Count  Dtype  
+---  ------        --------------  -----  
+ 0   id            150 non-null    int64  
+ 1   class         150 non-null    object 
+ 2   petal_length  150 non-null    float64
+ 3   petal_width   150 non-null    float64
+ 4   sepal_length  150 non-null    float64
+ 5   sepal_width   150 non-null    float64
+dtypes: float64(4), int64(1), object(1)
+memory usage: 7.2+ KB
+None
+</pre></div>
+</div>
+</div>
+</div>
+<section id="visualisasi-data">
+<h2>Visualisasi Data<a class="headerlink" href="#visualisasi-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="c1"># Baca data dari CSV</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;hasil_gabungan.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Tampilkan beberapa baris pertama</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   id        class  petal_length  petal_width  sepal_length  sepal_width
+0   1  Iris-setosa           1.4          0.2           5.1          3.5
+1   2  Iris-setosa           1.4          0.2           4.9          3.0
+2   3  Iris-setosa           1.3          0.2           4.7          3.2
+3   4  Iris-setosa           1.5          0.2           4.6          3.1
+4   5  Iris-setosa           1.4          0.2           5.0          3.6
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="c1"># Baca dataset</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;hasil_gabungan.csv&quot;</span>  <span class="c1"># Pastikan file berada di direktori yang sesuai</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+<span class="c1"># 1️⃣ Histogram: Distribusi data numerik</span>
+<span class="n">df</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Distribusi Data Numerik&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># 2️⃣ Box Plot: Mendeteksi outliers</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Boxplot Data Numerik&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># 3️⃣ Scatter Plot: Hubungan antara Sepal Length dan Sepal Width</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;sepal_length&quot;</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;sepal_width&quot;</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">],</span> <span class="n">palette</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Hubungan antara Sepal Length dan Sepal Width&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Sepal Length&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Sepal Width&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Class&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># 4️⃣ Pie Chart: Proporsi tiap kelas bunga</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;pie&quot;</span><span class="p">,</span> <span class="n">autopct</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%1.1f%%</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Proporsi Kelas Bunga&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>  <span class="c1"># Menghilangkan label y agar lebih rapi</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/40ebdfadd059f411ad404770c51d243ade982020536425de6994b335d92402a2.png" src="_images/40ebdfadd059f411ad404770c51d243ade982020536425de6994b335d92402a2.png" />
+<img alt="_images/293b23c0b648899212e285700dd840ab48049fbc5aee259fa9b2d167137191f1.png" src="_images/293b23c0b648899212e285700dd840ab48049fbc5aee259fa9b2d167137191f1.png" />
+<img alt="_images/eb9f63834b8f065482f6818df1b6027a3897098333aa5e435420290a1f03c899.png" src="_images/eb9f63834b8f065482f6818df1b6027a3897098333aa5e435420290a1f03c899.png" />
+<img alt="_images/d22e6d4c389e2e9099ceebb13e223c94ae96a2925efe54201ee4a1f15876d62c.png" src="_images/d22e6d4c389e2e9099ceebb13e223c94ae96a2925efe54201ee4a1f15876d62c.png" />
+</div>
+</div>
+</section>
+<section id="profiling-data">
+<h2>Profiling Data<a class="headerlink" href="#profiling-data" title="Link to this heading">#</a></h2>
+<p>Ringkasan variabel</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Baca dataset</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;hasil_gabungan.csv&quot;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+<span class="c1"># Informasi umum dataset</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;📌 Info Dataset:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+
+<span class="c1"># Statistik deskriptif untuk data numerik</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📊 Statistik Deskriptif:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+
+<span class="c1"># Frekuensi kemunculan untuk variabel kategorikal</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📈 Frekuensi Variabel Kategorikal:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📌 Info Dataset:
+&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 150 entries, 0 to 149
+Data columns (total 6 columns):
+ #   Column        Non-Null Count  Dtype  
+---  ------        --------------  -----  
+ 0   id            150 non-null    int64  
+ 1   class         150 non-null    object 
+ 2   petal_length  150 non-null    float64
+ 3   petal_width   150 non-null    float64
+ 4   sepal_length  150 non-null    float64
+ 5   sepal_width   150 non-null    float64
+dtypes: float64(4), int64(1), object(1)
+memory usage: 7.2+ KB
+None
+
+📊 Statistik Deskriptif:
+               id  petal_length  petal_width  sepal_length  sepal_width
+count  150.000000    150.000000   150.000000    150.000000   150.000000
+mean    75.500000      3.758667     1.198667      5.843333     3.054000
+std     43.445368      1.764420     0.763161      0.828066     0.433594
+min      1.000000      1.000000     0.100000      4.300000     2.000000
+25%     38.250000      1.600000     0.300000      5.100000     2.800000
+50%     75.500000      4.350000     1.300000      5.800000     3.000000
+75%    112.750000      5.100000     1.800000      6.400000     3.300000
+max    150.000000      6.900000     2.500000      7.900000     4.400000
+
+📈 Frekuensi Variabel Kategorikal:
+
+class:
+ class
+Iris-setosa        50
+Iris-versicolor    50
+Iris-virginica     50
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Korelasi Antarvariabel Numerik</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Pilih hanya kolom numerik</span>
+<span class="n">df_numeric</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;number&#39;</span><span class="p">])</span>
+
+<span class="c1"># Heatmap korelasi antar variabel numerik</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">df_numeric</span><span class="o">.</span><span class="n">corr</span><span class="p">(),</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Korelasi Antar Variabel Numerik&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2e327dfc44df4df2c374fe34fbb91fbab6514fe25966fe496ae694d19e5cf931.png" src="_images/2e327dfc44df4df2c374fe34fbb91fbab6514fe25966fe496ae694d19e5cf931.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Memahami Data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data">Eksplorasi Data</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-data">Visualisasi Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profiling-data">Profiling Data</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
