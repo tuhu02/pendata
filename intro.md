@@ -7,5 +7,4 @@ Nama : Tuhu Pangestu
 Prodi : Teknik Informatika  
 Email : 230411100096@student.trunojoyo.ac.id
 
-- 📚 Dibuat dengan Markdown dan Jupyter Notebook
-- 🚀 Dapat diakses secara online melalui GitHub Pages
+📚 Dibuat dengan Markdown dan Jupyter Notebook
