@@ -5,4 +5,6 @@ format: jb-book
 root: Penambangan-Data
 chapters:
   - file: Memahami-Data
-
+  - file: data_understanding
+  - file: tugas-3
+  - file: tugas-4
