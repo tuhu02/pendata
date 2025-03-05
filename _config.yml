@@ -4,7 +4,7 @@
 title: Penambangan Data
 author: Tuhu Pangestu
 logo: data-mining.jpg
-copyright: "2025 Tuhu Pangestu. All rights reserved."
+copyright: "@2025 || Tuhu Pangestu"
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
@@ -31,4 +31,4 @@ repository:
 html:
   use_issues_button: true
   use_repository_button: true
-  theme: "alabaster" # Tema minimalis
+  theme: "furo" # Tema minimalis
