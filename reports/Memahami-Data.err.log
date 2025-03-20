@@ -1,0 +1,73 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.10.16/x64/lib/python3.10/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import psycopg2
+import pymysql
+
+# Koneksi ke PostgreSQL
+pg_conn = psycopg2.connect(
+    dbname="defaultdb",
+    user="avnadmin",
+    password="AVNS_RXRKVCrwzjE7ECInaHa",
+    host="pg-3e9f6d55-tuhuwkwk-f38a.h.aivencloud.com",
+    port="25886"
+)
+pg_cur = pg_conn.cursor()
+
+# Koneksi ke MySQL
+mysql_conn = pymysql.connect(
+    host="mysql-3f502423-tuhuwkwk-f38a.h.aivencloud.com",
+    user="avnadmin",
+    password="AVNS_2ByB5ZbPXeYhBHP6anG",
+    database="defaultdb",
+    port=25886,
+    ssl={"ssl": {}}
+)
+mysql_cur = mysql_conn.cursor()
+
+# Eksekusi query untuk mengambil data dari PostgreSQL
+query_pg = "SELECT * FROM irispostgre"
+pg_cur.execute(query_pg)
+data_postgre = pg_cur.fetchall()
+
+# Eksekusi query untuk mengambil data dari MySQL
+query_mysql = "SELECT * FROM irisSQL"
+mysql_cur.execute(query_mysql)
+data_mysql = mysql_cur.fetchall()
+
+# Menampilkan data dari MySQL
+print("DATA SQL")
+for i in range(0,10):
+    print(data_mysql[i])
+
+# Tutup kursor dan koneksi
+pg_cur.close()
+pg_conn.close()
+mysql_cur.close()
+mysql_conn.close()
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [0;32mIn[1], line 1[0m
+[0;32m----> 1[0m [38;5;28;01mimport[39;00m[38;5;250m [39m[38;5;21;01mpsycopg2[39;00m
+[1;32m      2[0m [38;5;28;01mimport[39;00m[38;5;250m [39m[38;5;21;01mpymysql[39;00m
+[1;32m      4[0m [38;5;66;03m# Koneksi ke PostgreSQL[39;00m
+
+[0;31mModuleNotFoundError[0m: No module named 'psycopg2'
+
