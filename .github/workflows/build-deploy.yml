@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 env:
-  BOOK_ROOT: "."  # Variabel untuk path folder root Jupyter Book
+  BOOK_ROOT: "." # Variabel untuk path folder root Jupyter Book
 
 jobs:
   build:
@@ -26,7 +26,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install jupyter-book ghp-import
+          pip install -r requirements.txt  # Instal semua dependensi dari requirements.txt
+          pip install jupyter-book ghp-import  # Pastikan jupyter-book dan ghp-import tetap terinstal
 
       - name: Build Jupyter Book
         run: |
