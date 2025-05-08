@@ -7,3 +7,4 @@ psycopg2
 seaborn
 tqdm
 nltk
+rank_bm25
