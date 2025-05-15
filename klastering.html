@@ -1,0 +1,1328 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Klastering K-Means &#8212; Penambangan Data</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'klastering';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Analisis Data Medis" href="uts.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/data-mining.jpg" class="logo__image only-light" alt="Penambangan Data - Home"/>
+    <script>document.write(`<img src="_static/data-mining.jpg" class="logo__image only-dark" alt="Penambangan Data - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Penambangan Data - Tuhu Pangestu
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Memahami-Data.html">Memahami Data</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="Modeling-Data.html">Pemodelan data</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="uts.html">Analisis Data Medis</a></li>
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Klastering K-Means</a></li>
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fklastering.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/klastering.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Klastering K-Means</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Klastering K-Means</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#klastering-menggunakan-data-dengan-label-class">Klastering menggunakan data dengan label class</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="klastering-k-means">
+<h1>Klastering K-Means<a class="headerlink" href="#klastering-k-means" title="Link to this heading">#</a></h1>
+<p><strong>Pengertian</strong>
+K-Means adalah teknik klastering berbasis partisi yang digunakan untuk mengelompokkan data ke dalam K kelompok (cluster) berdasarkan kemiripan.
+Setiap cluster direpresentasikan oleh centroid, yaitu titik rata-rata dari seluruh data dalam cluster tersebut.</p>
+<p><strong>Tujuan dan Fungsi</strong></p>
+<ul class="simple">
+<li><p>Meminimalkan variasi dalam klaster (within-cluster variance)</p></li>
+<li><p>Mengelompokkan objek dengan tujuan:</p>
+<ul>
+<li><p>Objek dalam satu klaster sehomogen mungkin (mirip satu sama lain)</p></li>
+<li><p>Objek antar klaster seheterogen mungkin (berbeda satu sama lain)</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Evaluasi Hasil Klastering</strong><br />
+Inertia:<br />
+Jumlah kuadrat jarak antara setiap titik dan centroid klasternya. Nilai yang lebih kecil menunjukkan klaster yang lebih kompak.</p>
+<p>Silhouette Score:<br />
+Ukuran yang menunjukkan seberapa mirip suatu objek dengan klasternya sendiri dibandingkan dengan klaster lain. Nilai berkisar dari -1 hingga 1; semakin tinggi, semakin baik pemisahan antar klaster.</p>
+<p>Elbow Method:<br />
+Digunakan untuk menentukan jumlah klaster (K) yang optimal. Titik “tekukan” (elbow) pada grafik inertia vs. K menandakan jumlah klaster yang ideal.</p>
+<p><strong>Klastering K-Means dengan 2 Klaster</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">silhouette_score</span>
+
+<span class="c1"># Membaca file CSV</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data_iris.csv&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>  <span class="c1"># Menampilkan 5 baris pertama dari DataFrame</span>
+
+<span class="n">shilouette_scores</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">sse_scores</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   id        class  petal_length  petal_width  sepal_length  sepal_width
+0   1  Iris-setosa           1.4          0.2           5.1          3.5
+1   2  Iris-setosa           1.4          0.2           4.9          3.0
+2   3  Iris-setosa           1.3          0.2           4.7          3.2
+3   4  Iris-setosa           1.5          0.2           4.6          3.1
+4   5  Iris-setosa           1.4          0.2           5.0          3.6
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">values</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1.4 0.2 5.1 3.5]
+ [1.4 0.2 4.9 3. ]
+ [1.3 0.2 4.7 3.2]
+ [1.5 0.2 4.6 3.1]
+ [1.4 0.2 5.  3.6]
+ [1.7 0.4 5.4 3.9]
+ [1.4 0.3 4.6 3.4]
+ [1.5 0.2 5.  3.4]
+ [1.4 0.2 4.4 2.9]
+ [1.5 0.1 4.9 3.1]
+ [1.5 0.2 5.4 3.7]
+ [1.6 0.2 4.8 3.4]
+ [1.4 0.1 4.8 3. ]
+ [1.1 0.1 4.3 3. ]
+ [1.2 0.2 5.8 4. ]
+ [1.5 0.4 5.7 4.4]
+ [1.3 0.4 5.4 3.9]
+ [1.4 0.3 5.1 3.5]
+ [1.7 0.3 5.7 3.8]
+ [1.5 0.3 5.1 3.8]
+ [1.7 0.2 5.4 3.4]
+ [1.5 0.4 5.1 3.7]
+ [1.  0.2 4.6 3.6]
+ [1.7 0.5 5.1 3.3]
+ [1.9 0.2 4.8 3.4]
+ [1.6 0.2 5.  3. ]
+ [1.6 0.4 5.  3.4]
+ [1.5 0.2 5.2 3.5]
+ [1.4 0.2 5.2 3.4]
+ [1.6 0.2 4.7 3.2]
+ [1.6 0.2 4.8 3.1]
+ [1.5 0.4 5.4 3.4]
+ [1.5 0.1 5.2 4.1]
+ [1.4 0.2 5.5 4.2]
+ [1.5 0.1 4.9 3.1]
+ [1.2 0.2 5.  3.2]
+ [1.3 0.2 5.5 3.5]
+ [1.5 0.1 4.9 3.1]
+ [1.3 0.2 4.4 3. ]
+ [1.5 0.2 5.1 3.4]
+ [1.3 0.3 5.  3.5]
+ [1.3 0.3 4.5 2.3]
+ [1.3 0.2 4.4 3.2]
+ [1.6 0.6 5.  3.5]
+ [1.9 0.4 5.1 3.8]
+ [1.4 0.3 4.8 3. ]
+ [1.6 0.2 5.1 3.8]
+ [1.4 0.2 4.6 3.2]
+ [1.5 0.2 5.3 3.7]
+ [1.4 0.2 5.  3.3]
+ [4.7 1.4 7.  3.2]
+ [4.5 1.5 6.4 3.2]
+ [4.9 1.5 6.9 3.1]
+ [4.  1.3 5.5 2.3]
+ [4.6 1.5 6.5 2.8]
+ [4.5 1.3 5.7 2.8]
+ [4.7 1.6 6.3 3.3]
+ [3.3 1.  4.9 2.4]
+ [4.6 1.3 6.6 2.9]
+ [3.9 1.4 5.2 2.7]
+ [3.5 1.  5.  2. ]
+ [4.2 1.5 5.9 3. ]
+ [4.  1.  6.  2.2]
+ [4.7 1.4 6.1 2.9]
+ [3.6 1.3 5.6 2.9]
+ [4.4 1.4 6.7 3.1]
+ [4.5 1.5 5.6 3. ]
+ [4.1 1.  5.8 2.7]
+ [4.5 1.5 6.2 2.2]
+ [3.9 1.1 5.6 2.5]
+ [4.8 1.8 5.9 3.2]
+ [4.  1.3 6.1 2.8]
+ [4.9 1.5 6.3 2.5]
+ [4.7 1.2 6.1 2.8]
+ [4.3 1.3 6.4 2.9]
+ [4.4 1.4 6.6 3. ]
+ [4.8 1.4 6.8 2.8]
+ [5.  1.7 6.7 3. ]
+ [4.5 1.5 6.  2.9]
+ [3.5 1.  5.7 2.6]
+ [3.8 1.1 5.5 2.4]
+ [3.7 1.  5.5 2.4]
+ [3.9 1.2 5.8 2.7]
+ [5.1 1.6 6.  2.7]
+ [4.5 1.5 5.4 3. ]
+ [4.5 1.6 6.  3.4]
+ [4.7 1.5 6.7 3.1]
+ [4.4 1.3 6.3 2.3]
+ [4.1 1.3 5.6 3. ]
+ [4.  1.3 5.5 2.5]
+ [4.4 1.2 5.5 2.6]
+ [4.6 1.4 6.1 3. ]
+ [4.  1.2 5.8 2.6]
+ [3.3 1.  5.  2.3]
+ [4.2 1.3 5.6 2.7]
+ [4.2 1.2 5.7 3. ]
+ [4.2 1.3 5.7 2.9]
+ [4.3 1.3 6.2 2.9]
+ [3.  1.1 5.1 2.5]
+ [4.1 1.3 5.7 2.8]
+ [6.  2.5 6.3 3.3]
+ [5.1 1.9 5.8 2.7]
+ [5.9 2.1 7.1 3. ]
+ [5.6 1.8 6.3 2.9]
+ [5.8 2.2 6.5 3. ]
+ [6.6 2.1 7.6 3. ]
+ [4.5 1.7 4.9 2.5]
+ [6.3 1.8 7.3 2.9]
+ [5.8 1.8 6.7 2.5]
+ [6.1 2.5 7.2 3.6]
+ [5.1 2.  6.5 3.2]
+ [5.3 1.9 6.4 2.7]
+ [5.5 2.1 6.8 3. ]
+ [5.  2.  5.7 2.5]
+ [5.1 2.4 5.8 2.8]
+ [5.3 2.3 6.4 3.2]
+ [5.5 1.8 6.5 3. ]
+ [6.7 2.2 7.7 3.8]
+ [6.9 2.3 7.7 2.6]
+ [5.  1.5 6.  2.2]
+ [5.7 2.3 6.9 3.2]
+ [4.9 2.  5.6 2.8]
+ [6.7 2.  7.7 2.8]
+ [4.9 1.8 6.3 2.7]
+ [5.7 2.1 6.7 3.3]
+ [6.  1.8 7.2 3.2]
+ [4.8 1.8 6.2 2.8]
+ [4.9 1.8 6.1 3. ]
+ [5.6 2.1 6.4 2.8]
+ [5.8 1.6 7.2 3. ]
+ [6.1 1.9 7.4 2.8]
+ [6.4 2.  7.9 3.8]
+ [5.6 2.2 6.4 2.8]
+ [5.1 1.5 6.3 2.8]
+ [5.6 1.4 6.1 2.6]
+ [6.1 2.3 7.7 3. ]
+ [5.6 2.4 6.3 3.4]
+ [5.5 1.8 6.4 3.1]
+ [4.8 1.8 6.  3. ]
+ [5.4 2.1 6.9 3.1]
+ [5.6 2.4 6.7 3.1]
+ [5.1 2.3 6.9 3.1]
+ [5.1 1.9 5.8 2.7]
+ [5.9 2.3 6.8 3.2]
+ [5.7 2.5 6.7 3.3]
+ [5.2 2.3 6.7 3. ]
+ [5.  1.9 6.3 2.5]
+ [5.2 2.  6.5 3. ]
+ [5.4 2.3 6.2 3.4]
+ [5.1 1.8 5.9 3. ]]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Klastering K-Means dengan 2 Klaster</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kmeans2</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">copy_x</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">algorithm</span><span class="o">=</span><span class="s2">&quot;lloyd&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hasil label cluster:&quot;</span><span class="p">,</span> <span class="n">kmeans2</span><span class="o">.</span><span class="n">labels_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hasil label cluster: [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Centroid cluster:&quot;</span><span class="p">,</span> <span class="n">kmeans2</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Centroid cluster: [[1.56226415 0.28867925 5.00566038 3.36037736]
+ [4.95876289 1.69587629 6.30103093 2.88659794]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">score2</span> <span class="o">=</span> <span class="n">silhouette_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">kmeans2</span><span class="o">.</span><span class="n">labels_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Silhouette Score:&quot;</span><span class="p">,</span> <span class="n">score2</span><span class="p">)</span>
+<span class="n">shilouette_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Silhouette Score: 0.6808136202936811
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sse2</span> <span class="o">=</span> <span class="n">kmeans2</span><span class="o">.</span><span class="n">inertia_</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SSE (Inertia):&quot;</span><span class="p">,</span> <span class="n">sse2</span><span class="p">)</span>
+<span class="n">sse_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sse2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SSE (Inertia): 152.36870647733906
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Klastering K-Means dengan 3 Klaster</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kmeans3</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">copy_x</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">algorithm</span><span class="o">=</span><span class="s2">&quot;lloyd&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hasil label cluster:&quot;</span><span class="p">,</span> <span class="n">kmeans3</span><span class="o">.</span><span class="n">labels_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hasil label cluster: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 2 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 2 2 2 2 0 2 2 2 2
+ 2 2 0 0 2 2 2 2 0 2 0 2 0 2 2 0 0 2 2 2 2 2 0 2 2 2 2 0 2 2 2 0 2 2 2 0 2
+ 2 0]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">score3</span> <span class="o">=</span> <span class="n">silhouette_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">kmeans3</span><span class="o">.</span><span class="n">labels_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Silhouette Score:&quot;</span><span class="p">,</span> <span class="n">score3</span><span class="p">)</span>
+<span class="n">shilouette_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Silhouette Score: 0.5509643746707433
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Centroid cluster:&quot;</span><span class="p">,</span> <span class="n">kmeans3</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Centroid cluster: [[4.38852459 1.43442623 5.88360656 2.74098361]
+ [1.464      0.244      5.006      3.418     ]
+ [5.71538462 2.05384615 6.85384615 3.07692308]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sse3</span> <span class="o">=</span> <span class="n">kmeans3</span><span class="o">.</span><span class="n">inertia_</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SSE (Inertia):&quot;</span><span class="p">,</span> <span class="n">sse3</span><span class="p">)</span>
+<span class="n">sse_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sse3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SSE (Inertia): 78.94506582597731
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Klastering K-Means dengan 4 Klaster</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kmeans4</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">copy_x</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">algorithm</span><span class="o">=</span><span class="s2">&quot;lloyd&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hasil label cluster:&quot;</span><span class="p">,</span> <span class="n">kmeans4</span><span class="o">.</span><span class="n">labels_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hasil label cluster: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 0 3 0 3 0 3 0 0 0 0 3 0 3 0 0 3 0 3 0 3 3
+ 3 3 3 3 3 0 0 0 0 3 0 3 3 3 0 0 0 3 0 0 0 0 0 3 0 0 2 3 2 2 2 2 0 2 2 2 3
+ 3 2 3 3 2 2 2 2 3 2 3 2 3 2 2 3 3 2 2 2 2 2 3 3 2 2 2 3 2 2 2 3 2 2 2 3 3
+ 2 3]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Centroid cluster:&quot;</span><span class="p">,</span> <span class="n">kmeans4</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Centroid cluster: [[3.96071429 1.22857143 5.53214286 2.63571429]
+ [1.464      0.244      5.006      3.418     ]
+ [5.846875   2.13125    6.9125     3.1       ]
+ [4.815      1.625      6.2525     2.855     ]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">score4</span> <span class="o">=</span> <span class="n">silhouette_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">kmeans4</span><span class="o">.</span><span class="n">labels_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Silhouette Score:&quot;</span><span class="p">,</span> <span class="n">score4</span><span class="p">)</span>
+<span class="n">shilouette_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Silhouette Score: 0.49782569010954614
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sse4</span> <span class="o">=</span> <span class="n">kmeans4</span><span class="o">.</span><span class="n">inertia_</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SSE (Inertia):&quot;</span><span class="p">,</span> <span class="n">sse4</span><span class="p">)</span>
+<span class="n">sse_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sse4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SSE (Inertia): 57.317873214285704
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Evaluasi Hasil Klustering</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># 4. Visualisasi SSE dan Silhouette Score</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Elbow Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sse_scores</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Elbow Method (SSE)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Jumlah Klaster (K)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;SSE (Inertia)&#39;</span><span class="p">)</span>
+
+<span class="c1"># Silhouette Score Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shilouette_scores</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Silhouette Score&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Jumlah Klaster (K)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Silhouette Score&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c5ec11a50b2dcc9c5632ac77f013fa9d269a6a525843e2d73e792c4237773b0f.png" src="_images/c5ec11a50b2dcc9c5632ac77f013fa9d269a6a525843e2d73e792c4237773b0f.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="klastering-menggunakan-data-dengan-label-class">
+<h1>Klastering menggunakan data dengan label class<a class="headerlink" href="#klastering-menggunakan-data-dengan-label-class" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">silhouette_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
+
+<span class="c1"># Membaca file CSV</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data_iris.csv&quot;</span><span class="p">)</span>
+
+<span class="n">shilouette_scores_class</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">sse_scores_class</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">label_encoder</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">])</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">values</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># Menampilkan 5 baris pertama dari DataFrame</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.  1.4 0.2 5.1 3.5]
+ [0.  1.4 0.2 4.9 3. ]
+ [0.  1.3 0.2 4.7 3.2]
+ [0.  1.5 0.2 4.6 3.1]
+ [0.  1.4 0.2 5.  3.6]
+ [0.  1.7 0.4 5.4 3.9]
+ [0.  1.4 0.3 4.6 3.4]
+ [0.  1.5 0.2 5.  3.4]
+ [0.  1.4 0.2 4.4 2.9]
+ [0.  1.5 0.1 4.9 3.1]
+ [0.  1.5 0.2 5.4 3.7]
+ [0.  1.6 0.2 4.8 3.4]
+ [0.  1.4 0.1 4.8 3. ]
+ [0.  1.1 0.1 4.3 3. ]
+ [0.  1.2 0.2 5.8 4. ]
+ [0.  1.5 0.4 5.7 4.4]
+ [0.  1.3 0.4 5.4 3.9]
+ [0.  1.4 0.3 5.1 3.5]
+ [0.  1.7 0.3 5.7 3.8]
+ [0.  1.5 0.3 5.1 3.8]
+ [0.  1.7 0.2 5.4 3.4]
+ [0.  1.5 0.4 5.1 3.7]
+ [0.  1.  0.2 4.6 3.6]
+ [0.  1.7 0.5 5.1 3.3]
+ [0.  1.9 0.2 4.8 3.4]
+ [0.  1.6 0.2 5.  3. ]
+ [0.  1.6 0.4 5.  3.4]
+ [0.  1.5 0.2 5.2 3.5]
+ [0.  1.4 0.2 5.2 3.4]
+ [0.  1.6 0.2 4.7 3.2]
+ [0.  1.6 0.2 4.8 3.1]
+ [0.  1.5 0.4 5.4 3.4]
+ [0.  1.5 0.1 5.2 4.1]
+ [0.  1.4 0.2 5.5 4.2]
+ [0.  1.5 0.1 4.9 3.1]
+ [0.  1.2 0.2 5.  3.2]
+ [0.  1.3 0.2 5.5 3.5]
+ [0.  1.5 0.1 4.9 3.1]
+ [0.  1.3 0.2 4.4 3. ]
+ [0.  1.5 0.2 5.1 3.4]
+ [0.  1.3 0.3 5.  3.5]
+ [0.  1.3 0.3 4.5 2.3]
+ [0.  1.3 0.2 4.4 3.2]
+ [0.  1.6 0.6 5.  3.5]
+ [0.  1.9 0.4 5.1 3.8]
+ [0.  1.4 0.3 4.8 3. ]
+ [0.  1.6 0.2 5.1 3.8]
+ [0.  1.4 0.2 4.6 3.2]
+ [0.  1.5 0.2 5.3 3.7]
+ [0.  1.4 0.2 5.  3.3]
+ [1.  4.7 1.4 7.  3.2]
+ [1.  4.5 1.5 6.4 3.2]
+ [1.  4.9 1.5 6.9 3.1]
+ [1.  4.  1.3 5.5 2.3]
+ [1.  4.6 1.5 6.5 2.8]
+ [1.  4.5 1.3 5.7 2.8]
+ [1.  4.7 1.6 6.3 3.3]
+ [1.  3.3 1.  4.9 2.4]
+ [1.  4.6 1.3 6.6 2.9]
+ [1.  3.9 1.4 5.2 2.7]
+ [1.  3.5 1.  5.  2. ]
+ [1.  4.2 1.5 5.9 3. ]
+ [1.  4.  1.  6.  2.2]
+ [1.  4.7 1.4 6.1 2.9]
+ [1.  3.6 1.3 5.6 2.9]
+ [1.  4.4 1.4 6.7 3.1]
+ [1.  4.5 1.5 5.6 3. ]
+ [1.  4.1 1.  5.8 2.7]
+ [1.  4.5 1.5 6.2 2.2]
+ [1.  3.9 1.1 5.6 2.5]
+ [1.  4.8 1.8 5.9 3.2]
+ [1.  4.  1.3 6.1 2.8]
+ [1.  4.9 1.5 6.3 2.5]
+ [1.  4.7 1.2 6.1 2.8]
+ [1.  4.3 1.3 6.4 2.9]
+ [1.  4.4 1.4 6.6 3. ]
+ [1.  4.8 1.4 6.8 2.8]
+ [1.  5.  1.7 6.7 3. ]
+ [1.  4.5 1.5 6.  2.9]
+ [1.  3.5 1.  5.7 2.6]
+ [1.  3.8 1.1 5.5 2.4]
+ [1.  3.7 1.  5.5 2.4]
+ [1.  3.9 1.2 5.8 2.7]
+ [1.  5.1 1.6 6.  2.7]
+ [1.  4.5 1.5 5.4 3. ]
+ [1.  4.5 1.6 6.  3.4]
+ [1.  4.7 1.5 6.7 3.1]
+ [1.  4.4 1.3 6.3 2.3]
+ [1.  4.1 1.3 5.6 3. ]
+ [1.  4.  1.3 5.5 2.5]
+ [1.  4.4 1.2 5.5 2.6]
+ [1.  4.6 1.4 6.1 3. ]
+ [1.  4.  1.2 5.8 2.6]
+ [1.  3.3 1.  5.  2.3]
+ [1.  4.2 1.3 5.6 2.7]
+ [1.  4.2 1.2 5.7 3. ]
+ [1.  4.2 1.3 5.7 2.9]
+ [1.  4.3 1.3 6.2 2.9]
+ [1.  3.  1.1 5.1 2.5]
+ [1.  4.1 1.3 5.7 2.8]
+ [2.  6.  2.5 6.3 3.3]
+ [2.  5.1 1.9 5.8 2.7]
+ [2.  5.9 2.1 7.1 3. ]
+ [2.  5.6 1.8 6.3 2.9]
+ [2.  5.8 2.2 6.5 3. ]
+ [2.  6.6 2.1 7.6 3. ]
+ [2.  4.5 1.7 4.9 2.5]
+ [2.  6.3 1.8 7.3 2.9]
+ [2.  5.8 1.8 6.7 2.5]
+ [2.  6.1 2.5 7.2 3.6]
+ [2.  5.1 2.  6.5 3.2]
+ [2.  5.3 1.9 6.4 2.7]
+ [2.  5.5 2.1 6.8 3. ]
+ [2.  5.  2.  5.7 2.5]
+ [2.  5.1 2.4 5.8 2.8]
+ [2.  5.3 2.3 6.4 3.2]
+ [2.  5.5 1.8 6.5 3. ]
+ [2.  6.7 2.2 7.7 3.8]
+ [2.  6.9 2.3 7.7 2.6]
+ [2.  5.  1.5 6.  2.2]
+ [2.  5.7 2.3 6.9 3.2]
+ [2.  4.9 2.  5.6 2.8]
+ [2.  6.7 2.  7.7 2.8]
+ [2.  4.9 1.8 6.3 2.7]
+ [2.  5.7 2.1 6.7 3.3]
+ [2.  6.  1.8 7.2 3.2]
+ [2.  4.8 1.8 6.2 2.8]
+ [2.  4.9 1.8 6.1 3. ]
+ [2.  5.6 2.1 6.4 2.8]
+ [2.  5.8 1.6 7.2 3. ]
+ [2.  6.1 1.9 7.4 2.8]
+ [2.  6.4 2.  7.9 3.8]
+ [2.  5.6 2.2 6.4 2.8]
+ [2.  5.1 1.5 6.3 2.8]
+ [2.  5.6 1.4 6.1 2.6]
+ [2.  6.1 2.3 7.7 3. ]
+ [2.  5.6 2.4 6.3 3.4]
+ [2.  5.5 1.8 6.4 3.1]
+ [2.  4.8 1.8 6.  3. ]
+ [2.  5.4 2.1 6.9 3.1]
+ [2.  5.6 2.4 6.7 3.1]
+ [2.  5.1 2.3 6.9 3.1]
+ [2.  5.1 1.9 5.8 2.7]
+ [2.  5.9 2.3 6.8 3.2]
+ [2.  5.7 2.5 6.7 3.3]
+ [2.  5.2 2.3 6.7 3. ]
+ [2.  5.  1.9 6.3 2.5]
+ [2.  5.2 2.  6.5 3. ]
+ [2.  5.4 2.3 6.2 3.4]
+ [2.  5.1 1.8 5.9 3. ]]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Klastering K-Means dengan 2 Klaster</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kmeansc</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">copy_x</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">algorithm</span><span class="o">=</span><span class="s2">&quot;lloyd&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hasil label cluster:&quot;</span><span class="p">,</span> <span class="n">kmeansc</span><span class="o">.</span><span class="n">labels_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hasil label cluster: [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Centroid cluster:&quot;</span><span class="p">,</span> <span class="n">kmeansc</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Centroid cluster: [[0.03846154 1.52884615 0.275      5.00576923 3.38076923]
+ [1.51020408 4.94183673 1.68877551 6.2877551  2.88061224]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scorec</span> <span class="o">=</span> <span class="n">silhouette_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">kmeansc</span><span class="o">.</span><span class="n">labels_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Silhouette Score:&quot;</span><span class="p">,</span> <span class="n">scorec</span><span class="p">)</span>
+<span class="n">shilouette_scores_class</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scorec</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Silhouette Score: 0.6761002460735731
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ssec</span> <span class="o">=</span> <span class="n">kmeansc</span><span class="o">.</span><span class="n">inertia_</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SSE (Inertia):&quot;</span><span class="p">,</span> <span class="n">ssec</span><span class="p">)</span>
+<span class="n">sse_scores_class</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ssec</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SSE (Inertia): 179.26073390894823
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Klastering K-Means dengan 3 Klaster</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kmeansc3</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">copy_x</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">algorithm</span><span class="o">=</span><span class="s2">&quot;lloyd&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hasil label cluster:&quot;</span><span class="p">,</span> <span class="n">kmeansc3</span><span class="o">.</span><span class="n">labels_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hasil label cluster: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 0 2 2 2 2
+ 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+ 2 2]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Centroid cluster:&quot;</span><span class="p">,</span> <span class="n">kmeansc3</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Centroid cluster: [[1.02  4.25  1.326 5.9   2.76 ]
+ [0.    1.464 0.244 5.006 3.418]
+ [1.98  5.562 2.026 6.624 2.984]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scorec3</span> <span class="o">=</span> <span class="n">silhouette_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">kmeansc</span><span class="o">.</span><span class="n">labels_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Silhouette Score:&quot;</span><span class="p">,</span> <span class="n">scorec3</span><span class="p">)</span>
+<span class="n">shilouette_scores_class</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scorec3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Silhouette Score: 0.6761002460735731
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ssec3</span> <span class="o">=</span> <span class="n">kmeansc3</span><span class="o">.</span><span class="n">inertia_</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SSE (Inertia):&quot;</span><span class="p">,</span> <span class="n">ssec3</span><span class="p">)</span>
+<span class="n">sse_scores_class</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ssec3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SSE (Inertia): 87.35400000000001
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Klastering K-Means dengan 4 Klaster</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kmeansc4</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">copy_x</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">algorithm</span><span class="o">=</span><span class="s2">&quot;lloyd&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hasil label cluster:&quot;</span><span class="p">,</span> <span class="n">kmeansc4</span><span class="o">.</span><span class="n">labels_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hasil label cluster: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 3 2 2 3 0 3 2 3 2
+ 2 2 2 2 2 2 3 3 2 2 2 3 2 2 3 2 2 2 3 3 3 2 2 2 3 2 2 2 2 2 2 2 2 2 2 2 2
+ 2 2]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Centroid cluster:&quot;</span><span class="p">,</span> <span class="n">kmeansc4</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Centroid cluster: [[1.02       4.25       1.326      5.9        2.76      ]
+ [0.         1.464      0.244      5.006      3.418     ]
+ [1.97368421 5.32894737 2.01842105 6.35526316 2.93947368]
+ [2.         6.3        2.05       7.475      3.125     ]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scorec4</span> <span class="o">=</span> <span class="n">silhouette_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">kmeansc4</span><span class="o">.</span><span class="n">labels_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Silhouette Score:&quot;</span><span class="p">,</span> <span class="n">scorec4</span><span class="p">)</span>
+<span class="n">shilouette_scores_class</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scorec4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Silhouette Score: 0.5476040150107029
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ssec4</span> <span class="o">=</span> <span class="n">kmeansc4</span><span class="o">.</span><span class="n">inertia_</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SSE (Inertia):&quot;</span><span class="p">,</span> <span class="n">ssec4</span><span class="p">)</span>
+<span class="n">sse_scores_class</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ssec4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SSE (Inertia): 66.99028421052631
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># 4. Visualisasi SSE dan Silhouette Score</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Elbow Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sse_scores_class</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Elbow Method (SSE)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Jumlah Klaster (K)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;SSE (Inertia)&#39;</span><span class="p">)</span>
+
+<span class="c1"># Silhouette Score Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">shilouette_scores_class</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Silhouette Score&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Jumlah Klaster (K)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Silhouette Score&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/aefe7b08b48dce67077bbfb4e4436e2b9a43c0467b2d1e20046562e20f7c1d91.png" src="_images/aefe7b08b48dce67077bbfb4e4436e2b9a43c0467b2d1e20046562e20f7c1d91.png" />
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="uts.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Analisis Data Medis</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Klastering K-Means</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#klastering-menggunakan-data-dengan-label-class">Klastering menggunakan data dengan label class</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Tuhu Pangestu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright @2025 || Tuhu Pangestu.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
