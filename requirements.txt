@@ -8,3 +8,4 @@ seaborn
 tqdm
 nltk
 rank_bm25
+pymysql
