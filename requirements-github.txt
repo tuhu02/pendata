@@ -3,8 +3,11 @@ matplotlib
 numpy
 pandas
 scikit-learn
+psycopg2
 seaborn
 tqdm
 nltk
+rank_bm25
+pymysql
 streamlit
 plotly

@@ -1,37 +1,118 @@
-🛠️ Data Mining Project – Tuhu Pangestu
-Proyek ini merupakan implementasi proses Data Mining yang terdiri dari beberapa tahapan utama, dimulai dari pemahaman data hingga pemodelan data. Berikut ini adalah tahapan-tahapan yang dilakukan:
+# 🏥 WDBC Breast Cancer Prediction App
 
-📌 1. Data Understanding
-Tahap awal dalam proses data mining, di mana dilakukan eksplorasi awal terhadap dataset. Langkah-langkah yang dilakukan pada tahap ini meliputi:
+Aplikasi web untuk prediksi kanker payudara menggunakan model machine learning berdasarkan dataset Wisconsin Diagnostic Breast Cancer (WDBC).
 
-Identifikasi sumber data
+## 🚀 Quick Start
 
-Pengenalan atribut dan fitur data
+### Deploy ke Streamlit Cloud (Paling Mudah)
 
-Analisis statistik dasar (seperti mean, median, modus, standar deviasi)
+1. **Fork atau clone repository ini**
+2. **Upload ke GitHub**
+3. **Buka [share.streamlit.io](https://share.streamlit.io)**
+4. **Connect dengan repository GitHub Anda**
+5. **Deploy otomatis**
 
-Visualisasi data untuk memahami distribusi dan hubungan antar variabel
+### Deploy Lokal
 
-🧹 2. Data Preprocessing
-Tahapan ini bertujuan untuk membersihkan dan menyiapkan data agar siap digunakan dalam pemodelan. Aktivitas yang dilakukan:
+```bash
+# Install dependencies
+pip install -r requirements.txt
 
-Mengatasi missing value (data yang hilang)
+# Jalankan aplikasi
+streamlit run streamlit_app.py
+```
 
-Normalisasi atau standardisasi data
+## 📋 Requirements
 
-Encoding data kategorikal (jika diperlukan)
+File yang diperlukan:
+- `streamlit_app.py` - Aplikasi utama
+- `requirements.txt` - Dependencies Python
+- `models/` - Folder berisi model yang sudah dilatih
+  - `best_model_support_vector_machine.pkl`
+  - `scaler.pkl`
+  - `label_encoder.pkl`
+  - `model_info.json`
+- `wdbc_clean_no_outliers.csv` - Data untuk analisis (opsional)
 
-Pendeteksian dan penanganan outlier
+## 🔧 Troubleshooting
 
-Split data menjadi data latih (training) dan data uji (testing)
+### Error: psycopg2 build failed
+**Solusi:** Requirements.txt sudah diperbaiki dengan menghapus package yang tidak diperlukan.
 
-🔍 3. Data Modeling
-Pada tahap ini dilakukan pemodelan data menggunakan algoritma Data Mining atau Machine Learning. Langkah-langkah utama:
+### Error: Model not loaded
+**Solusi:** Pastikan semua file model ada di folder `models/`
 
-Pemilihan algoritma (misalnya: Decision Tree, K-Nearest Neighbors, Naive Bayes, dll.)
+### Error: Data file not found
+**Solusi:** File `wdbc_clean_no_outliers.csv` opsional, tab Data Analysis mungkin tidak berfungsi.
 
-Pelatihan model menggunakan data training
+## 📊 Fitur Aplikasi
 
-Evaluasi model menggunakan data testing
+1. **🔮 Prediction Tab**
+   - Input form untuk 30 fitur sel nucleus
+   - Prediksi diagnosis (Benign/Malignant)
+   - Visualisasi probabilitas
+   - Analisis fitur penting
 
-Analisis performa model berdasarkan metrik seperti akurasi, precision, recall, dan F1-score
+2. **📈 Data Analysis Tab**
+   - Overview dataset
+   - Distribusi diagnosis
+   - Statistik deskriptif
+   - Heatmap korelasi
+
+3. **📊 Model Performance Tab**
+   - Metrik performa model
+   - Visualisasi performa
+   - Informasi model
+
+4. **📁 Upload Data Tab**
+   - Upload file CSV untuk batch prediction
+   - Download hasil prediksi
+   - Statistik batch prediction
+
+## 🌐 Deployment Options
+
+### 1. Streamlit Cloud (Gratis)
+- Upload ke GitHub
+- Deploy otomatis di share.streamlit.io
+- URL publik otomatis
+
+### 2. Heroku
+```bash
+# Install Heroku CLI
+heroku create your-app-name
+git add .
+git commit -m "Initial commit"
+git push heroku main
+```
+
+### 3. Google Cloud Platform
+- Buat project di GCP
+- Enable Cloud Run
+- Deploy dengan Docker
+
+### 4. AWS
+- Buat EC2 instance
+- Install dependencies
+- Setup nginx sebagai reverse proxy
+
+## 📱 Mobile Responsive
+Aplikasi sudah dioptimasi untuk mobile dengan:
+- Layout responsive
+- Touch-friendly interface
+- Optimized for small screens
+
+## 🔒 Security
+- Medical disclaimer included
+- Input validation
+- Error handling
+- Secure file upload
+
+## 📄 License
+Aplikasi ini dibuat untuk tujuan edukasi. Untuk penggunaan medis, konsultasikan dengan profesional kesehatan.
+
+## 🆘 Support
+Jika ada masalah:
+1. Check error logs
+2. Verify file structure
+3. Test dengan data sample
+4. Check dependencies versions
