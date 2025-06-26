@@ -21,9 +21,6 @@ st.set_page_config(
     page_icon="🔬",
     layout="wide"
 )
-
-st.set_option('deprecation.showPyplotGlobalUse', False)
-
 # --- FUNGSI-FUNGSI ---
 
 @st.cache_data
