@@ -26,7 +26,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt  # Instal semua dependensi dari requirements.txt
+          pip install -r requirements-github.txt  # Instal semua dependensi dari requirements.txt
           pip install jupyter-book ghp-import  # Pastikan jupyter-book dan ghp-import tetap terinstal
 
       - name: Build Jupyter Book
