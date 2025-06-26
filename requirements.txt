@@ -9,9 +9,5 @@ tqdm
 nltk
 rank_bm25
 pymysql
-<<<<<<< HEAD
 streamlit
 plotly
-=======
-xgboost
->>>>>>> 905e206d543f62044f79e5984c90e748ec0cc49f
