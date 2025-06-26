@@ -1,4 +1,3 @@
-import streamlit as st
 #!/usr/bin/env python
 # coding: utf-8
 
@@ -51,7 +50,7 @@ column_names = [
 df = pd.read_csv('wdbc.data', header=None, names=column_names)
 
 # Melihat 5 baris pertama
-st.write(df.head())
+display(df.head())
 
 # Melihat info struktur data
 df.info()
