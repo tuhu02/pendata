@@ -1,0 +1,861 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Pemodelan data &#8212; Penambangan Data</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Modeling-Data';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Analisis Data Medis" href="uts.html" />
+    <link rel="prev" title="Memahami Data" href="Memahami-Data.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/data-mining.jpg" class="logo__image only-light" alt="Penambangan Data - Home"/>
+    <script>document.write(`<img src="_static/data-mining.jpg" class="logo__image only-dark" alt="Penambangan Data - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Penambangan Data - Tuhu Pangestu
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Memahami-Data.html">Memahami Data</a></li>
+
+
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Pemodelan data</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="uts.html">Analisis Data Medis</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="klastering.html">Klastering</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="bining_modified.html">Teknik Binning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pra_uas.html">Pra UAS</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="uas.html">Analisis Data Mining: Klasifikasi Kanker Payudara dengan Dataset WDBC</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FModeling-Data.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Modeling-Data.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Pemodelan data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Pemodelan data</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pengenalan-naive-bayes"><strong>Pengenalan Naive Bayes</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-naive-bayes"><strong>Apa itu Naive Bayes?</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-aplikasi"><strong>Contoh Aplikasi:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prinsip-dasar-teorema-bayes"><strong>Prinsip Dasar - Teorema Bayes</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#teorema-bayes"><strong>Teorema Bayes:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan"><strong>Penjelasan:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan"><strong>Tujuan:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#asumsi-naive"><strong>Asumsi “Naive”</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#asumsi-utama"><strong>Asumsi Utama:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh"><strong>Contoh:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#komentar"><strong>Komentar:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-langkah-klasifikasi"><strong>Langkah-langkah Klasifikasi</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kelebihan-dan-kekurangan"><strong>Kelebihan dan Kekurangan</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kelebihan"><strong>Kelebihan:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kekurangan"><strong>Kekurangan:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-kasus-klasifikasi-email-spam"><strong>Contoh Kasus - Klasifikasi Email Spam</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset"><strong>Dataset:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-langkah"><strong>Langkah-Langkah:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil"><strong>Hasil:</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#impelemtasi-menggunakan-python-pada-data-yang-ada-outliernya-dan-tidak-ada-outliernya"><strong>Impelemtasi menggunakan python pada data yang ada outliernya dan tidak ada outliernya</strong></a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="pemodelan-data">
+<h1>Pemodelan data<a class="headerlink" href="#pemodelan-data" title="Link to this heading">#</a></h1>
+<p>Modeling Data adalah tahap keempat dalam proses CRISP-DM (Cross-Industry Standard Process for Data Mining) setelah tahap Data Understanding dan Data Preparation. Pada tahap ini, kita membangun model menggunakan teknik statistik atau machine learning untuk menemukan pola dalam data dan membuat prediksi atau klasifikasi.</p>
+<p><strong>Tahapan dalam Data Modeling:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Memilih Model</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Menentukan algoritma yang sesuai (misalnya, regresi, pohon keputusan, SVM, Naïve Bayes, dll.).</p></li>
+<li><p>Pemilihan model didasarkan pada tujuan analisis dan karakteristik data.</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>Melatih Model (Training Model)</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Membagi data menjadi training set dan testing set.</p></li>
+<li><p>Melatih model menggunakan training set agar dapat mengenali pola dalam data.</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>Evaluasi Model</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Menggunakan testing set untuk mengukur performa model dengan metrik seperti akurasi, precision, recall, F1-score, MSE, dll.</p></li>
+<li><p>Jika model tidak memberikan hasil yang baik, dapat dilakukan tuning parameter atau pemilihan model lain.</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p><strong>Optimasi Model</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Menggunakan teknik seperti hyperparameter tuning, cross-validation, atau feature engineering untuk meningkatkan performa model.</p></li>
+</ul>
+<p><strong>Contoh Penerapan Data Modeling</strong>
+Jika kita ingin mengklasifikasikan jenis bunga iris berdasarkan panjang dan lebar kelopaknya, maka:</p>
+<ul class="simple">
+<li><p><strong>Memahami data</strong> → Melihat apakah ada outlier, nilai kosong, dan distribusi data.</p></li>
+<li><p><strong>Modeling data</strong> → Menggunakan Naïve Bayes atau Decision Tree untuk mengklasifikasikan jenis bunga berdasarkan pola yang ditemukan dari data latih.</p></li>
+</ul>
+<p>Setelah tahap ini selesai, selanjutnya masuk ke tahap Evaluation (Evaluasi Model) untuk memastikan performanya sesuai dengan yang diharapkan.</p>
+<section id="pengenalan-naive-bayes">
+<h2><strong>Pengenalan Naive Bayes</strong><a class="headerlink" href="#pengenalan-naive-bayes" title="Link to this heading">#</a></h2>
+<section id="apa-itu-naive-bayes">
+<h3><strong>Apa itu Naive Bayes?</strong><a class="headerlink" href="#apa-itu-naive-bayes" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Algoritma klasifikasi berbasis probabilitas.</p></li>
+<li><p>Digunakan untuk memprediksi kelas suatu data berdasarkan fitur-fiturnya.</p></li>
+<li><p>Termasuk dalam keluarga algoritma Machine Learning Supervised Learning.</p></li>
+</ul>
+</section>
+<section id="contoh-aplikasi">
+<h3><strong>Contoh Aplikasi:</strong><a class="headerlink" href="#contoh-aplikasi" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Klasifikasi email spam atau bukan spam.</p></li>
+<li><p>Prediksi cuaca.</p></li>
+<li><p>Analisis sentimen teks.</p></li>
+</ul>
+</section>
+</section>
+<section id="prinsip-dasar-teorema-bayes">
+<h2><strong>Prinsip Dasar - Teorema Bayes</strong><a class="headerlink" href="#prinsip-dasar-teorema-bayes" title="Link to this heading">#</a></h2>
+<section id="teorema-bayes">
+<h3><strong>Teorema Bayes:</strong><a class="headerlink" href="#teorema-bayes" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+P(Y|X) = \frac{P(X|Y) \cdot P(Y)}{P(X)}
+\]</div>
+</section>
+<section id="penjelasan">
+<h3><strong>Penjelasan:</strong><a class="headerlink" href="#penjelasan" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( P(Y|X) \)</span>: Probabilitas posterior (kelas <span class="math notranslate nohighlight">\( Y \)</span> diberikan fitur <span class="math notranslate nohighlight">\( X \)</span>).</p></li>
+<li><p><span class="math notranslate nohighlight">\( P(X|Y) \)</span>: Likelihood (probabilitas fitur <span class="math notranslate nohighlight">\( X \)</span> diberikan kelas <span class="math notranslate nohighlight">\( Y \)</span>).</p></li>
+<li><p><span class="math notranslate nohighlight">\( P(Y) \)</span>: Prior probability (probabilitas awal kelas <span class="math notranslate nohighlight">\( Y \)</span>).</p></li>
+<li><p><span class="math notranslate nohighlight">\( P(X) \)</span>: Evidence (probabilitas fitur <span class="math notranslate nohighlight">\( X \)</span> secara keseluruhan).</p></li>
+</ul>
+</section>
+<section id="tujuan">
+<h3><strong>Tujuan:</strong><a class="headerlink" href="#tujuan" title="Link to this heading">#</a></h3>
+<p>Mencari kelas <span class="math notranslate nohighlight">\( Y \)</span> dengan nilai <span class="math notranslate nohighlight">\( P(Y|X) \)</span> tertinggi.</p>
+</section>
+</section>
+<section id="asumsi-naive">
+<h2><strong>Asumsi “Naive”</strong><a class="headerlink" href="#asumsi-naive" title="Link to this heading">#</a></h2>
+<section id="asumsi-utama">
+<h3><strong>Asumsi Utama:</strong><a class="headerlink" href="#asumsi-utama" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Fitur-fitur bersifat independen satu sama lain.</p></li>
+<li><p>Artinya, probabilitas suatu fitur tidak dipengaruhi oleh fitur lainnya.</p></li>
+</ul>
+</section>
+<section id="contoh">
+<h3><strong>Contoh:</strong><a class="headerlink" href="#contoh" title="Link to this heading">#</a></h3>
+<p>Jika kita ingin mengklasifikasikan email sebagai spam atau bukan spam:</p>
+<ul class="simple">
+<li><p>Kata “diskon” dan kata “beli” dianggap independen meskipun sering muncul bersamaan.</p></li>
+</ul>
+</section>
+<section id="komentar">
+<h3><strong>Komentar:</strong><a class="headerlink" href="#komentar" title="Link to this heading">#</a></h3>
+<p>Meskipun asumsi ini jarang terpenuhi di dunia nyata, Naive Bayes tetap efektif dalam banyak kasus.</p>
+</section>
+</section>
+<section id="langkah-langkah-klasifikasi">
+<h2><strong>Langkah-langkah Klasifikasi</strong><a class="headerlink" href="#langkah-langkah-klasifikasi" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Persiapan Data:</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Pisahkan data menjadi fitur (<span class="math notranslate nohighlight">\( X \)</span>) dan label (<span class="math notranslate nohighlight">\( Y \)</span>).</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>Hitung Probabilitas Awal (<span class="math notranslate nohighlight">\( P(Y) \)</span>):</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Hitung frekuensi setiap kelas dalam dataset.</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>Hitung Likelihood (<span class="math notranslate nohighlight">\( P(X|Y) \)</span>):</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Untuk setiap fitur, hitung probabilitas kemunculannya dalam setiap kelas.</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p><strong>Gabungkan dengan Teorema Bayes:</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Gunakan rumus
+$<span class="math notranslate nohighlight">\(
+P(Y|X) = \frac{P(X|Y) \cdot P(Y)}{P(X)}
+\)</span>$</p></li>
+</ul>
+<ol class="arabic simple" start="5">
+<li><p><strong>Prediksi Kelas:</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Pilih kelas dengan nilai <span class="math notranslate nohighlight">\( P(Y|X) \)</span> tertinggi.</p></li>
+</ul>
+</section>
+<section id="kelebihan-dan-kekurangan">
+<h2><strong>Kelebihan dan Kekurangan</strong><a class="headerlink" href="#kelebihan-dan-kekurangan" title="Link to this heading">#</a></h2>
+<section id="kelebihan">
+<h3><strong>Kelebihan:</strong><a class="headerlink" href="#kelebihan" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Sederhana dan mudah diimplementasikan.</p></li>
+<li><p>Cepat dan efisien untuk dataset besar.</p></li>
+<li><p>Cocok untuk data dengan banyak fitur.</p></li>
+</ul>
+</section>
+<section id="kekurangan">
+<h3><strong>Kekurangan:</strong><a class="headerlink" href="#kekurangan" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Asumsi independensi fitur seringkali tidak realistis.</p></li>
+<li><p>Performa menurun jika fitur saling bergantung.</p></li>
+<li><p>Memerlukan penanganan khusus untuk data dengan probabilitas nol.</p></li>
+</ul>
+</section>
+</section>
+<section id="contoh-kasus-klasifikasi-email-spam">
+<h2><strong>Contoh Kasus - Klasifikasi Email Spam</strong><a class="headerlink" href="#contoh-kasus-klasifikasi-email-spam" title="Link to this heading">#</a></h2>
+<section id="dataset">
+<h3><strong>Dataset:</strong><a class="headerlink" href="#dataset" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Fitur:</strong> Frekuensi kata-kata tertentu (e.g., “gratis”, “diskon”).</p></li>
+<li><p><strong>Label:</strong> Spam atau Bukan Spam.</p></li>
+</ul>
+</section>
+<section id="langkah-langkah">
+<h3><strong>Langkah-Langkah:</strong><a class="headerlink" href="#langkah-langkah" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Hitung probabilitas prior untuk setiap kelas.</p></li>
+<li><p>Hitung likelihood untuk setiap kata dalam email.</p></li>
+<li><p>Gunakan teorema Bayes untuk memprediksi apakah email termasuk spam atau bukan.</p></li>
+</ol>
+</section>
+<section id="hasil">
+<h3><strong>Hasil:</strong><a class="headerlink" href="#hasil" title="Link to this heading">#</a></h3>
+<p>Email diklasifikasikan sebagai spam jika probabilitas spam lebih tinggi daripada bukan spam.</p>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="impelemtasi-menggunakan-python-pada-data-yang-ada-outliernya-dan-tidak-ada-outliernya">
+<h1><strong>Impelemtasi menggunakan python pada data yang ada outliernya dan tidak ada outliernya</strong><a class="headerlink" href="#impelemtasi-menggunakan-python-pada-data-yang-ada-outliernya-dan-tidak-ada-outliernya" title="Link to this heading">#</a></h1>
+<p><strong>Contoh Menggunakan data dengan outlier</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.naive_bayes</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="c1"># Membaca file CSV</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;hasil_gabungan.csv&quot;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+<span class="c1"># Memilih fitur dan label</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;petal_length&#39;</span><span class="p">,</span> <span class="s1">&#39;petal_width&#39;</span><span class="p">,</span> <span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span> <span class="s1">&#39;sepal_width&#39;</span><span class="p">]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span>
+
+<span class="c1"># Membagi data menjadi data latih dan data uji</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Inisialisasi model Naïve Bayes</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+
+<span class="c1"># Melatih model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Melakukan prediksi</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Mengukur akurasi model</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Akurasi:&quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Akurasi: 0.9333333333333333
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Contoh Menggunakan data dengan outlier yang sudah dihapus</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.naive_bayes</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="c1"># Membaca file CSV</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;data_clean.csv&quot;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+<span class="c1"># Memilih fitur dan label</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;petal_length&#39;</span><span class="p">,</span> <span class="s1">&#39;petal_width&#39;</span><span class="p">,</span> <span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span> <span class="s1">&#39;sepal_width&#39;</span><span class="p">]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span>
+
+<span class="c1"># Membagi data menjadi data latih dan data uji</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Inisialisasi model Naïve Bayes</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+
+<span class="c1"># Melatih model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Melakukan prediksi</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Mengukur akurasi model</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Akurasi:&quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Akurasi: 0.9629629629629629
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Memahami-Data.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Memahami Data</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="uts.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Analisis Data Medis</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Pemodelan data</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pengenalan-naive-bayes"><strong>Pengenalan Naive Bayes</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-naive-bayes"><strong>Apa itu Naive Bayes?</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-aplikasi"><strong>Contoh Aplikasi:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prinsip-dasar-teorema-bayes"><strong>Prinsip Dasar - Teorema Bayes</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#teorema-bayes"><strong>Teorema Bayes:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan"><strong>Penjelasan:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan"><strong>Tujuan:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#asumsi-naive"><strong>Asumsi “Naive”</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#asumsi-utama"><strong>Asumsi Utama:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh"><strong>Contoh:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#komentar"><strong>Komentar:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-langkah-klasifikasi"><strong>Langkah-langkah Klasifikasi</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kelebihan-dan-kekurangan"><strong>Kelebihan dan Kekurangan</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kelebihan"><strong>Kelebihan:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kekurangan"><strong>Kekurangan:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-kasus-klasifikasi-email-spam"><strong>Contoh Kasus - Klasifikasi Email Spam</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset"><strong>Dataset:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-langkah"><strong>Langkah-Langkah:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil"><strong>Hasil:</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#impelemtasi-menggunakan-python-pada-data-yang-ada-outliernya-dan-tidak-ada-outliernya"><strong>Impelemtasi menggunakan python pada data yang ada outliernya dan tidak ada outliernya</strong></a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Tuhu Pangestu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright @2025 || Tuhu Pangestu.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

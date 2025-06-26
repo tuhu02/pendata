@@ -1,0 +1,137 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# --- TAHAP 1: PERSIAPAN DAN PREPROCESSING ---
+
+# Import library yang dibutuhkan
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+import xgboost as xgb # Import XGBoost
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+print("Memulai proses: Memuat data, preprocessing, dan modeling dengan XGBoost...")
+
+# 1. Muat Dataset yang Sudah Dibersihkan
+try:
+    df_clean = pd.read_csv('bank-full_no_outliers.csv', sep=';')
+    print("\nDataset 'bank-full_no_outliers.csv' berhasil dimuat.")
+    print(f"Bentuk data: {df_clean.shape}")
+except FileNotFoundError:
+    print("\nGAGAL: File 'bank-full_no_outliers.csv' tidak ditemukan.")
+    exit()
+
+# 2. Pra-pemrosesan Variabel Target (y)
+df_clean['y'] = df_clean['y'].map({'yes': 1, 'no': 0})
+print("\nVariabel target 'y' telah diubah menjadi format biner (1/0).")
+
+# 3. Memisahkan Fitur (X) dan Target (y)
+X = df_clean.drop('y', axis=1)
+y = df_clean['y']
+
+# 4. Mengidentifikasi Tipe Kolom
+numerical_features = X.select_dtypes(include=['int64', 'float64']).columns
+categorical_features = X.select_dtypes(include=['object']).columns
+
+# 5. Membuat Transformer untuk Preprocessing
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', StandardScaler(), numerical_features),
+        ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_features)
+    ])
+
+# 6. Membagi Data menjadi Data Latih dan Data Uji
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42, stratify=y)
+print("\nDataset telah dibagi: 70% data latih, 30% data uji.")
+
+# 7. Menerapkan Preprocessing pada Data
+X_train_processed = preprocessor.fit_transform(X_train)
+X_test_processed = preprocessor.transform(X_test)
+print("Preprocessing (Scaling dan Encoding) selesai.")
+
+
+# --- TAHAP 2: PEMODELAN DENGAN XGBoost ---
+
+print("\n--- Memulai Pelatihan Model XGBoost ---")
+
+# 1. Membuat instance model XGBoost
+# scale_pos_weight digunakan untuk menangani data tidak seimbang. 
+# Dihitung dari: (jumlah sampel negatif / jumlah sampel positif)
+scale_pos_weight_value = y_train.value_counts()[0] / y_train.value_counts()[1]
+
+xgb_model = xgb.XGBClassifier(
+    objective='binary:logistic', # Tujuan klasifikasi biner
+    n_estimators=100,
+    max_depth=5,
+    learning_rate=0.1,
+    use_label_encoder=False,
+    eval_metric='logloss',
+    scale_pos_weight=scale_pos_weight_value, # Menangani imbalance
+    random_state=42
+)
+
+# 2. Melatih model
+xgb_model.fit(X_train_processed, y_train)
+print("Model XGBoost berhasil dilatih.")
+
+
+# --- TAHAP 3: EVALUASI MODEL ---
+
+print("\n--- Memulai Evaluasi Model ---")
+
+# 3. Membuat prediksi pada data uji
+y_pred_xgb = xgb_model.predict(X_test_processed)
+
+# 4. Mengevaluasi performa
+accuracy_xgb = accuracy_score(y_test, y_pred_xgb)
+print(f"\nAkurasi Model XGBoost: {accuracy_xgb:.4f}")
+
+print("\nLaporan Klasifikasi (XGBoost):")
+print(classification_report(y_test, y_pred_xgb, target_names=['No (0)', 'Yes (1)']))
+
+print("\nConfusion Matrix (XGBoost):")
+cm_xgb = confusion_matrix(y_test, y_pred_xgb)
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm_xgb, annot=True, fmt='d', cmap='Purples', xticklabels=['Prediksi No', 'Prediksi Yes'], yticklabels=['Aktual No', 'Aktual Yes'])
+plt.ylabel('Aktual')
+plt.xlabel('Prediksi')
+plt.title('Confusion Matrix - XGBoost')
+plt.show()
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [0;32mIn[12], line 8[0m
+[1;32m      6[0m [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;21;01msklearn[39;00m[38;5;21;01m.[39;00m[38;5;21;01mpreprocessing[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m StandardScaler, OneHotEncoder
+[1;32m      7[0m [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;21;01msklearn[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcompose[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m ColumnTransformer
+[0;32m----> 8[0m [38;5;28;01mimport[39;00m[38;5;250m [39m[38;5;21;01mxgboost[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[38;5;21;01mxgb[39;00m [38;5;66;03m# Import XGBoost[39;00m
+[1;32m      9[0m [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;21;01msklearn[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmetrics[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m accuracy_score, classification_report, confusion_matrix
+[1;32m     10[0m [38;5;28;01mimport[39;00m[38;5;250m [39m[38;5;21;01mmatplotlib[39;00m[38;5;21;01m.[39;00m[38;5;21;01mpyplot[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[38;5;21;01mplt[39;00m
+
+[0;31mModuleNotFoundError[0m: No module named 'xgboost'
+

@@ -1,0 +1,117 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# ========================================
+# SIMPAN BEST MODEL
+# ========================================
+print("=== SIMPAN BEST MODEL ===")
+
+import joblib
+import os
+
+# Buat folder models jika belum ada
+if not os.path.exists('models'):
+    os.makedirs('models')
+    print("✓ Folder 'models' berhasil dibuat")
+
+# Tentukan model terbaik berdasarkan F1-Score
+best_model_idx = comparison_df['F1-Score'].idxmax()
+best_model_name = comparison_df.loc[best_model_idx, 'Model']
+
+# Pilih model yang akan disimpan
+if best_model_name == 'Random Forest':
+    best_model = rf_model
+    print("✓ Random Forest dipilih sebagai model terbaik")
+elif best_model_name == 'Logistic Regression':
+    best_model = lr_model
+    print("✓ Logistic Regression dipilih sebagai model terbaik")
+else:
+    best_model = svm_model
+    print("✓ Support Vector Machine dipilih sebagai model terbaik")
+
+# Simpan model
+model_filename = f'models/best_model_{best_model_name.replace(" ", "_").lower()}.pkl'
+joblib.dump(best_model, model_filename)
+print(f"✓ Model tersimpan sebagai: {model_filename}")
+
+# Simpan scaler
+scaler_filename = 'models/scaler.pkl'
+joblib.dump(scaler, scaler_filename)
+print(f"✓ Scaler tersimpan sebagai: {scaler_filename}")
+
+# Simpan label encoder
+encoder_filename = 'models/label_encoder.pkl'
+joblib.dump(le, encoder_filename)
+print(f"✓ Label encoder tersimpan sebagai: {encoder_filename}")
+
+# Simpan informasi model
+model_info = {
+    'best_model_name': best_model_name,
+    'best_f1_score': best_f1_score,
+    'best_accuracy': best_accuracy,
+    'best_precision': best_precision,
+    'best_recall': best_recall,
+    'feature_names': list(X.columns),
+    'model_filename': model_filename,
+    'scaler_filename': scaler_filename,
+    'encoder_filename': encoder_filename
+}
+
+import json
+with open('models/model_info.json', 'w') as f:
+    json.dump(model_info, f, indent=4)
+print("✓ Informasi model tersimpan sebagai: models/model_info.json")
+
+# Verifikasi file tersimpan
+print(f"\n FILES YANG TERSIMPAN:")
+print(f"1. {model_filename}")
+print(f"2. {scaler_filename}")
+print(f"3. {encoder_filename}")
+print(f"4. models/model_info.json")
+
+# Cek ukuran file
+import os
+for filename in [model_filename, scaler_filename, encoder_filename]:
+    size = os.path.getsize(filename) / 1024  # dalam KB
+    print(f"   {os.path.basename(filename)}: {size:.2f} KB")
+
+print(f"\n BEST MODEL BERHASIL DISIMPAN!")
+print(f"Model {best_model_name} siap digunakan untuk deployment.")
+------------------
+
+----- stdout -----
+=== SIMPAN BEST MODEL ===
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[17], line 15[0m
+[1;32m     12[0m     [38;5;28mprint[39m([38;5;124m"[39m[38;5;124m✓ Folder [39m[38;5;124m'[39m[38;5;124mmodels[39m[38;5;124m'[39m[38;5;124m berhasil dibuat[39m[38;5;124m"[39m)
+[1;32m     14[0m [38;5;66;03m# Tentukan model terbaik berdasarkan F1-Score[39;00m
+[0;32m---> 15[0m best_model_idx [38;5;241m=[39m [43mcomparison_df[49m[[38;5;124m'[39m[38;5;124mF1-Score[39m[38;5;124m'[39m][38;5;241m.[39midxmax()
+[1;32m     16[0m best_model_name [38;5;241m=[39m comparison_df[38;5;241m.[39mloc[best_model_idx, [38;5;124m'[39m[38;5;124mModel[39m[38;5;124m'[39m]
+[1;32m     18[0m [38;5;66;03m# Pilih model yang akan disimpan[39;00m
+
+[0;31mNameError[0m: name 'comparison_df' is not defined
+

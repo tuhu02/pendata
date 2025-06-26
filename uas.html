@@ -1,0 +1,1886 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Analisis Data Mining: Klasifikasi Kanker Payudara dengan Dataset WDBC &#8212; Penambangan Data</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'uas';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Pra UAS" href="pra_uas.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/data-mining.jpg" class="logo__image only-light" alt="Penambangan Data - Home"/>
+    <script>document.write(`<img src="_static/data-mining.jpg" class="logo__image only-dark" alt="Penambangan Data - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Penambangan Data - Tuhu Pangestu
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Memahami-Data.html">Memahami Data</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="Modeling-Data.html">Pemodelan data</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="uts.html">Analisis Data Medis</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="klastering.html">Klastering</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="bining_modified.html">Teknik Binning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pra_uas.html">Pra UAS</a></li>
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Analisis Data Mining: Klasifikasi Kanker Payudara dengan Dataset WDBC</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fuas.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/uas.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Analisis Data Mining: Klasifikasi Kanker Payudara dengan Dataset WDBC</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding">1. Data Understanding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-processing-data">2. Pre Processing Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cek-missing-values">2.1 Cek Missing Values</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deteksi-outlier">2.2 Deteksi Outlier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding-target">2.4 Encoding Target</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#split-data">2.5 Split Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-scaling">2.6 Feature Scaling</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-modeling">3. Data Modeling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-forest">Random Forest</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#support-vector-machine">Support Vector Machine</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perbandingan-model">Perbandingan Model</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="analisis-data-mining-klasifikasi-kanker-payudara-dengan-dataset-wdbc">
+<h1>Analisis Data Mining: Klasifikasi Kanker Payudara dengan Dataset WDBC<a class="headerlink" href="#analisis-data-mining-klasifikasi-kanker-payudara-dengan-dataset-wdbc" title="Link to this heading">#</a></h1>
+<p>Apa itu Dataset WDBC?
+WDBC adalah dataset yang berisi data diagnosis kanker payudara berdasarkan hasil pemeriksaan mikroskopis sel-sel yang diambil dari jaringan payudara.</p>
+<p>Sumber Data</p>
+<ul class="simple">
+<li><p>Donor: Dr. William H. Wolberg (University of Wisconsin)</p></li>
+<li><p>Tanggal: November 1995</p></li>
+<li><p>Sumber: UCI Machine Learning Repository</p></li>
+<li><p>Link: <a class="reference external" href="https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic">https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic</a></p></li>
+</ul>
+<p>Cara Pengambilan Data<br />
+Data diperoleh dari Fine Needle Aspirate (FNA) - yaitu:</p>
+<ul class="simple">
+<li><p>Mengambil sampel jaringan payudara dengan jarum halus</p></li>
+<li><p>Sampel kemudian diperiksa di bawah mikroskop</p></li>
+<li><p>Gambar digital dari sel-sel tersebut dianalisis</p></li>
+<li><p>Karakteristik sel diukur dan dihitung secara otomatis</p></li>
+</ul>
+<section id="data-understanding">
+<h2>1. Data Understanding<a class="headerlink" href="#data-understanding" title="Link to this heading">#</a></h2>
+<p>Pada tahap ini, kita akan:</p>
+<ul class="simple">
+<li><p>Membaca dataset WDBC ke dalam DataFrame.</p></li>
+<li><p>Melihat struktur data (jumlah baris, kolom, tipe data).</p></li>
+<li><p>Menampilkan beberapa baris pertama data.</p></li>
+<li><p>Melihat statistik deskriptif untuk fitur numerik.</p></li>
+<li><p>Mengecek distribusi label diagnosis (benign/malignant).</p></li>
+<li><p>Mengecek apakah ada data yang hilang (missing values).</p></li>
+</ul>
+<p>Langkah ini penting untuk memastikan data yang akan dianalisis sudah benar dan siap untuk tahap selanjutnya.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library yang diperlukan</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Membaca data</span>
+<span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;ID&#39;</span><span class="p">,</span> <span class="s1">&#39;Diagnosis&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;radius_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;texture_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;perimeter_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;area_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;smoothness_mean&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;compactness_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;concavity_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;concave_points_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;symmetry_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;fractal_dimension_mean&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;radius_se&#39;</span><span class="p">,</span> <span class="s1">&#39;texture_se&#39;</span><span class="p">,</span> <span class="s1">&#39;perimeter_se&#39;</span><span class="p">,</span> <span class="s1">&#39;area_se&#39;</span><span class="p">,</span> <span class="s1">&#39;smoothness_se&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;compactness_se&#39;</span><span class="p">,</span> <span class="s1">&#39;concavity_se&#39;</span><span class="p">,</span> <span class="s1">&#39;concave_points_se&#39;</span><span class="p">,</span> <span class="s1">&#39;symmetry_se&#39;</span><span class="p">,</span> <span class="s1">&#39;fractal_dimension_se&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;radius_worst&#39;</span><span class="p">,</span> <span class="s1">&#39;texture_worst&#39;</span><span class="p">,</span> <span class="s1">&#39;perimeter_worst&#39;</span><span class="p">,</span> <span class="s1">&#39;area_worst&#39;</span><span class="p">,</span> <span class="s1">&#39;smoothness_worst&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;compactness_worst&#39;</span><span class="p">,</span> <span class="s1">&#39;concavity_worst&#39;</span><span class="p">,</span> <span class="s1">&#39;concave_points_worst&#39;</span><span class="p">,</span> <span class="s1">&#39;symmetry_worst&#39;</span><span class="p">,</span> <span class="s1">&#39;fractal_dimension_worst&#39;</span>
+<span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;wdbc.data&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">column_names</span><span class="p">)</span>
+
+<span class="c1"># Melihat 5 baris pertama</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="c1"># Melihat info struktur data</span>
+<span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+
+<span class="c1"># Statistik deskriptif fitur numerik</span>
+<span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+
+<span class="c1"># Distribusi label diagnosis</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Diagnosis&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Diagnosis&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># Mengecek missing values</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Jumlah missing values per kolom:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ID</th>
+      <th>Diagnosis</th>
+      <th>radius_mean</th>
+      <th>texture_mean</th>
+      <th>perimeter_mean</th>
+      <th>area_mean</th>
+      <th>smoothness_mean</th>
+      <th>compactness_mean</th>
+      <th>concavity_mean</th>
+      <th>concave_points_mean</th>
+      <th>...</th>
+      <th>radius_worst</th>
+      <th>texture_worst</th>
+      <th>perimeter_worst</th>
+      <th>area_worst</th>
+      <th>smoothness_worst</th>
+      <th>compactness_worst</th>
+      <th>concavity_worst</th>
+      <th>concave_points_worst</th>
+      <th>symmetry_worst</th>
+      <th>fractal_dimension_worst</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>842302</td>
+      <td>M</td>
+      <td>17.99</td>
+      <td>10.38</td>
+      <td>122.80</td>
+      <td>1001.0</td>
+      <td>0.11840</td>
+      <td>0.27760</td>
+      <td>0.3001</td>
+      <td>0.14710</td>
+      <td>...</td>
+      <td>25.38</td>
+      <td>17.33</td>
+      <td>184.60</td>
+      <td>2019.0</td>
+      <td>0.1622</td>
+      <td>0.6656</td>
+      <td>0.7119</td>
+      <td>0.2654</td>
+      <td>0.4601</td>
+      <td>0.11890</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>842517</td>
+      <td>M</td>
+      <td>20.57</td>
+      <td>17.77</td>
+      <td>132.90</td>
+      <td>1326.0</td>
+      <td>0.08474</td>
+      <td>0.07864</td>
+      <td>0.0869</td>
+      <td>0.07017</td>
+      <td>...</td>
+      <td>24.99</td>
+      <td>23.41</td>
+      <td>158.80</td>
+      <td>1956.0</td>
+      <td>0.1238</td>
+      <td>0.1866</td>
+      <td>0.2416</td>
+      <td>0.1860</td>
+      <td>0.2750</td>
+      <td>0.08902</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>84300903</td>
+      <td>M</td>
+      <td>19.69</td>
+      <td>21.25</td>
+      <td>130.00</td>
+      <td>1203.0</td>
+      <td>0.10960</td>
+      <td>0.15990</td>
+      <td>0.1974</td>
+      <td>0.12790</td>
+      <td>...</td>
+      <td>23.57</td>
+      <td>25.53</td>
+      <td>152.50</td>
+      <td>1709.0</td>
+      <td>0.1444</td>
+      <td>0.4245</td>
+      <td>0.4504</td>
+      <td>0.2430</td>
+      <td>0.3613</td>
+      <td>0.08758</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>84348301</td>
+      <td>M</td>
+      <td>11.42</td>
+      <td>20.38</td>
+      <td>77.58</td>
+      <td>386.1</td>
+      <td>0.14250</td>
+      <td>0.28390</td>
+      <td>0.2414</td>
+      <td>0.10520</td>
+      <td>...</td>
+      <td>14.91</td>
+      <td>26.50</td>
+      <td>98.87</td>
+      <td>567.7</td>
+      <td>0.2098</td>
+      <td>0.8663</td>
+      <td>0.6869</td>
+      <td>0.2575</td>
+      <td>0.6638</td>
+      <td>0.17300</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>84358402</td>
+      <td>M</td>
+      <td>20.29</td>
+      <td>14.34</td>
+      <td>135.10</td>
+      <td>1297.0</td>
+      <td>0.10030</td>
+      <td>0.13280</td>
+      <td>0.1980</td>
+      <td>0.10430</td>
+      <td>...</td>
+      <td>22.54</td>
+      <td>16.67</td>
+      <td>152.20</td>
+      <td>1575.0</td>
+      <td>0.1374</td>
+      <td>0.2050</td>
+      <td>0.4000</td>
+      <td>0.1625</td>
+      <td>0.2364</td>
+      <td>0.07678</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 32 columns</p>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 569 entries, 0 to 568
+Data columns (total 32 columns):
+ #   Column                   Non-Null Count  Dtype  
+---  ------                   --------------  -----  
+ 0   ID                       569 non-null    int64  
+ 1   Diagnosis                569 non-null    object 
+ 2   radius_mean              569 non-null    float64
+ 3   texture_mean             569 non-null    float64
+ 4   perimeter_mean           569 non-null    float64
+ 5   area_mean                569 non-null    float64
+ 6   smoothness_mean          569 non-null    float64
+ 7   compactness_mean         569 non-null    float64
+ 8   concavity_mean           569 non-null    float64
+ 9   concave_points_mean      569 non-null    float64
+ 10  symmetry_mean            569 non-null    float64
+ 11  fractal_dimension_mean   569 non-null    float64
+ 12  radius_se                569 non-null    float64
+ 13  texture_se               569 non-null    float64
+ 14  perimeter_se             569 non-null    float64
+ 15  area_se                  569 non-null    float64
+ 16  smoothness_se            569 non-null    float64
+ 17  compactness_se           569 non-null    float64
+ 18  concavity_se             569 non-null    float64
+ 19  concave_points_se        569 non-null    float64
+ 20  symmetry_se              569 non-null    float64
+ 21  fractal_dimension_se     569 non-null    float64
+ 22  radius_worst             569 non-null    float64
+ 23  texture_worst            569 non-null    float64
+ 24  perimeter_worst          569 non-null    float64
+ 25  area_worst               569 non-null    float64
+ 26  smoothness_worst         569 non-null    float64
+ 27  compactness_worst        569 non-null    float64
+ 28  concavity_worst          569 non-null    float64
+ 29  concave_points_worst     569 non-null    float64
+ 30  symmetry_worst           569 non-null    float64
+ 31  fractal_dimension_worst  569 non-null    float64
+dtypes: float64(30), int64(1), object(1)
+memory usage: 142.4+ KB
+Diagnosis
+B    357
+M    212
+Name: count, dtype: int64
+Diagnosis
+B    62.741652
+M    37.258348
+Name: proportion, dtype: float64
+Jumlah missing values per kolom:
+ID                         0
+Diagnosis                  0
+radius_mean                0
+texture_mean               0
+perimeter_mean             0
+area_mean                  0
+smoothness_mean            0
+compactness_mean           0
+concavity_mean             0
+concave_points_mean        0
+symmetry_mean              0
+fractal_dimension_mean     0
+radius_se                  0
+texture_se                 0
+perimeter_se               0
+area_se                    0
+smoothness_se              0
+compactness_se             0
+concavity_se               0
+concave_points_se          0
+symmetry_se                0
+fractal_dimension_se       0
+radius_worst               0
+texture_worst              0
+perimeter_worst            0
+area_worst                 0
+smoothness_worst           0
+compactness_worst          0
+concavity_worst            0
+concave_points_worst       0
+symmetry_worst             0
+fractal_dimension_worst    0
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Distribusi</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Diagnosis&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;skyblue&#39;</span><span class="p">,</span> <span class="s1">&#39;salmon&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Distribusi Diagnosis&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Diagnosis&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Jumlah&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/d4bd2357cf02c548a2e0549c146cd47282ebc0f4c95fd845568f3d36541b4ad3.png" src="_images/d4bd2357cf02c548a2e0549c146cd47282ebc0f4c95fd845568f3d36541b4ad3.png" />
+</div>
+</div>
+</section>
+<section id="pre-processing-data">
+<h2>2. Pre Processing Data<a class="headerlink" href="#pre-processing-data" title="Link to this heading">#</a></h2>
+<p>Langkah Preprocessing untuk Dataset WDBC</p>
+<section id="cek-missing-values">
+<h3>2.1 Cek Missing Values<a class="headerlink" href="#cek-missing-values" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ========================================</span>
+<span class="c1"># CEK MISSING VALUES</span>
+<span class="c1"># ========================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== CEK MISSING VALUES ===&quot;</span><span class="p">)</span>
+
+<span class="c1"># Cek missing values per kolom</span>
+<span class="n">missing_values</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Missing values per kolom:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">missing_values</span><span class="p">)</span>
+
+<span class="c1"># Total missing values</span>
+<span class="n">total_missing</span> <span class="o">=</span> <span class="n">missing_values</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Total missing values: </span><span class="si">{</span><span class="n">total_missing</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">total_missing</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Dataset tidak memiliki missing values&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;⚠️ Dataset memiliki missing values yang perlu ditangani&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Visualisasi missing values</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">missing_values</span><span class="p">[</span><span class="n">missing_values</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Missing Values per Kolom&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Kolom&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Jumlah Missing Values&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== CEK MISSING VALUES ===
+Missing values per kolom:
+ID                         0
+Diagnosis                  0
+radius_mean                0
+texture_mean               0
+perimeter_mean             0
+area_mean                  0
+smoothness_mean            0
+compactness_mean           0
+concavity_mean             0
+concave_points_mean        0
+symmetry_mean              0
+fractal_dimension_mean     0
+radius_se                  0
+texture_se                 0
+perimeter_se               0
+area_se                    0
+smoothness_se              0
+compactness_se             0
+concavity_se               0
+concave_points_se          0
+symmetry_se                0
+fractal_dimension_se       0
+radius_worst               0
+texture_worst              0
+perimeter_worst            0
+area_worst                 0
+smoothness_worst           0
+compactness_worst          0
+concavity_worst            0
+concave_points_worst       0
+symmetry_worst             0
+fractal_dimension_worst    0
+dtype: int64
+
+Total missing values: 0
+✓ Dataset tidak memiliki missing values
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="deteksi-outlier">
+<h3>2.2 Deteksi Outlier<a class="headerlink" href="#deteksi-outlier" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library yang diperlukan</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1"># Set style untuk visualisasi</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_palette</span><span class="p">(</span><span class="s2">&quot;husl&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ========================================</span>
+<span class="c1"># STATISTIK DESKRIPTIF UNTUK DETEKSI OUTLIER</span>
+<span class="c1"># ========================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== STATISTIK DESKRIPTIF ===&quot;</span><span class="p">)</span>
+
+<span class="c1"># Ambil kolom numerik (exclude ID)</span>
+<span class="n">numeric_columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">numeric_columns</span> <span class="o">=</span> <span class="n">numeric_columns</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Statistik deskriptif untuk fitur numerik:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">numeric_columns</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+
+<span class="c1"># Cek range nilai untuk setiap fitur</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Range nilai per fitur:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">numeric_columns</span><span class="p">:</span>
+    <span class="n">min_val</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+    <span class="n">max_val</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">range_val</span> <span class="o">=</span> <span class="n">max_val</span> <span class="o">-</span> <span class="n">min_val</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">min_val</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">max_val</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (range: </span><span class="si">{</span><span class="n">range_val</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== STATISTIK DESKRIPTIF ===
+Statistik deskriptif untuk fitur numerik:
+       radius_mean  texture_mean  perimeter_mean    area_mean  \
+count   569.000000    569.000000      569.000000   569.000000   
+mean     14.127292     19.289649       91.969033   654.889104   
+std       3.524049      4.301036       24.298981   351.914129   
+min       6.981000      9.710000       43.790000   143.500000   
+25%      11.700000     16.170000       75.170000   420.300000   
+50%      13.370000     18.840000       86.240000   551.100000   
+75%      15.780000     21.800000      104.100000   782.700000   
+max      28.110000     39.280000      188.500000  2501.000000   
+
+       smoothness_mean  compactness_mean  concavity_mean  concave_points_mean  \
+count       569.000000        569.000000      569.000000           569.000000   
+mean          0.096360          0.104341        0.088799             0.048919   
+std           0.014064          0.052813        0.079720             0.038803   
+min           0.052630          0.019380        0.000000             0.000000   
+25%           0.086370          0.064920        0.029560             0.020310   
+50%           0.095870          0.092630        0.061540             0.033500   
+75%           0.105300          0.130400        0.130700             0.074000   
+max           0.163400          0.345400        0.426800             0.201200   
+
+       symmetry_mean  fractal_dimension_mean  ...  radius_worst  \
+count     569.000000              569.000000  ...    569.000000   
+mean        0.181162                0.062798  ...     16.269190   
+std         0.027414                0.007060  ...      4.833242   
+min         0.106000                0.049960  ...      7.930000   
+25%         0.161900                0.057700  ...     13.010000   
+50%         0.179200                0.061540  ...     14.970000   
+75%         0.195700                0.066120  ...     18.790000   
+max         0.304000                0.097440  ...     36.040000   
+
+       texture_worst  perimeter_worst   area_worst  smoothness_worst  \
+count     569.000000       569.000000   569.000000        569.000000   
+mean       25.677223       107.261213   880.583128          0.132369   
+std         6.146258        33.602542   569.356993          0.022832   
+min        12.020000        50.410000   185.200000          0.071170   
+25%        21.080000        84.110000   515.300000          0.116600   
+50%        25.410000        97.660000   686.500000          0.131300   
+75%        29.720000       125.400000  1084.000000          0.146000   
+max        49.540000       251.200000  4254.000000          0.222600   
+
+       compactness_worst  concavity_worst  concave_points_worst  \
+count         569.000000       569.000000            569.000000   
+mean            0.254265         0.272188              0.114606   
+std             0.157336         0.208624              0.065732   
+min             0.027290         0.000000              0.000000   
+25%             0.147200         0.114500              0.064930   
+50%             0.211900         0.226700              0.099930   
+75%             0.339100         0.382900              0.161400   
+max             1.058000         1.252000              0.291000   
+
+       symmetry_worst  fractal_dimension_worst  
+count      569.000000               569.000000  
+mean         0.290076                 0.083946  
+std          0.061867                 0.018061  
+min          0.156500                 0.055040  
+25%          0.250400                 0.071460  
+50%          0.282200                 0.080040  
+75%          0.317900                 0.092080  
+max          0.663800                 0.207500  
+
+[8 rows x 30 columns]
+
+Range nilai per fitur:
+radius_mean: 6.9810 - 28.1100 (range: 21.1290)
+texture_mean: 9.7100 - 39.2800 (range: 29.5700)
+perimeter_mean: 43.7900 - 188.5000 (range: 144.7100)
+area_mean: 143.5000 - 2501.0000 (range: 2357.5000)
+smoothness_mean: 0.0526 - 0.1634 (range: 0.1108)
+compactness_mean: 0.0194 - 0.3454 (range: 0.3260)
+concavity_mean: 0.0000 - 0.4268 (range: 0.4268)
+concave_points_mean: 0.0000 - 0.2012 (range: 0.2012)
+symmetry_mean: 0.1060 - 0.3040 (range: 0.1980)
+fractal_dimension_mean: 0.0500 - 0.0974 (range: 0.0475)
+radius_se: 0.1115 - 2.8730 (range: 2.7615)
+texture_se: 0.3602 - 4.8850 (range: 4.5248)
+perimeter_se: 0.7570 - 21.9800 (range: 21.2230)
+area_se: 6.8020 - 542.2000 (range: 535.3980)
+smoothness_se: 0.0017 - 0.0311 (range: 0.0294)
+compactness_se: 0.0023 - 0.1354 (range: 0.1331)
+concavity_se: 0.0000 - 0.3960 (range: 0.3960)
+concave_points_se: 0.0000 - 0.0528 (range: 0.0528)
+symmetry_se: 0.0079 - 0.0790 (range: 0.0711)
+fractal_dimension_se: 0.0009 - 0.0298 (range: 0.0289)
+radius_worst: 7.9300 - 36.0400 (range: 28.1100)
+texture_worst: 12.0200 - 49.5400 (range: 37.5200)
+perimeter_worst: 50.4100 - 251.2000 (range: 200.7900)
+area_worst: 185.2000 - 4254.0000 (range: 4068.8000)
+smoothness_worst: 0.0712 - 0.2226 (range: 0.1514)
+compactness_worst: 0.0273 - 1.0580 (range: 1.0307)
+concavity_worst: 0.0000 - 1.2520 (range: 1.2520)
+concave_points_worst: 0.0000 - 0.2910 (range: 0.2910)
+symmetry_worst: 0.1565 - 0.6638 (range: 0.5073)
+fractal_dimension_worst: 0.0550 - 0.2075 (range: 0.1525)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ========================================</span>
+<span class="c1"># DETEKSI DAN HAPUS OUTLIERS</span>
+<span class="c1"># ========================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== DETEKSI DAN HAPUS OUTLIERS ===&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">detect_and_remove_outliers</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;iqr&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Deteksi dan hapus outliers menggunakan IQR method</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df_clean</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">total_removed</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;iqr&#39;</span><span class="p">:</span>
+            <span class="n">Q1</span> <span class="o">=</span> <span class="n">df_clean</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+            <span class="n">Q3</span> <span class="o">=</span> <span class="n">df_clean</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+            <span class="n">IQR</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">-</span> <span class="n">Q1</span>
+            <span class="n">lower_bound</span> <span class="o">=</span> <span class="n">Q1</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span>
+            <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">+</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span>
+            
+            <span class="c1"># Hitung jumlah outliers</span>
+            <span class="n">outliers</span> <span class="o">=</span> <span class="n">df_clean</span><span class="p">[(</span><span class="n">df_clean</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">lower_bound</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df_clean</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">upper_bound</span><span class="p">)]</span>
+            <span class="n">outlier_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">outliers</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">outlier_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">outlier_count</span><span class="si">}</span><span class="s2"> outliers&quot;</span><span class="p">)</span>
+                <span class="c1"># Hapus outliers</span>
+                <span class="n">df_clean</span> <span class="o">=</span> <span class="n">df_clean</span><span class="p">[(</span><span class="n">df_clean</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">lower_bound</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_clean</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">upper_bound</span><span class="p">)]</span>
+                <span class="n">total_removed</span> <span class="o">+=</span> <span class="n">outlier_count</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">: ✓ Tidak ada outliers&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">df_clean</span><span class="p">,</span> <span class="n">total_removed</span>
+
+<span class="c1"># Deteksi dan hapus outliers</span>
+<span class="n">numeric_columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">numeric_columns</span> <span class="o">=</span> <span class="n">numeric_columns</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Deteksi outliers per kolom:&quot;</span><span class="p">)</span>
+<span class="n">df_clean</span><span class="p">,</span> <span class="n">total_removed</span> <span class="o">=</span> <span class="n">detect_and_remove_outliers</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">numeric_columns</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;iqr&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Total outliers yang dihapus: </span><span class="si">{</span><span class="n">total_removed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data sebelum: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2"> baris&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data setelah: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_clean</span><span class="p">)</span><span class="si">}</span><span class="s2"> baris&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Persentase data yang dihapus: </span><span class="si">{</span><span class="p">(</span><span class="n">total_removed</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+
+<span class="c1"># Simpan data bersih</span>
+<span class="n">df_clean</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;wdbc_clean_no_outliers.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Data bersih disimpan sebagai &#39;wdbc_clean_no_outliers.csv&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== DETEKSI DAN HAPUS OUTLIERS ===
+Deteksi outliers per kolom:
+radius_mean: 14 outliers
+texture_mean: 7 outliers
+perimeter_mean: 2 outliers
+area_mean: 33 outliers
+smoothness_mean: 6 outliers
+compactness_mean: 15 outliers
+concavity_mean: 13 outliers
+concave_points_mean: 3 outliers
+symmetry_mean: 8 outliers
+fractal_dimension_mean: 10 outliers
+radius_se: 23 outliers
+texture_se: 14 outliers
+perimeter_se: 10 outliers
+area_se: 23 outliers
+smoothness_se: 15 outliers
+compactness_se: 14 outliers
+concavity_se: 6 outliers
+concave_points_se: 3 outliers
+symmetry_se: 15 outliers
+fractal_dimension_se: 7 outliers
+radius_worst: 6 outliers
+texture_worst: ✓ Tidak ada outliers
+perimeter_worst: 2 outliers
+area_worst: 11 outliers
+smoothness_worst: 3 outliers
+compactness_worst: 17 outliers
+concavity_worst: 5 outliers
+concave_points_worst: 1 outliers
+symmetry_worst: 1 outliers
+fractal_dimension_worst: 5 outliers
+
+Total outliers yang dihapus: 292
+Data sebelum: 569 baris
+Data setelah: 277 baris
+Persentase data yang dihapus: 51.32%
+✓ Data bersih disimpan sebagai &#39;wdbc_clean_no_outliers.csv&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="encoding-target">
+<h3>2.4 Encoding Target<a class="headerlink" href="#encoding-target" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Mengubah label kategorikal (B/M) menjadi numerik (0/1)</p></li>
+<li><p>B (Benign) = 0</p></li>
+<li><p>M (Malignant) = 1</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df_clean</span>
+
+<span class="c1"># 1. Persiapan Data</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;ID&#39;</span><span class="p">,</span> <span class="s1">&#39;Diagnosis&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Diagnosis&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
+
+<span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">y_encoded</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Target encoded: </span><span class="si">{</span><span class="n">le</span><span class="o">.</span><span class="n">classes_</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">le</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">le</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;B (Benign) -&gt; </span><span class="si">{</span><span class="n">le</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="s1">&#39;B&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;M (Malignant) -&gt; </span><span class="si">{</span><span class="n">le</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="s1">&#39;M&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Target encoded: [&#39;B&#39; &#39;M&#39;] -&gt; [0 1]
+B (Benign) -&gt; 0
+M (Malignant) -&gt; 1
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="split-data">
+<h3>2.5 Split Data<a class="headerlink" href="#split-data" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Membagi data menjadi training set (80%) dan test set (20%)</p></li>
+<li><p>Menggunakan stratify untuk menjaga proporsi kelas</p></li>
+<li><p>random_state=42 untuk hasil yang konsisten</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="c1"># Split data 80% training, 20% test</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y_encoded</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y_encoded</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training set: </span><span class="si">{</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test set: </span><span class="si">{</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distribusi target training: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distribusi target test: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training set: (221, 30)
+Test set: (56, 30)
+Distribusi target training: [203  18]
+Distribusi target test: [52  4]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="feature-scaling">
+<h3>2.6 Feature Scaling<a class="headerlink" href="#feature-scaling" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Menstandarisasi fitur numerik menggunakan StandardScaler</p></li>
+<li><p>Mengubah semua fitur ke skala yang sama (mean=0, std=1)</p></li>
+<li><p>Penting untuk algoritma yang sensitif terhadap skala data</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="c1"># Scaling fitur numerik</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data telah di-scale menggunakan StandardScaler&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training set scaled shape: </span><span class="si">{</span><span class="n">X_train_scaled</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test set scaled shape: </span><span class="si">{</span><span class="n">X_test_scaled</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data telah di-scale menggunakan StandardScaler
+Training set scaled shape: (221, 30)
+Test set scaled shape: (56, 30)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="data-modeling">
+<h2>3. Data Modeling<a class="headerlink" href="#data-modeling" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library yang diperlukan</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span><span class="p">,</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">cross_val_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVC</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">f1_score</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1"># Set style untuk visualisasi</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_palette</span><span class="p">(</span><span class="s2">&quot;husl&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Library berhasil diimport&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓ Library berhasil diimport
+</pre></div>
+</div>
+</div>
+</div>
+<p>Load Data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load data bersih yang sudah dihapus outliers</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;wdbc_clean_no_outliers.csv&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Data bersih berhasil dimuat&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;⚠️ File &#39;wdbc_clean_no_outliers.csv&#39; tidak ditemukan&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Menggunakan data asli...&quot;</span><span class="p">)</span>
+    <span class="c1"># Load data asli jika file bersih tidak ada</span>
+    <span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;ID&#39;</span><span class="p">,</span> <span class="s1">&#39;Diagnosis&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;radius_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;texture_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;perimeter_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;area_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;smoothness_mean&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;compactness_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;concavity_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;concave_points_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;symmetry_mean&#39;</span><span class="p">,</span> <span class="s1">&#39;fractal_dimension_mean&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;radius_se&#39;</span><span class="p">,</span> <span class="s1">&#39;texture_se&#39;</span><span class="p">,</span> <span class="s1">&#39;perimeter_se&#39;</span><span class="p">,</span> <span class="s1">&#39;area_se&#39;</span><span class="p">,</span> <span class="s1">&#39;smoothness_se&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;compactness_se&#39;</span><span class="p">,</span> <span class="s1">&#39;concavity_se&#39;</span><span class="p">,</span> <span class="s1">&#39;concave_points_se&#39;</span><span class="p">,</span> <span class="s1">&#39;symmetry_se&#39;</span><span class="p">,</span> <span class="s1">&#39;fractal_dimension_se&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;radius_worst&#39;</span><span class="p">,</span> <span class="s1">&#39;texture_worst&#39;</span><span class="p">,</span> <span class="s1">&#39;perimeter_worst&#39;</span><span class="p">,</span> <span class="s1">&#39;area_worst&#39;</span><span class="p">,</span> <span class="s1">&#39;smoothness_worst&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;compactness_worst&#39;</span><span class="p">,</span> <span class="s1">&#39;concavity_worst&#39;</span><span class="p">,</span> <span class="s1">&#39;concave_points_worst&#39;</span><span class="p">,</span> <span class="s1">&#39;symmetry_worst&#39;</span><span class="p">,</span> <span class="s1">&#39;fractal_dimension_worst&#39;</span>
+    <span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;wdbc.data&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">column_names</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape data: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah sampel: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓ Data bersih berhasil dimuat
+Shape data: (277, 32)
+Jumlah sampel: 277
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ========================================</span>
+<span class="c1"># PREPROCESSING DATA</span>
+<span class="c1"># ========================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== PREPROCESSING DATA ===&quot;</span><span class="p">)</span>
+
+<span class="c1"># 1. Persiapan Data</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;ID&#39;</span><span class="p">,</span> <span class="s1">&#39;Diagnosis&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Diagnosis&#39;</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape X (features): </span><span class="si">{</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape y (target): </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 2. Encoding Target</span>
+<span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">y_encoded</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Target encoded: </span><span class="si">{</span><span class="n">le</span><span class="o">.</span><span class="n">classes_</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">le</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">le</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;B (Benign) -&gt; </span><span class="si">{</span><span class="n">le</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="s1">&#39;B&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;M (Malignant) -&gt; </span><span class="si">{</span><span class="n">le</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="s1">&#39;M&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 3. Split Data</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y_encoded</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y_encoded</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Training set: </span><span class="si">{</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test set: </span><span class="si">{</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distribusi target training: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distribusi target test: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 4. Feature Scaling</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">✓ Data telah di-scale menggunakan StandardScaler&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training set scaled shape: </span><span class="si">{</span><span class="n">X_train_scaled</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test set scaled shape: </span><span class="si">{</span><span class="n">X_test_scaled</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Verifikasi scaling</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Statistik training set setelah scaling:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean: </span><span class="si">{</span><span class="n">X_train_scaled</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Std: </span><span class="si">{</span><span class="n">X_train_scaled</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== PREPROCESSING DATA ===
+Shape X (features): (277, 30)
+Shape y (target): (277,)
+Target encoded: [&#39;B&#39; &#39;M&#39;] -&gt; [0 1]
+B (Benign) -&gt; 0
+M (Malignant) -&gt; 1
+
+Training set: (221, 30)
+Test set: (56, 30)
+Distribusi target training: [203  18]
+Distribusi target test: [52  4]
+
+✓ Data telah di-scale menggunakan StandardScaler
+Training set scaled shape: (221, 30)
+Test set scaled shape: (56, 30)
+
+Statistik training set setelah scaling:
+Mean: -0.000000
+Std: 1.000000
+</pre></div>
+</div>
+</div>
+</div>
+<section id="random-forest">
+<h3>Random Forest<a class="headerlink" href="#random-forest" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ========================================</span>
+<span class="c1"># MODEL 1: RANDOM FOREST</span>
+<span class="c1"># ========================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== MODEL 1: RANDOM FOREST ===&quot;</span><span class="p">)</span>
+
+<span class="c1"># Inisialisasi model</span>
+<span class="n">rf_model</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Training model</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training Random Forest...&quot;</span><span class="p">)</span>
+<span class="n">rf_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Prediksi</span>
+<span class="n">y_pred_rf</span> <span class="o">=</span> <span class="n">rf_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">)</span>
+<span class="n">y_pred_proba_rf</span> <span class="o">=</span> <span class="n">rf_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Evaluasi</span>
+<span class="n">accuracy_rf</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_rf</span><span class="p">)</span>
+<span class="n">precision_rf</span> <span class="o">=</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_rf</span><span class="p">)</span>
+<span class="n">recall_rf</span> <span class="o">=</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_rf</span><span class="p">)</span>
+<span class="n">f1_rf</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_rf</span><span class="p">)</span>
+
+<span class="c1"># Cross validation</span>
+<span class="n">cv_scores_rf</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">rf_model</span><span class="p">,</span> <span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+<span class="n">cv_mean_rf</span> <span class="o">=</span> <span class="n">cv_scores_rf</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">cv_std_rf</span> <span class="o">=</span> <span class="n">cv_scores_rf</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+
+<span class="c1"># Tampilkan hasil</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> HASIL EVALUASI RANDOM FOREST:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy: </span><span class="si">{</span><span class="n">accuracy_rf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Precision: </span><span class="si">{</span><span class="n">precision_rf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Recall: </span><span class="si">{</span><span class="n">recall_rf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;F1-Score: </span><span class="si">{</span><span class="n">f1_rf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CV Accuracy: </span><span class="si">{</span><span class="n">cv_mean_rf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (+/- </span><span class="si">{</span><span class="n">cv_std_rf</span><span class="o">*</span><span class="mi">2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Classification report</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📋 CLASSIFICATION REPORT:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_rf</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Benign&#39;</span><span class="p">,</span> <span class="s1">&#39;Malignant&#39;</span><span class="p">]))</span>
+
+<span class="c1"># Confusion Matrix</span>
+<span class="n">cm_rf</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_rf</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> CONFUSION MATRIX:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_rf</span><span class="p">)</span>
+
+<span class="c1"># Feature Importance</span>
+<span class="n">feature_importance_rf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;feature&#39;</span><span class="p">:</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="s1">&#39;importance&#39;</span><span class="p">:</span> <span class="n">rf_model</span><span class="o">.</span><span class="n">feature_importances_</span>
+<span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;importance&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> TOP 10 FEATURE IMPORTANCE:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">feature_importance_rf</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Visualisasi feature importance</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">top_features_rf</span> <span class="o">=</span> <span class="n">feature_importance_rf</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">top_features_rf</span><span class="p">)),</span> <span class="n">top_features_rf</span><span class="p">[</span><span class="s1">&#39;importance&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">top_features_rf</span><span class="p">)),</span> <span class="n">top_features_rf</span><span class="p">[</span><span class="s1">&#39;feature&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Feature Importance&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Top 15 Feature Importance - Random Forest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Random Forest selesai!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== MODEL 1: RANDOM FOREST ===
+Training Random Forest...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> HASIL EVALUASI RANDOM FOREST:
+Accuracy: 0.9464
+Precision: 0.6667
+Recall: 0.5000
+F1-Score: 0.5714
+CV Accuracy: 0.9320 (+/- 0.0646)
+
+📋 CLASSIFICATION REPORT:
+              precision    recall  f1-score   support
+
+      Benign       0.96      0.98      0.97        52
+   Malignant       0.67      0.50      0.57         4
+
+    accuracy                           0.95        56
+   macro avg       0.81      0.74      0.77        56
+weighted avg       0.94      0.95      0.94        56
+
+
+ CONFUSION MATRIX:
+[[51  1]
+ [ 2  2]]
+
+ TOP 10 FEATURE IMPORTANCE:
+                 feature  importance
+23            area_worst    0.102066
+27  concave_points_worst    0.080709
+13               area_se    0.077496
+20          radius_worst    0.062680
+26       concavity_worst    0.062150
+22       perimeter_worst    0.057404
+1           texture_mean    0.051270
+6         concavity_mean    0.050847
+25     compactness_worst    0.041930
+21         texture_worst    0.038349
+</pre></div>
+</div>
+<img alt="_images/377164fb04642c80084a024dc1cdd3c2f73abf844edba35cc4b817438054b0aa.png" src="_images/377164fb04642c80084a024dc1cdd3c2f73abf844edba35cc4b817438054b0aa.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓ Random Forest selesai!
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="logistic-regression">
+<h3>Logistic Regression<a class="headerlink" href="#logistic-regression" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ========================================</span>
+<span class="c1"># MODEL 2: LOGISTIC REGRESSION</span>
+<span class="c1"># ========================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== MODEL 2: LOGISTIC REGRESSION ===&quot;</span><span class="p">)</span>
+
+<span class="c1"># Inisialisasi model</span>
+<span class="n">lr_model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1"># Training model</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training Logistic Regression...&quot;</span><span class="p">)</span>
+<span class="n">lr_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Prediksi</span>
+<span class="n">y_pred_lr</span> <span class="o">=</span> <span class="n">lr_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">)</span>
+<span class="n">y_pred_proba_lr</span> <span class="o">=</span> <span class="n">lr_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Evaluasi</span>
+<span class="n">accuracy_lr</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_lr</span><span class="p">)</span>
+<span class="n">precision_lr</span> <span class="o">=</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_lr</span><span class="p">)</span>
+<span class="n">recall_lr</span> <span class="o">=</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_lr</span><span class="p">)</span>
+<span class="n">f1_lr</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_lr</span><span class="p">)</span>
+
+<span class="c1"># Cross validation</span>
+<span class="n">cv_scores_lr</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">lr_model</span><span class="p">,</span> <span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+<span class="n">cv_mean_lr</span> <span class="o">=</span> <span class="n">cv_scores_lr</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">cv_std_lr</span> <span class="o">=</span> <span class="n">cv_scores_lr</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+
+<span class="c1"># Tampilkan hasil</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> HASIL EVALUASI LOGISTIC REGRESSION:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy: </span><span class="si">{</span><span class="n">accuracy_lr</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Precision: </span><span class="si">{</span><span class="n">precision_lr</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Recall: </span><span class="si">{</span><span class="n">recall_lr</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;F1-Score: </span><span class="si">{</span><span class="n">f1_lr</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CV Accuracy: </span><span class="si">{</span><span class="n">cv_mean_lr</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (+/- </span><span class="si">{</span><span class="n">cv_std_lr</span><span class="o">*</span><span class="mi">2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Classification report</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> CLASSIFICATION REPORT:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_lr</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Benign&#39;</span><span class="p">,</span> <span class="s1">&#39;Malignant&#39;</span><span class="p">]))</span>
+
+<span class="c1"># Confusion Matrix</span>
+<span class="n">cm_lr</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_lr</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> CONFUSION MATRIX:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_lr</span><span class="p">)</span>
+
+<span class="c1"># Coefficients (feature importance untuk logistic regression)</span>
+<span class="n">coef_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;feature&#39;</span><span class="p">:</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="s1">&#39;coefficient&#39;</span><span class="p">:</span> <span class="n">lr_model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;coefficient&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">abs</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> TOP 10 FEATURE COEFFICIENTS:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">coef_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Visualisasi coefficients</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">top_coef</span> <span class="o">=</span> <span class="n">coef_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;blue&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">top_coef</span><span class="p">[</span><span class="s1">&#39;coefficient&#39;</span><span class="p">]]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">top_coef</span><span class="p">)),</span> <span class="n">top_coef</span><span class="p">[</span><span class="s1">&#39;coefficient&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">top_coef</span><span class="p">)),</span> <span class="n">top_coef</span><span class="p">[</span><span class="s1">&#39;feature&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Coefficient Value&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Top 15 Feature Coefficients - Logistic Regression&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Logistic Regression selesai!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== MODEL 2: LOGISTIC REGRESSION ===
+Training Logistic Regression...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> HASIL EVALUASI LOGISTIC REGRESSION:
+Accuracy: 0.9464
+Precision: 0.6667
+Recall: 0.5000
+F1-Score: 0.5714
+CV Accuracy: 0.9503 (+/- 0.0441)
+
+ CLASSIFICATION REPORT:
+              precision    recall  f1-score   support
+
+      Benign       0.96      0.98      0.97        52
+   Malignant       0.67      0.50      0.57         4
+
+    accuracy                           0.95        56
+   macro avg       0.81      0.74      0.77        56
+weighted avg       0.94      0.95      0.94        56
+
+
+ CONFUSION MATRIX:
+[[51  1]
+ [ 2  2]]
+
+ TOP 10 FEATURE COEFFICIENTS:
+                 feature  coefficient
+15        compactness_se    -1.178703
+21         texture_worst     0.893433
+5       compactness_mean    -0.883786
+26       concavity_worst     0.826948
+13               area_se     0.763825
+1           texture_mean     0.713622
+28        symmetry_worst     0.711249
+27  concave_points_worst     0.684223
+10             radius_se     0.675532
+24      smoothness_worst     0.620764
+</pre></div>
+</div>
+<img alt="_images/a16fcfdf935e4e0eb5e2cdd43809df96907228ceb35fc366d2ccc7af79e9436a.png" src="_images/a16fcfdf935e4e0eb5e2cdd43809df96907228ceb35fc366d2ccc7af79e9436a.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✓ Logistic Regression selesai!
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="support-vector-machine">
+<h3>Support Vector Machine<a class="headerlink" href="#support-vector-machine" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ========================================</span>
+<span class="c1"># MODEL 3: SUPPORT VECTOR MACHINE (SVM)</span>
+<span class="c1"># ========================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== MODEL 3: SUPPORT VECTOR MACHINE ===&quot;</span><span class="p">)</span>
+
+<span class="c1"># Inisialisasi model</span>
+<span class="n">svm_model</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Training model</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training Support Vector Machine...&quot;</span><span class="p">)</span>
+<span class="n">svm_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Prediksi</span>
+<span class="n">y_pred_svm</span> <span class="o">=</span> <span class="n">svm_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">)</span>
+<span class="n">y_pred_proba_svm</span> <span class="o">=</span> <span class="n">svm_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Evaluasi</span>
+<span class="n">accuracy_svm</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_svm</span><span class="p">)</span>
+<span class="n">precision_svm</span> <span class="o">=</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_svm</span><span class="p">)</span>
+<span class="n">recall_svm</span> <span class="o">=</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_svm</span><span class="p">)</span>
+<span class="n">f1_svm</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_svm</span><span class="p">)</span>
+
+<span class="c1"># Cross validation</span>
+<span class="n">cv_scores_svm</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">svm_model</span><span class="p">,</span> <span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+<span class="n">cv_mean_svm</span> <span class="o">=</span> <span class="n">cv_scores_svm</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">cv_std_svm</span> <span class="o">=</span> <span class="n">cv_scores_svm</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+
+<span class="c1"># Tampilkan hasil</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> HASIL EVALUASI SUPPORT VECTOR MACHINE:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy: </span><span class="si">{</span><span class="n">accuracy_svm</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Precision: </span><span class="si">{</span><span class="n">precision_svm</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Recall: </span><span class="si">{</span><span class="n">recall_svm</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;F1-Score: </span><span class="si">{</span><span class="n">f1_svm</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CV Accuracy: </span><span class="si">{</span><span class="n">cv_mean_svm</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (+/- </span><span class="si">{</span><span class="n">cv_std_svm</span><span class="o">*</span><span class="mi">2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Classification report</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> CLASSIFICATION REPORT:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_svm</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Benign&#39;</span><span class="p">,</span> <span class="s1">&#39;Malignant&#39;</span><span class="p">]))</span>
+
+<span class="c1"># Confusion Matrix</span>
+<span class="n">cm_svm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_svm</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> CONFUSION MATRIX:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cm_svm</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Support Vector Machine selesai!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== MODEL 3: SUPPORT VECTOR MACHINE ===
+Training Support Vector Machine...
+
+ HASIL EVALUASI SUPPORT VECTOR MACHINE:
+Accuracy: 0.9821
+Precision: 0.8000
+Recall: 1.0000
+F1-Score: 0.8889
+CV Accuracy: 0.9502 (+/- 0.0341)
+
+ CLASSIFICATION REPORT:
+              precision    recall  f1-score   support
+
+      Benign       1.00      0.98      0.99        52
+   Malignant       0.80      1.00      0.89         4
+
+    accuracy                           0.98        56
+   macro avg       0.90      0.99      0.94        56
+weighted avg       0.99      0.98      0.98        56
+
+
+ CONFUSION MATRIX:
+[[51  1]
+ [ 0  4]]
+✓ Support Vector Machine selesai!
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="perbandingan-model">
+<h3>Perbandingan Model<a class="headerlink" href="#perbandingan-model" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ========================================</span>
+<span class="c1"># SIMPAN BEST MODEL</span>
+<span class="c1"># ========================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== SIMPAN BEST MODEL ===&quot;</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">joblib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="c1"># Buat folder models jika belum ada</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;models&#39;</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s1">&#39;models&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Folder &#39;models&#39; berhasil dibuat&quot;</span><span class="p">)</span>
+
+<span class="c1"># Tentukan model terbaik berdasarkan F1-Score</span>
+<span class="n">best_model_idx</span> <span class="o">=</span> <span class="n">comparison_df</span><span class="p">[</span><span class="s1">&#39;F1-Score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+<span class="n">best_model_name</span> <span class="o">=</span> <span class="n">comparison_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">best_model_idx</span><span class="p">,</span> <span class="s1">&#39;Model&#39;</span><span class="p">]</span>
+
+<span class="c1"># Pilih model yang akan disimpan</span>
+<span class="k">if</span> <span class="n">best_model_name</span> <span class="o">==</span> <span class="s1">&#39;Random Forest&#39;</span><span class="p">:</span>
+    <span class="n">best_model</span> <span class="o">=</span> <span class="n">rf_model</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Random Forest dipilih sebagai model terbaik&quot;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">best_model_name</span> <span class="o">==</span> <span class="s1">&#39;Logistic Regression&#39;</span><span class="p">:</span>
+    <span class="n">best_model</span> <span class="o">=</span> <span class="n">lr_model</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Logistic Regression dipilih sebagai model terbaik&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">best_model</span> <span class="o">=</span> <span class="n">svm_model</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Support Vector Machine dipilih sebagai model terbaik&quot;</span><span class="p">)</span>
+
+<span class="c1"># Simpan model</span>
+<span class="n">model_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;models/best_model_</span><span class="si">{</span><span class="n">best_model_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s1">.pkl&#39;</span>
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">best_model</span><span class="p">,</span> <span class="n">model_filename</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ Model tersimpan sebagai: </span><span class="si">{</span><span class="n">model_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Simpan scaler</span>
+<span class="n">scaler_filename</span> <span class="o">=</span> <span class="s1">&#39;models/scaler.pkl&#39;</span>
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">scaler</span><span class="p">,</span> <span class="n">scaler_filename</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ Scaler tersimpan sebagai: </span><span class="si">{</span><span class="n">scaler_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Simpan label encoder</span>
+<span class="n">encoder_filename</span> <span class="o">=</span> <span class="s1">&#39;models/label_encoder.pkl&#39;</span>
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">le</span><span class="p">,</span> <span class="n">encoder_filename</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ Label encoder tersimpan sebagai: </span><span class="si">{</span><span class="n">encoder_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Simpan informasi model</span>
+<span class="n">model_info</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;best_model_name&#39;</span><span class="p">:</span> <span class="n">best_model_name</span><span class="p">,</span>
+    <span class="s1">&#39;best_f1_score&#39;</span><span class="p">:</span> <span class="n">best_f1_score</span><span class="p">,</span>
+    <span class="s1">&#39;best_accuracy&#39;</span><span class="p">:</span> <span class="n">best_accuracy</span><span class="p">,</span>
+    <span class="s1">&#39;best_precision&#39;</span><span class="p">:</span> <span class="n">best_precision</span><span class="p">,</span>
+    <span class="s1">&#39;best_recall&#39;</span><span class="p">:</span> <span class="n">best_recall</span><span class="p">,</span>
+    <span class="s1">&#39;feature_names&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span>
+    <span class="s1">&#39;model_filename&#39;</span><span class="p">:</span> <span class="n">model_filename</span><span class="p">,</span>
+    <span class="s1">&#39;scaler_filename&#39;</span><span class="p">:</span> <span class="n">scaler_filename</span><span class="p">,</span>
+    <span class="s1">&#39;encoder_filename&#39;</span><span class="p">:</span> <span class="n">encoder_filename</span>
+<span class="p">}</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;models/model_info.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">model_info</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Informasi model tersimpan sebagai: models/model_info.json&quot;</span><span class="p">)</span>
+
+<span class="c1"># Verifikasi file tersimpan</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> FILES YANG TERSIMPAN:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;1. </span><span class="si">{</span><span class="n">model_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;2. </span><span class="si">{</span><span class="n">scaler_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;3. </span><span class="si">{</span><span class="n">encoder_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;4. models/model_info.json&quot;</span><span class="p">)</span>
+
+<span class="c1"># Cek ukuran file</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="p">[</span><span class="n">model_filename</span><span class="p">,</span> <span class="n">scaler_filename</span><span class="p">,</span> <span class="n">encoder_filename</span><span class="p">]:</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1024</span>  <span class="c1"># dalam KB</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">size</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> KB&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> BEST MODEL BERHASIL DISIMPAN!&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model </span><span class="si">{</span><span class="n">best_model_name</span><span class="si">}</span><span class="s2"> siap digunakan untuk deployment.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== SIMPAN BEST MODEL ===
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">17</span><span class="p">],</span> <span class="n">line</span> <span class="mi">15</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Folder &#39;models&#39; berhasil dibuat&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="c1"># Tentukan model terbaik berdasarkan F1-Score</span>
+<span class="ne">---&gt; </span><span class="mi">15</span> <span class="n">best_model_idx</span> <span class="o">=</span> <span class="n">comparison_df</span><span class="p">[</span><span class="s1">&#39;F1-Score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="n">best_model_name</span> <span class="o">=</span> <span class="n">comparison_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">best_model_idx</span><span class="p">,</span> <span class="s1">&#39;Model&#39;</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="c1"># Pilih model yang akan disimpan</span>
+
+<span class="ne">NameError</span>: name &#39;comparison_df&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="pra_uas.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Pra UAS</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding">1. Data Understanding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-processing-data">2. Pre Processing Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cek-missing-values">2.1 Cek Missing Values</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deteksi-outlier">2.2 Deteksi Outlier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding-target">2.4 Encoding Target</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#split-data">2.5 Split Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-scaling">2.6 Feature Scaling</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-modeling">3. Data Modeling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-forest">Random Forest</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#support-vector-machine">Support Vector Machine</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perbandingan-model">Perbandingan Model</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Tuhu Pangestu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright @2025 || Tuhu Pangestu.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

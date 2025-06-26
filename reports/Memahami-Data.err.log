@@ -1,0 +1,96 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import psycopg2
+import pymysql
+
+# Koneksi ke PostgreSQL
+pg_conn = psycopg2.connect(
+    dbname="defaultdb",
+    user="avnadmin",
+    password="AVNS_RXRKVCrwzjE7ECInaHa",
+    host="pg-3e9f6d55-tuhuwkwk-f38a.h.aivencloud.com",
+    port="25886"
+)
+pg_cur = pg_conn.cursor()
+
+# Koneksi ke MySQL
+mysql_conn = pymysql.connect(
+    host="mysql-3f502423-tuhuwkwk-f38a.h.aivencloud.com",
+    user="avnadmin",
+    password="AVNS_2ByB5ZbPXeYhBHP6anG",
+    database="defaultdb",
+    port=25886,
+    ssl={"ssl": {}}
+)
+mysql_cur = mysql_conn.cursor()
+
+# Eksekusi query untuk mengambil data dari PostgreSQL
+query_pg = "SELECT * FROM irispostgre"
+pg_cur.execute(query_pg)
+data_postgre = pg_cur.fetchall()
+
+# Eksekusi query untuk mengambil data dari MySQL
+query_mysql = "SELECT * FROM irisSQL"
+mysql_cur.execute(query_mysql)
+data_mysql = mysql_cur.fetchall()
+
+# Menampilkan data dari MySQL
+print("DATA SQL")
+for i in range(0,10):
+    print(data_mysql[i])
+
+# Tutup kursor dan koneksi
+pg_cur.close()
+pg_conn.close()
+mysql_cur.close()
+mysql_conn.close()
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mOperationalError[0m                          Traceback (most recent call last)
+Cell [0;32mIn[1], line 5[0m
+[1;32m      2[0m [38;5;28;01mimport[39;00m[38;5;250m [39m[38;5;21;01mpymysql[39;00m
+[1;32m      4[0m [38;5;66;03m# Koneksi ke PostgreSQL[39;00m
+[0;32m----> 5[0m pg_conn [38;5;241m=[39m [43mpsycopg2[49m[38;5;241;43m.[39;49m[43mconnect[49m[43m([49m
+[1;32m      6[0m [43m    [49m[43mdbname[49m[38;5;241;43m=[39;49m[38;5;124;43m"[39;49m[38;5;124;43mdefaultdb[39;49m[38;5;124;43m"[39;49m[43m,[49m
+[1;32m      7[0m [43m    [49m[43muser[49m[38;5;241;43m=[39;49m[38;5;124;43m"[39;49m[38;5;124;43mavnadmin[39;49m[38;5;124;43m"[39;49m[43m,[49m
+[1;32m      8[0m [43m    [49m[43mpassword[49m[38;5;241;43m=[39;49m[38;5;124;43m"[39;49m[38;5;124;43mAVNS_RXRKVCrwzjE7ECInaHa[39;49m[38;5;124;43m"[39;49m[43m,[49m
+[1;32m      9[0m [43m    [49m[43mhost[49m[38;5;241;43m=[39;49m[38;5;124;43m"[39;49m[38;5;124;43mpg-3e9f6d55-tuhuwkwk-f38a.h.aivencloud.com[39;49m[38;5;124;43m"[39;49m[43m,[49m
+[1;32m     10[0m [43m    [49m[43mport[49m[38;5;241;43m=[39;49m[38;5;124;43m"[39;49m[38;5;124;43m25886[39;49m[38;5;124;43m"[39;49m
+[1;32m     11[0m [43m)[49m
+[1;32m     12[0m pg_cur [38;5;241m=[39m pg_conn[38;5;241m.[39mcursor()
+[1;32m     14[0m [38;5;66;03m# Koneksi ke MySQL[39;00m
+
+File [0;32m/opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/psycopg2/__init__.py:122[0m, in [0;36mconnect[0;34m(dsn, connection_factory, cursor_factory, **kwargs)[0m
+[1;32m    119[0m     kwasync[[38;5;124m'[39m[38;5;124masync_[39m[38;5;124m'[39m] [38;5;241m=[39m kwargs[38;5;241m.[39mpop([38;5;124m'[39m[38;5;124masync_[39m[38;5;124m'[39m)
+[1;32m    121[0m dsn [38;5;241m=[39m _ext[38;5;241m.[39mmake_dsn(dsn, [38;5;241m*[39m[38;5;241m*[39mkwargs)
+[0;32m--> 122[0m conn [38;5;241m=[39m [43m_connect[49m[43m([49m[43mdsn[49m[43m,[49m[43m [49m[43mconnection_factory[49m[38;5;241;43m=[39;49m[43mconnection_factory[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwasync[49m[43m)[49m
+[1;32m    123[0m [38;5;28;01mif[39;00m cursor_factory [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m:
+[1;32m    124[0m     conn[38;5;241m.[39mcursor_factory [38;5;241m=[39m cursor_factory
+
+[0;31mOperationalError[0m: could not translate host name "pg-3e9f6d55-tuhuwkwk-f38a.h.aivencloud.com" to address: Name or service not known
+
+

@@ -1,0 +1,1366 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Teknik Binning &#8212; Penambangan Data</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'bining';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/data-mining.jpg" class="logo__image only-light" alt="Penambangan Data - Home"/>
+    <script>document.write(`<img src="_static/data-mining.jpg" class="logo__image only-dark" alt="Penambangan Data - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Penambangan Data - Tuhu Pangestu
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Memahami-Data.html">Memahami Data</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="Modeling-Data.html">Pemodelan data</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="uts.html">Analisis Data Medis</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="klastering.html">Klastering</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="bining_modified.html">Teknik Binning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pra_uas.html">Pra UAS</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="uas.html">Analisis Data Mining: Klasifikasi Kanker Payudara dengan Dataset WDBC</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fbining.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/bining.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Teknik Binning</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library-load-dataset">Import Library &amp; Load Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-memuat-data-iris">Langkah 1: Memuat Data Iris</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-klasterisasi-sepal-length">Langkah 2: Klasterisasi Sepal Length</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-klasterisasi-sepal-width">Langkah 3: Klasterisasi Sepal Width</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-klasterisasi-petal-length">Langkah 4: Klasterisasi Petal Length</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-5-klasterisasi-petal-width">Langkah 5: Klasterisasi Petal Width</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-6-gabungkan-semua-label-klaster">Langkah 6: Gabungkan Semua Label Klaster</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="teknik-binning">
+<h1>Teknik Binning<a class="headerlink" href="#teknik-binning" title="Link to this heading">#</a></h1>
+<p>Data binning atau bucketing adalah metode pra-pemrosesan data yang digunakan untuk mengurangi dampak kesalahan pengamatan. Nilai data asli dibagi ke dalam interval-interval kecil yang disebut bin, lalu nilai-nilai tersebut digantikan oleh suatu nilai umum yang dihitung untuk setiap bin tersebut. Metode ini memiliki efek menghaluskan (smoothing) pada data masukan dan juga dapat mengurangi risiko overfitting terutama pada kasus dataset yang kecil.</p>
+<section id="import-library-load-dataset">
+<h2>Import Library &amp; Load Dataset<a class="headerlink" href="#import-library-load-dataset" title="Link to this heading">#</a></h2>
+<section id="langkah-1-memuat-data-iris">
+<h3>Langkah 1: Memuat Data Iris<a class="headerlink" href="#langkah-1-memuat-data-iris" title="Link to this heading">#</a></h3>
+<p>Kita memuat dataset Iris menggunakan <code class="docutils literal notranslate"><span class="pre">sklearn.datasets.load_iris</span></code>, kemudian menyimpannya dalam bentuk DataFrame agar mudah diproses. Dataset ini memiliki 4 fitur: sepal length, sepal width, petal length, dan petal width.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pymysql</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">psycopg2</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_engine</span>
+
+<span class="c1"># Engine SQLAlchemy untuk MySQL</span>
+<span class="n">mysql_engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span>
+    <span class="s2">&quot;mysql+pymysql://avnadmin:AVNS_2ByB5ZbPXeYhBHP6anG@mysql-3f502423-tuhuwkwk-f38a.h.aivencloud.com:25886/defaultdb&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Engine SQLAlchemy untuk PostgreSQL</span>
+<span class="n">postgres_engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span>
+    <span class="s2">&quot;postgresql+psycopg2://avnadmin:AVNS_RXRKVCrwzjE7ECInaHa@pg-3e9f6d55-tuhuwkwk-f38a.h.aivencloud.com:25886/defaultdb&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Query SQL</span>
+<span class="n">mysql_query</span> <span class="o">=</span> <span class="s2">&quot;SELECT id, class, petal_length, petal_width FROM irisSQL&quot;</span>
+<span class="n">postgres_query</span> <span class="o">=</span> <span class="s2">&quot;SELECT id, sepal_length, sepal_width FROM irispostgre&quot;</span>
+
+<span class="c1"># Load DataFrames</span>
+<span class="n">df_mysql</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">mysql_query</span><span class="p">,</span> <span class="n">mysql_engine</span><span class="p">,</span> <span class="n">coerce_float</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_postgres</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">postgres_query</span><span class="p">,</span> <span class="n">postgres_engine</span><span class="p">,</span> <span class="n">coerce_float</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Gabungkan berdasarkan id</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_mysql</span><span class="p">,</span> <span class="n">df_postgres</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+<span class="n">dfnumeric</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_mysql</span><span class="p">,</span> <span class="n">df_postgres</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/engine/base.py:145,</span> in <span class="ni">Connection.__init__</span><span class="nt">(self, engine, connection, _has_events, _allow_revalidate, _allow_autobegin)</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">145</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_dbapi_connection</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">raw_connection</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">146</span> <span class="k">except</span> <span class="n">dialect</span><span class="o">.</span><span class="n">loaded_dbapi</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/engine/base.py:3297,</span> in <span class="ni">Engine.raw_connection</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3276</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Return a &quot;raw&quot; DBAPI connection from the connection pool.</span>
+<span class="g g-Whitespace">   </span><span class="mi">3277</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">3278</span><span class="sd"> The returned object is a proxied version of the DBAPI</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3295</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">3296</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">3297</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/base.py:449,</span> in <span class="ni">Pool.connect</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">442</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Return a DBAPI connection from the pool.</span>
+<span class="g g-Whitespace">    </span><span class="mi">443</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">444</span><span class="sd"> The connection is instrumented such that when its</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">447</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">448</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">449</span> <span class="k">return</span> <span class="n">_ConnectionFairy</span><span class="o">.</span><span class="n">_checkout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/base.py:1264,</span> in <span class="ni">_ConnectionFairy._checkout</span><span class="nt">(cls, pool, threadconns, fairy)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1263</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">fairy</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1264</span>     <span class="n">fairy</span> <span class="o">=</span> <span class="n">_ConnectionRecord</span><span class="o">.</span><span class="n">checkout</span><span class="p">(</span><span class="n">pool</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1266</span>     <span class="k">if</span> <span class="n">threadconns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/base.py:713,</span> in <span class="ni">_ConnectionRecord.checkout</span><span class="nt">(cls, pool)</span>
+<span class="g g-Whitespace">    </span><span class="mi">712</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">713</span>     <span class="n">rec</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">_do_get</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">715</span> <span class="k">try</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/impl.py:179,</span> in <span class="ni">QueuePool._do_get</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">178</span> <span class="k">except</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">179</span>     <span class="k">with</span> <span class="n">util</span><span class="o">.</span><span class="n">safe_reraise</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">180</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_dec_overflow</span><span class="p">()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py:224,</span> in <span class="ni">safe_reraise.__exit__</span><span class="nt">(self, type_, value, traceback)</span>
+<span class="g g-Whitespace">    </span><span class="mi">223</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_exc_info</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># remove potential circular references</span>
+<span class="ne">--&gt; </span><span class="mi">224</span>     <span class="k">raise</span> <span class="n">exc_value</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_tb</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">225</span> <span class="k">else</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/impl.py:177,</span> in <span class="ni">QueuePool._do_get</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">176</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">177</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_connection</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">178</span> <span class="k">except</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/base.py:390,</span> in <span class="ni">Pool._create_connection</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">388</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Called by subclasses to create a new ConnectionRecord.&quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">390</span> <span class="k">return</span> <span class="n">_ConnectionRecord</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/base.py:675,</span> in <span class="ni">_ConnectionRecord.__init__</span><span class="nt">(self, pool, connect)</span>
+<span class="g g-Whitespace">    </span><span class="mi">674</span> <span class="k">if</span> <span class="n">connect</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">675</span>     <span class="bp">self</span><span class="o">.</span><span class="n">__connect</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">676</span> <span class="bp">self</span><span class="o">.</span><span class="n">finalize_callback</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/base.py:901,</span> in <span class="ni">_ConnectionRecord.__connect</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">900</span> <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">901</span>     <span class="k">with</span> <span class="n">util</span><span class="o">.</span><span class="n">safe_reraise</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">902</span>         <span class="n">pool</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Error on connect(): </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py:224,</span> in <span class="ni">safe_reraise.__exit__</span><span class="nt">(self, type_, value, traceback)</span>
+<span class="g g-Whitespace">    </span><span class="mi">223</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_exc_info</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># remove potential circular references</span>
+<span class="ne">--&gt; </span><span class="mi">224</span>     <span class="k">raise</span> <span class="n">exc_value</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_tb</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">225</span> <span class="k">else</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/base.py:897,</span> in <span class="ni">_ConnectionRecord.__connect</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">896</span> <span class="bp">self</span><span class="o">.</span><span class="n">starttime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">897</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbapi_connection</span> <span class="o">=</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">_invoke_creator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">898</span> <span class="n">pool</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Created new connection </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/engine/create.py:646,</span> in <span class="ni">create_engine.&lt;locals&gt;.connect</span><span class="nt">(connection_record)</span>
+<span class="g g-Whitespace">    </span><span class="mi">644</span>             <span class="k">return</span> <span class="n">connection</span>
+<span class="ne">--&gt; </span><span class="mi">646</span> <span class="k">return</span> <span class="n">dialect</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="o">*</span><span class="n">cargs</span><span class="p">,</span> <span class="o">**</span><span class="n">cparams</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/engine/default.py:625,</span> in <span class="ni">DefaultDialect.connect</span><span class="nt">(self, *cargs, **cparams)</span>
+<span class="g g-Whitespace">    </span><span class="mi">623</span> <span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">cargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">cparams</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DBAPIConnection</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">624</span>     <span class="c1"># inherits the docstring from interfaces.Dialect.connect</span>
+<span class="ne">--&gt; </span><span class="mi">625</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loaded_dbapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="o">*</span><span class="n">cargs</span><span class="p">,</span> <span class="o">**</span><span class="n">cparams</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/psycopg2/__init__.py:122,</span> in <span class="ni">connect</span><span class="nt">(dsn, connection_factory, cursor_factory, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">121</span> <span class="n">dsn</span> <span class="o">=</span> <span class="n">_ext</span><span class="o">.</span><span class="n">make_dsn</span><span class="p">(</span><span class="n">dsn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">122</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">_connect</span><span class="p">(</span><span class="n">dsn</span><span class="p">,</span> <span class="n">connection_factory</span><span class="o">=</span><span class="n">connection_factory</span><span class="p">,</span> <span class="o">**</span><span class="n">kwasync</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">123</span> <span class="k">if</span> <span class="n">cursor_factory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="ne">OperationalError</span>: could not translate host name &quot;pg-3e9f6d55-tuhuwkwk-f38a.h.aivencloud.com&quot; to address: Name or service not known
+
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">24</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="c1"># Load DataFrames</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="n">df_mysql</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">mysql_query</span><span class="p">,</span> <span class="n">mysql_engine</span><span class="p">,</span> <span class="n">coerce_float</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">24</span> <span class="n">df_postgres</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">postgres_query</span><span class="p">,</span> <span class="n">postgres_engine</span><span class="p">,</span> <span class="n">coerce_float</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">26</span> <span class="c1"># Gabungkan berdasarkan id</span>
+<span class="g g-Whitespace">     </span><span class="mi">27</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_mysql</span><span class="p">,</span> <span class="n">df_postgres</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/pandas/io/sql.py:706,</span> in <span class="ni">read_sql</span><span class="nt">(sql, con, index_col, coerce_float, params, parse_dates, columns, chunksize, dtype_backend, dtype)</span>
+<span class="g g-Whitespace">    </span><span class="mi">703</span>     <span class="n">dtype_backend</span> <span class="o">=</span> <span class="s2">&quot;numpy&quot;</span>  <span class="c1"># type: ignore[assignment]</span>
+<span class="g g-Whitespace">    </span><span class="mi">704</span> <span class="k">assert</span> <span class="n">dtype_backend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">lib</span><span class="o">.</span><span class="n">no_default</span>
+<span class="ne">--&gt; </span><span class="mi">706</span> <span class="k">with</span> <span class="n">pandasSQL_builder</span><span class="p">(</span><span class="n">con</span><span class="p">)</span> <span class="k">as</span> <span class="n">pandas_sql</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">707</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pandas_sql</span><span class="p">,</span> <span class="n">SQLiteDatabase</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">708</span>         <span class="k">return</span> <span class="n">pandas_sql</span><span class="o">.</span><span class="n">read_query</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">709</span>             <span class="n">sql</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">710</span>             <span class="n">index_col</span><span class="o">=</span><span class="n">index_col</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">716</span>             <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">717</span>         <span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/pandas/io/sql.py:908,</span> in <span class="ni">pandasSQL_builder</span><span class="nt">(con, schema, need_transaction)</span>
+<span class="g g-Whitespace">    </span><span class="mi">905</span>     <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Using URI string without sqlalchemy installed.&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">907</span> <span class="k">if</span> <span class="n">sqlalchemy</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">Connectable</span><span class="p">)):</span>
+<span class="ne">--&gt; </span><span class="mi">908</span>     <span class="k">return</span> <span class="n">SQLDatabase</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">need_transaction</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">910</span> <span class="n">adbc</span> <span class="o">=</span> <span class="n">import_optional_dependency</span><span class="p">(</span><span class="s2">&quot;adbc_driver_manager.dbapi&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">911</span> <span class="k">if</span> <span class="n">adbc</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="n">adbc</span><span class="o">.</span><span class="n">Connection</span><span class="p">):</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/pandas/io/sql.py:1648,</span> in <span class="ni">SQLDatabase.__init__</span><span class="nt">(self, con, schema, need_transaction)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1646</span>     <span class="bp">self</span><span class="o">.</span><span class="n">exit_stack</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">dispose</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1647</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="n">Engine</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1648</span>     <span class="n">con</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit_stack</span><span class="o">.</span><span class="n">enter_context</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">connect</span><span class="p">())</span>
+<span class="g g-Whitespace">   </span><span class="mi">1649</span> <span class="k">if</span> <span class="n">need_transaction</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">con</span><span class="o">.</span><span class="n">in_transaction</span><span class="p">():</span>
+<span class="g g-Whitespace">   </span><span class="mi">1650</span>     <span class="bp">self</span><span class="o">.</span><span class="n">exit_stack</span><span class="o">.</span><span class="n">enter_context</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">begin</span><span class="p">())</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/engine/base.py:3273,</span> in <span class="ni">Engine.connect</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3250</span> <span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Connection</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3251</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Return a new :class:`_engine.Connection` object.</span>
+<span class="g g-Whitespace">   </span><span class="mi">3252</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">3253</span><span class="sd">     The :class:`_engine.Connection` acts as a Python context manager, so</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3270</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">3271</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">3273</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connection_cls</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/engine/base.py:147,</span> in <span class="ni">Connection.__init__</span><span class="nt">(self, engine, connection, _has_events, _allow_revalidate, _allow_autobegin)</span>
+<span class="g g-Whitespace">    </span><span class="mi">145</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_dbapi_connection</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">raw_connection</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">146</span>     <span class="k">except</span> <span class="n">dialect</span><span class="o">.</span><span class="n">loaded_dbapi</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">147</span>         <span class="n">Connection</span><span class="o">.</span><span class="n">_handle_dbapi_exception_noconnection</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">148</span>             <span class="n">err</span><span class="p">,</span> <span class="n">dialect</span><span class="p">,</span> <span class="n">engine</span>
+<span class="g g-Whitespace">    </span><span class="mi">149</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">150</span>         <span class="k">raise</span>
+<span class="g g-Whitespace">    </span><span class="mi">151</span> <span class="k">else</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/engine/base.py:2436,</span> in <span class="ni">Connection._handle_dbapi_exception_noconnection</span><span class="nt">(cls, e, dialect, engine, is_disconnect, invalidate_pool_on_disconnect, is_pre_ping)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2434</span> <span class="k">elif</span> <span class="n">should_wrap</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2435</span>     <span class="k">assert</span> <span class="n">sqlalchemy_exception</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="ne">-&gt; </span><span class="mi">2436</span>     <span class="k">raise</span> <span class="n">sqlalchemy_exception</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_info</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+<span class="g g-Whitespace">   </span><span class="mi">2437</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2438</span>     <span class="k">assert</span> <span class="n">exc_info</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/engine/base.py:145,</span> in <span class="ni">Connection.__init__</span><span class="nt">(self, engine, connection, _has_events, _allow_revalidate, _allow_autobegin)</span>
+<span class="g g-Whitespace">    </span><span class="mi">143</span> <span class="k">if</span> <span class="n">connection</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span>     <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">145</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_dbapi_connection</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">raw_connection</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">146</span>     <span class="k">except</span> <span class="n">dialect</span><span class="o">.</span><span class="n">loaded_dbapi</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">147</span>         <span class="n">Connection</span><span class="o">.</span><span class="n">_handle_dbapi_exception_noconnection</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">148</span>             <span class="n">err</span><span class="p">,</span> <span class="n">dialect</span><span class="p">,</span> <span class="n">engine</span>
+<span class="g g-Whitespace">    </span><span class="mi">149</span>         <span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/engine/base.py:3297,</span> in <span class="ni">Engine.raw_connection</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3275</span> <span class="k">def</span><span class="w"> </span><span class="nf">raw_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PoolProxiedConnection</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3276</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Return a &quot;raw&quot; DBAPI connection from the connection pool.</span>
+<span class="g g-Whitespace">   </span><span class="mi">3277</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">3278</span><span class="sd">     The returned object is a proxied version of the DBAPI</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3295</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">3296</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">3297</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/base.py:449,</span> in <span class="ni">Pool.connect</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">441</span> <span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PoolProxiedConnection</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">442</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Return a DBAPI connection from the pool.</span>
+<span class="g g-Whitespace">    </span><span class="mi">443</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">444</span><span class="sd">     The connection is instrumented such that when its</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">447</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">448</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">449</span>     <span class="k">return</span> <span class="n">_ConnectionFairy</span><span class="o">.</span><span class="n">_checkout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/base.py:1264,</span> in <span class="ni">_ConnectionFairy._checkout</span><span class="nt">(cls, pool, threadconns, fairy)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1256</span> <span class="nd">@classmethod</span>
+<span class="g g-Whitespace">   </span><span class="mi">1257</span> <span class="k">def</span><span class="w"> </span><span class="nf">_checkout</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1258</span>     <span class="bp">cls</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1261</span>     <span class="n">fairy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_ConnectionFairy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1262</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ConnectionFairy</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1263</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">fairy</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1264</span>         <span class="n">fairy</span> <span class="o">=</span> <span class="n">_ConnectionRecord</span><span class="o">.</span><span class="n">checkout</span><span class="p">(</span><span class="n">pool</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1266</span>         <span class="k">if</span> <span class="n">threadconns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1267</span>             <span class="n">threadconns</span><span class="o">.</span><span class="n">current</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">fairy</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/base.py:713,</span> in <span class="ni">_ConnectionRecord.checkout</span><span class="nt">(cls, pool)</span>
+<span class="g g-Whitespace">    </span><span class="mi">711</span>     <span class="n">rec</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">_ConnectionRecord</span><span class="p">,</span> <span class="n">pool</span><span class="o">.</span><span class="n">_do_get</span><span class="p">())</span>
+<span class="g g-Whitespace">    </span><span class="mi">712</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">713</span>     <span class="n">rec</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">_do_get</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">715</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">716</span>     <span class="n">dbapi_connection</span> <span class="o">=</span> <span class="n">rec</span><span class="o">.</span><span class="n">get_connection</span><span class="p">()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/impl.py:179,</span> in <span class="ni">QueuePool._do_get</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">177</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_connection</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">178</span> <span class="k">except</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">179</span>     <span class="k">with</span> <span class="n">util</span><span class="o">.</span><span class="n">safe_reraise</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">180</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_dec_overflow</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">181</span>     <span class="k">raise</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py:224,</span> in <span class="ni">safe_reraise.__exit__</span><span class="nt">(self, type_, value, traceback)</span>
+<span class="g g-Whitespace">    </span><span class="mi">222</span>     <span class="k">assert</span> <span class="n">exc_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">223</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_exc_info</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># remove potential circular references</span>
+<span class="ne">--&gt; </span><span class="mi">224</span>     <span class="k">raise</span> <span class="n">exc_value</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_tb</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">225</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">226</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_exc_info</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># remove potential circular references</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/impl.py:177,</span> in <span class="ni">QueuePool._do_get</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">175</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inc_overflow</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">176</span>     <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">177</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_connection</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">178</span>     <span class="k">except</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">179</span>         <span class="k">with</span> <span class="n">util</span><span class="o">.</span><span class="n">safe_reraise</span><span class="p">():</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/base.py:390,</span> in <span class="ni">Pool._create_connection</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">387</span> <span class="k">def</span><span class="w"> </span><span class="nf">_create_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConnectionPoolEntry</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">388</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Called by subclasses to create a new ConnectionRecord.&quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">390</span>     <span class="k">return</span> <span class="n">_ConnectionRecord</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/base.py:675,</span> in <span class="ni">_ConnectionRecord.__init__</span><span class="nt">(self, pool, connect)</span>
+<span class="g g-Whitespace">    </span><span class="mi">673</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pool</span> <span class="o">=</span> <span class="n">pool</span>
+<span class="g g-Whitespace">    </span><span class="mi">674</span> <span class="k">if</span> <span class="n">connect</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">675</span>     <span class="bp">self</span><span class="o">.</span><span class="n">__connect</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">676</span> <span class="bp">self</span><span class="o">.</span><span class="n">finalize_callback</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/base.py:901,</span> in <span class="ni">_ConnectionRecord.__connect</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">899</span>     <span class="bp">self</span><span class="o">.</span><span class="n">fresh</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="g g-Whitespace">    </span><span class="mi">900</span> <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">901</span>     <span class="k">with</span> <span class="n">util</span><span class="o">.</span><span class="n">safe_reraise</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">902</span>         <span class="n">pool</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Error on connect(): </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">903</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">904</span>     <span class="c1"># in SQLAlchemy 1.4 the first_connect event is not used by</span>
+<span class="g g-Whitespace">    </span><span class="mi">905</span>     <span class="c1"># the engine, so this will usually not be set</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py:224,</span> in <span class="ni">safe_reraise.__exit__</span><span class="nt">(self, type_, value, traceback)</span>
+<span class="g g-Whitespace">    </span><span class="mi">222</span>     <span class="k">assert</span> <span class="n">exc_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">223</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_exc_info</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># remove potential circular references</span>
+<span class="ne">--&gt; </span><span class="mi">224</span>     <span class="k">raise</span> <span class="n">exc_value</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_tb</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">225</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">226</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_exc_info</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># remove potential circular references</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/pool/base.py:897,</span> in <span class="ni">_ConnectionRecord.__connect</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">895</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">896</span>     <span class="bp">self</span><span class="o">.</span><span class="n">starttime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">897</span>     <span class="bp">self</span><span class="o">.</span><span class="n">dbapi_connection</span> <span class="o">=</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">_invoke_creator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">898</span>     <span class="n">pool</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Created new connection </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">899</span>     <span class="bp">self</span><span class="o">.</span><span class="n">fresh</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/engine/create.py:646,</span> in <span class="ni">create_engine.&lt;locals&gt;.connect</span><span class="nt">(connection_record)</span>
+<span class="g g-Whitespace">    </span><span class="mi">643</span>         <span class="k">if</span> <span class="n">connection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">644</span>             <span class="k">return</span> <span class="n">connection</span>
+<span class="ne">--&gt; </span><span class="mi">646</span> <span class="k">return</span> <span class="n">dialect</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="o">*</span><span class="n">cargs</span><span class="p">,</span> <span class="o">**</span><span class="n">cparams</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/sqlalchemy/engine/default.py:625,</span> in <span class="ni">DefaultDialect.connect</span><span class="nt">(self, *cargs, **cparams)</span>
+<span class="g g-Whitespace">    </span><span class="mi">623</span> <span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">cargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">cparams</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DBAPIConnection</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">624</span>     <span class="c1"># inherits the docstring from interfaces.Dialect.connect</span>
+<span class="ne">--&gt; </span><span class="mi">625</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loaded_dbapi</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="o">*</span><span class="n">cargs</span><span class="p">,</span> <span class="o">**</span><span class="n">cparams</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.10.18/x64/lib/python3.10/site-packages/psycopg2/__init__.py:122,</span> in <span class="ni">connect</span><span class="nt">(dsn, connection_factory, cursor_factory, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">119</span>     <span class="n">kwasync</span><span class="p">[</span><span class="s1">&#39;async_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;async_&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">121</span> <span class="n">dsn</span> <span class="o">=</span> <span class="n">_ext</span><span class="o">.</span><span class="n">make_dsn</span><span class="p">(</span><span class="n">dsn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">122</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">_connect</span><span class="p">(</span><span class="n">dsn</span><span class="p">,</span> <span class="n">connection_factory</span><span class="o">=</span><span class="n">connection_factory</span><span class="p">,</span> <span class="o">**</span><span class="n">kwasync</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">123</span> <span class="k">if</span> <span class="n">cursor_factory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">124</span>     <span class="n">conn</span><span class="o">.</span><span class="n">cursor_factory</span> <span class="o">=</span> <span class="n">cursor_factory</span>
+
+<span class="ne">OperationalError</span>: (psycopg2.OperationalError) could not translate host name &quot;pg-3e9f6d55-tuhuwkwk-f38a.h.aivencloud.com&quot; to address: Name or service not known
+
+<span class="p">(</span><span class="n">Background</span> <span class="n">on</span> <span class="n">this</span> <span class="n">error</span> <span class="n">at</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">sqlalche</span><span class="o">.</span><span class="n">me</span><span class="o">/</span><span class="n">e</span><span class="o">/</span><span class="mi">20</span><span class="o">/</span><span class="n">e3q8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="langkah-2-klasterisasi-sepal-length">
+<h2>Langkah 2: Klasterisasi Sepal Length<a class="headerlink" href="#langkah-2-klasterisasi-sepal-length" title="Link to this heading">#</a></h2>
+<p>Fitur <code class="docutils literal notranslate"><span class="pre">sepal</span> <span class="pre">length</span> <span class="pre">(cm)</span></code> diklaster menjadi 4 kelompok menggunakan KMeans. Label hasil klaster (0–3) diubah menjadi huruf A, B, C, D.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Klasterisasi fitur sepal length</span>
+<span class="n">kmeans_sepal_length</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">labels_sepal_length</span> <span class="o">=</span> <span class="n">kmeans_sepal_length</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;sepal_length&#39;</span><span class="p">]])</span>
+
+<span class="c1"># Mapping angka ke huruf</span>
+<span class="n">mapping_4</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;D&#39;</span><span class="p">}</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal_length_cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">labels_sepal_length</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">mapping_4</span><span class="p">)</span>
+
+<span class="c1"># Tampilkan hasil</span>
+<span class="n">df</span><span class="p">[[</span><span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span> <span class="s1">&#39;sepal_length_cluster&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sepal_length</th>
+      <th>sepal_length_cluster</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5.1</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4.9</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4.7</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4.6</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5.0</td>
+      <td>C</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="langkah-3-klasterisasi-sepal-width">
+<h2>Langkah 3: Klasterisasi Sepal Width<a class="headerlink" href="#langkah-3-klasterisasi-sepal-width" title="Link to this heading">#</a></h2>
+<p>Fitur <code class="docutils literal notranslate"><span class="pre">sepal</span> <span class="pre">width</span> <span class="pre">(cm)</span></code> diklaster menjadi 3 kelompok. Hasil klaster diubah menjadi huruf A, B, C.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Klasterisasi fitur sepal width</span>
+<span class="n">kmeans_sepal_width</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">labels_sepal_width</span> <span class="o">=</span> <span class="n">kmeans_sepal_width</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;sepal_width&#39;</span><span class="p">]])</span>
+
+<span class="c1"># Mapping angka ke huruf</span>
+<span class="n">mapping_3</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span><span class="p">}</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal_width_cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">labels_sepal_width</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">mapping_3</span><span class="p">)</span>
+
+<span class="c1"># Tampilkan hasil</span>
+<span class="n">df</span><span class="p">[[</span><span class="s1">&#39;sepal_width&#39;</span><span class="p">,</span> <span class="s1">&#39;sepal_width_cluster&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sepal_width</th>
+      <th>sepal_width_cluster</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3.5</td>
+      <td>B</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3.0</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3.2</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3.1</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3.6</td>
+      <td>B</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="langkah-4-klasterisasi-petal-length">
+<h2>Langkah 4: Klasterisasi Petal Length<a class="headerlink" href="#langkah-4-klasterisasi-petal-length" title="Link to this heading">#</a></h2>
+<p>Fitur <code class="docutils literal notranslate"><span class="pre">petal</span> <span class="pre">length</span> <span class="pre">(cm)</span></code> diklaster menjadi 4 kelompok, lalu labelnya diubah ke huruf A–D seperti sebelumnya.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Klasterisasi fitur petal length</span>
+<span class="n">kmeans_petal_length</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">labels_petal_length</span> <span class="o">=</span> <span class="n">kmeans_petal_length</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;petal_length&#39;</span><span class="p">]])</span>
+
+<span class="c1"># Mapping</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;petal_length_cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">labels_petal_length</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">mapping_4</span><span class="p">)</span>
+
+<span class="c1"># Tampilkan hasil</span>
+<span class="n">df</span><span class="p">[[</span><span class="s1">&#39;petal_length&#39;</span><span class="p">,</span> <span class="s1">&#39;petal_length_cluster&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>petal_length</th>
+      <th>petal_length_cluster</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.4</td>
+      <td>B</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.4</td>
+      <td>B</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.3</td>
+      <td>B</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.5</td>
+      <td>B</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.4</td>
+      <td>B</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="langkah-5-klasterisasi-petal-width">
+<h2>Langkah 5: Klasterisasi Petal Width<a class="headerlink" href="#langkah-5-klasterisasi-petal-width" title="Link to this heading">#</a></h2>
+<p>Fitur <code class="docutils literal notranslate"><span class="pre">petal</span> <span class="pre">width</span> <span class="pre">(cm)</span></code> diklaster menjadi 3 kelompok, lalu hasil labelnya diubah menjadi huruf A, B, dan C.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Klasterisasi fitur petal width</span>
+<span class="n">kmeans_petal_width</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">labels_petal_width</span> <span class="o">=</span> <span class="n">kmeans_petal_width</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;petal_width&#39;</span><span class="p">]])</span>
+
+<span class="c1"># Mapping</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;petal_width_cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">labels_petal_width</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">mapping_3</span><span class="p">)</span>
+
+<span class="c1"># Tampilkan hasil</span>
+<span class="n">df</span><span class="p">[[</span><span class="s1">&#39;petal_width&#39;</span><span class="p">,</span> <span class="s1">&#39;petal_width_cluster&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>petal_width</th>
+      <th>petal_width_cluster</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.2</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.2</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.2</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.2</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.2</td>
+      <td>C</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="langkah-6-gabungkan-semua-label-klaster">
+<h2>Langkah 6: Gabungkan Semua Label Klaster<a class="headerlink" href="#langkah-6-gabungkan-semua-label-klaster" title="Link to this heading">#</a></h2>
+<p>Kita menggabungkan hasil klasterisasi dari keempat fitur ke dalam satu DataFrame yang berisi label-label huruf (A–D atau A–C), sesuai jumlah klaster yang ditentukan.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Gabungkan hasil semua klasterisasi ke dalam satu DataFrame</span>
+<span class="n">clustered_features</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span>
+    <span class="s1">&#39;sepal_length_cluster&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sepal_width_cluster&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;petal_length_cluster&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;petal_width_cluster&#39;</span>
+<span class="p">]]</span>
+
+<span class="c1"># Tampilkan 10 baris pertama dari hasil akhir</span>
+<span class="n">clustered_features</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sepal_length_cluster</th>
+      <th>sepal_width_cluster</th>
+      <th>petal_length_cluster</th>
+      <th>petal_width_cluster</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>C</td>
+      <td>B</td>
+      <td>B</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>C</td>
+      <td>C</td>
+      <td>B</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>C</td>
+      <td>C</td>
+      <td>B</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>C</td>
+      <td>C</td>
+      <td>B</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>C</td>
+      <td>B</td>
+      <td>B</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>A</td>
+      <td>B</td>
+      <td>B</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>C</td>
+      <td>B</td>
+      <td>B</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>C</td>
+      <td>B</td>
+      <td>B</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>C</td>
+      <td>C</td>
+      <td>B</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>C</td>
+      <td>C</td>
+      <td>B</td>
+      <td>C</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.naive_bayes</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianNB</span><span class="p">,</span> <span class="n">CategoricalNB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span><span class="p">,</span> <span class="n">plot_tree</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">classification_report</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># 1. Diskritisasi (Binning)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal_length_cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;sepal_length&#39;</span><span class="p">]])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal_width_cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;sepal_width&#39;</span><span class="p">]])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;petal_length_cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;petal_length&#39;</span><span class="p">]])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;petal_width_cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;petal_width&#39;</span><span class="p">]])</span>
+
+<span class="c1"># Konversi klaster ke label huruf</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal_length_cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal_length_cluster&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;D&#39;</span><span class="p">})</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal_width_cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal_width_cluster&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span><span class="p">})</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;petal_length_cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;petal_length_cluster&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;D&#39;</span><span class="p">})</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;petal_width_cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;petal_width_cluster&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;C&#39;</span><span class="p">})</span>
+
+<span class="c1"># 2. Analisis Sebelum Diskritisasi</span>
+<span class="n">X_num</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span> <span class="s1">&#39;sepal_width&#39;</span><span class="p">,</span> <span class="s1">&#39;petal_length&#39;</span><span class="p">,</span> <span class="s1">&#39;petal_width&#39;</span><span class="p">]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">])</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_num</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">nb</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Naive Bayes (sebelum diskritisasi):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">nb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)))</span>
+
+<span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Decision Tree (sebelum diskritisasi):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)))</span>
+
+<span class="c1"># 3. Analisis Setelah Diskritisasi</span>
+<span class="n">X_cat</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;sepal_length_cluster&#39;</span><span class="p">,</span> <span class="s1">&#39;sepal_width_cluster&#39;</span><span class="p">,</span> <span class="s1">&#39;petal_length_cluster&#39;</span><span class="p">,</span> <span class="s1">&#39;petal_width_cluster&#39;</span><span class="p">]]</span>
+<span class="n">X_encoded</span> <span class="o">=</span> <span class="n">X_cat</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">LabelEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">)</span>
+<span class="n">X_train_d</span><span class="p">,</span> <span class="n">X_test_d</span><span class="p">,</span> <span class="n">y_train_d</span><span class="p">,</span> <span class="n">y_test_d</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_encoded</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">nb_cat</span> <span class="o">=</span> <span class="n">CategoricalNB</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_d</span><span class="p">,</span> <span class="n">y_train_d</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Naive Bayes (setelah diskritisasi):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test_d</span><span class="p">,</span> <span class="n">nb_cat</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_d</span><span class="p">)))</span>
+
+<span class="n">dt_d</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_d</span><span class="p">,</span> <span class="n">y_train_d</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Decision Tree (setelah diskritisasi):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test_d</span><span class="p">,</span> <span class="n">dt_d</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_d</span><span class="p">)))</span>
+
+<span class="c1"># 4. Visualisasi Decision Tree</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plot_tree</span><span class="p">(</span><span class="n">dt_d</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">X_cat</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Decision Tree (Setelah Diskritisasi)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Naive Bayes (sebelum diskritisasi):
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        10
+           1       1.00      1.00      1.00         9
+           2       1.00      1.00      1.00        11
+
+    accuracy                           1.00        30
+   macro avg       1.00      1.00      1.00        30
+weighted avg       1.00      1.00      1.00        30
+
+Decision Tree (sebelum diskritisasi):
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        10
+           1       1.00      1.00      1.00         9
+           2       1.00      1.00      1.00        11
+
+    accuracy                           1.00        30
+   macro avg       1.00      1.00      1.00        30
+weighted avg       1.00      1.00      1.00        30
+
+Naive Bayes (setelah diskritisasi):
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        10
+           1       1.00      1.00      1.00         9
+           2       1.00      1.00      1.00        11
+
+    accuracy                           1.00        30
+   macro avg       1.00      1.00      1.00        30
+weighted avg       1.00      1.00      1.00        30
+
+Decision Tree (setelah diskritisasi):
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        10
+           1       1.00      1.00      1.00         9
+           2       1.00      1.00      1.00        11
+
+    accuracy                           1.00        30
+   macro avg       1.00      1.00      1.00        30
+weighted avg       1.00      1.00      1.00        30
+</pre></div>
+</div>
+<img alt="_images/432977256a094ab3a97c5a7b8c201efa001e103dbb20afaa18008199ed14d2c0.png" src="_images/432977256a094ab3a97c5a7b8c201efa001e103dbb20afaa18008199ed14d2c0.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library-load-dataset">Import Library &amp; Load Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-memuat-data-iris">Langkah 1: Memuat Data Iris</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-klasterisasi-sepal-length">Langkah 2: Klasterisasi Sepal Length</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-klasterisasi-sepal-width">Langkah 3: Klasterisasi Sepal Width</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-klasterisasi-petal-length">Langkah 4: Klasterisasi Petal Length</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-5-klasterisasi-petal-width">Langkah 5: Klasterisasi Petal Width</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-6-gabungkan-semua-label-klaster">Langkah 6: Gabungkan Semua Label Klaster</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Tuhu Pangestu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright @2025 || Tuhu Pangestu.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
