@@ -1,303 +1,14 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Analisis Data Mining: Klasifikasi Kanker Payudara dengan Dataset WDBC
-
-# Apa itu Dataset WDBC?
-# WDBC adalah dataset yang berisi data diagnosis kanker payudara berdasarkan hasil pemeriksaan mikroskopis sel-sel yang diambil dari jaringan payudara.
-
-#   Sumber Data  
-# - Donor: Dr. William H. Wolberg (University of Wisconsin)
-# - Tanggal: November 1995
-# - Sumber: UCI Machine Learning Repository
-# - Link: https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic
-
-# Cara Pengambilan Data  
-# Data diperoleh dari Fine Needle Aspirate (FNA) - yaitu:  
-# - Mengambil sampel jaringan payudara dengan jarum halus
-# - Sampel kemudian diperiksa di bawah mikroskop
-# - Gambar digital dari sel-sel tersebut dianalisis
-# - Karakteristik sel diukur dan dihitung secara otomatis
-
-# ## 1. Data Understanding
-# 
-# Pada tahap ini, kita akan:
-# - Membaca dataset WDBC ke dalam DataFrame.
-# - Melihat struktur data (jumlah baris, kolom, tipe data).
-# - Menampilkan beberapa baris pertama data.
-# - Melihat statistik deskriptif untuk fitur numerik.
-# - Mengecek distribusi label diagnosis (benign/malignant).
-# - Mengecek apakah ada data yang hilang (missing values).
-# 
-# Langkah ini penting untuk memastikan data yang akan dianalisis sudah benar dan siap untuk tahap selanjutnya.
-
-# In[34]:
-
-
-# Import library yang diperlukan
-import pandas as pd
-
-# Membaca data
-column_names = [
-    'ID', 'Diagnosis',
-    'radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'smoothness_mean',
-    'compactness_mean', 'concavity_mean', 'concave_points_mean', 'symmetry_mean', 'fractal_dimension_mean',
-    'radius_se', 'texture_se', 'perimeter_se', 'area_se', 'smoothness_se',
-    'compactness_se', 'concavity_se', 'concave_points_se', 'symmetry_se', 'fractal_dimension_se',
-    'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'smoothness_worst',
-    'compactness_worst', 'concavity_worst', 'concave_points_worst', 'symmetry_worst', 'fractal_dimension_worst'
-]
-df = pd.read_csv('wdbc.data', header=None, names=column_names)
-
-# Melihat 5 baris pertama
-display(df.head())
-
-# Melihat info struktur data
-df.info()
-
-# Statistik deskriptif fitur numerik
-df.describe()
-
-# Distribusi label diagnosis
-print(df['Diagnosis'].value_counts())
-print(df['Diagnosis'].value_counts(normalize=True) * 100)
-
-# Mengecek missing values
-print('Jumlah missing values per kolom:')
-print(df.isnull().sum())
-
-
-# Distribusi
-
-# In[35]:
-
-
-import matplotlib.pyplot as plt
-
-df['Diagnosis'].value_counts().plot(kind='bar', color=['skyblue', 'salmon'])
-plt.title('Distribusi Diagnosis')
-plt.xlabel('Diagnosis')
-plt.ylabel('Jumlah')
-plt.show()
-
-
-# ## 2. Pre Processing Data
-
-# Langkah Preprocessing untuk Dataset WDBC
-
-# ### 2.1 Cek Missing Values
-
-# In[36]:
-
-
-# ========================================
-# CEK MISSING VALUES
-# ========================================
-print("=== CEK MISSING VALUES ===")
-
-# Cek missing values per kolom
-missing_values = df.isnull().sum()
-print("Missing values per kolom:")
-print(missing_values)
-
-# Total missing values
-total_missing = missing_values.sum()
-print(f"\nTotal missing values: {total_missing}")
-
-if total_missing == 0:
-    print("✓ Dataset tidak memiliki missing values")
-else:
-    print("⚠️ Dataset memiliki missing values yang perlu ditangani")
-
-    # Visualisasi missing values
-    plt.figure(figsize=(12, 6))
-    missing_values[missing_values > 0].plot(kind='bar', color='red')
-    plt.title('Missing Values per Kolom')
-    plt.xlabel('Kolom')
-    plt.ylabel('Jumlah Missing Values')
-    plt.xticks(rotation=45)
-    plt.tight_layout()
-    plt.show()
-
-
-# ### 2.2 Deteksi Outlier
-
-# In[37]:
-
-
-# Import library yang diperlukan
+import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from scipy import stats
-import warnings
-warnings.filterwarnings('ignore')
-
-# Set style untuk visualisasi
-plt.style.use('default')
-sns.set_palette("husl")
-plt.rcParams['figure.figsize'] = (12, 8)
-
-
-# In[38]:
-
-
-# ========================================
-# STATISTIK DESKRIPTIF UNTUK DETEKSI OUTLIER
-# ========================================
-print("=== STATISTIK DESKRIPTIF ===")
-
-# Ambil kolom numerik (exclude ID)
-numeric_columns = df.select_dtypes(include=[np.number]).columns
-numeric_columns = numeric_columns.drop('ID')
-
-print("Statistik deskriptif untuk fitur numerik:")
-print(df[numeric_columns].describe())
-
-# Cek range nilai untuk setiap fitur
-print("\nRange nilai per fitur:")
-for col in numeric_columns:
-    min_val = df[col].min()
-    max_val = df[col].max()
-    range_val = max_val - min_val
-    print(f"{col}: {min_val:.4f} - {max_val:.4f} (range: {range_val:.4f})")
-
-
-# In[39]:
-
-
-# ========================================
-# DETEKSI DAN HAPUS OUTLIERS
-# ========================================
-print("=== DETEKSI DAN HAPUS OUTLIERS ===")
-
-def detect_and_remove_outliers(df, columns, method='iqr'):
-    """
-    Deteksi dan hapus outliers menggunakan IQR method
-    """
-    df_clean = df.copy()
-    total_removed = 0
-
-    for col in columns:
-        if method == 'iqr':
-            Q1 = df_clean[col].quantile(0.25)
-            Q3 = df_clean[col].quantile(0.75)
-            IQR = Q3 - Q1
-            lower_bound = Q1 - 1.5 * IQR
-            upper_bound = Q3 + 1.5 * IQR
-
-            # Hitung jumlah outliers
-            outliers = df_clean[(df_clean[col] < lower_bound) | (df_clean[col] > upper_bound)]
-            outlier_count = len(outliers)
-
-            if outlier_count > 0:
-                print(f"{col}: {outlier_count} outliers")
-                # Hapus outliers
-                df_clean = df_clean[(df_clean[col] >= lower_bound) & (df_clean[col] <= upper_bound)]
-                total_removed += outlier_count
-            else:
-                print(f"{col}: ✓ Tidak ada outliers")
-
-    return df_clean, total_removed
-
-# Deteksi dan hapus outliers
-numeric_columns = df.select_dtypes(include=[np.number]).columns
-numeric_columns = numeric_columns.drop('ID')
-
-print("Deteksi outliers per kolom:")
-df_clean, total_removed = detect_and_remove_outliers(df, numeric_columns, method='iqr')
-
-print(f"\nTotal outliers yang dihapus: {total_removed}")
-print(f"Data sebelum: {len(df)} baris")
-print(f"Data setelah: {len(df_clean)} baris")
-print(f"Persentase data yang dihapus: {(total_removed/len(df)*100):.2f}%")
-
-# Simpan data bersih
-df_clean.to_csv('wdbc_clean_no_outliers.csv', index=False)
-print("✓ Data bersih disimpan sebagai 'wdbc_clean_no_outliers.csv'")
-
-
-# ### 2.4 Encoding Target
-# - Mengubah label kategorikal (B/M) menjadi numerik (0/1)
-# - B (Benign) = 0
-# - M (Malignant) = 1
-
-# In[40]:
-
-
-df = df_clean
-
-# 1. Persiapan Data
-X = df.drop(['ID', 'Diagnosis'], axis=1)
-y = df['Diagnosis']
-
-
-# In[41]:
-
-
-from sklearn.preprocessing import LabelEncoder
-
-le = LabelEncoder()
-y_encoded = le.fit_transform(y)
-
-print(f"Target encoded: {le.classes_} -> {le.transform(le.classes_)}")
-print(f"B (Benign) -> {le.transform(['B'])[0]}")
-print(f"M (Malignant) -> {le.transform(['M'])[0]}")
-
-
-# ### 2.5 Split Data
-# - Membagi data menjadi training set (80%) dan test set (20%)
-# - Menggunakan stratify untuk menjaga proporsi kelas
-# - random_state=42 untuk hasil yang konsisten
-
-# In[42]:
-
-
-from sklearn.model_selection import train_test_split
-
-# Split data 80% training, 20% test
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y_encoded, test_size=0.2, random_state=42, stratify=y_encoded
-)
-
-print(f"Training set: {X_train.shape}")
-print(f"Test set: {X_test.shape}")
-print(f"Distribusi target training: {np.bincount(y_train)}")
-print(f"Distribusi target test: {np.bincount(y_test)}")
-
-
-# ### 2.6 Feature Scaling
-# - Menstandarisasi fitur numerik menggunakan StandardScaler
-# - Mengubah semua fitur ke skala yang sama (mean=0, std=1)
-# - Penting untuk algoritma yang sensitif terhadap skala data
-
-# In[43]:
-
-
-from sklearn.preprocessing import StandardScaler
-
-# Scaling fitur numerik
-scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
-
-print("Data telah di-scale menggunakan StandardScaler")
-print(f"Training set scaled shape: {X_train_scaled.shape}")
-print(f"Test set scaled shape: {X_test_scaled.shape}")
-
-
-# ## 3. Data Modeling
-
-# In[44]:
-
-
-# Import library yang diperlukan
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from scipy import stats
+import plotly.express as px
+import plotly.graph_objects as go
+import pickle
+import joblib
+import json
+import os
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.ensemble import RandomForestClassifier
@@ -307,27 +18,17 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 import warnings
 warnings.filterwarnings('ignore')
 
-# Set style untuk visualisasi
-plt.style.use('default')
-sns.set_palette("husl")
-plt.rcParams['figure.figsize'] = (12, 8)
+# Set page config
+st.set_page_config(
+    page_title="WDBC Breast Cancer Analysis & Prediction",
+    page_icon="🏥",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-print("✓ Library berhasil diimport")
-
-
-# Load Data
-
-# In[45]:
-
-
-# Load data bersih yang sudah dihapus outliers
-try:
-    df = pd.read_csv('wdbc_clean_no_outliers.csv')
-    print("✓ Data bersih berhasil dimuat")
-except FileNotFoundError:
-    print("⚠️ File 'wdbc_clean_no_outliers.csv' tidak ditemukan")
-    print("Menggunakan data asli...")
-    # Load data asli jika file bersih tidak ada
+@st.cache_data
+def load_data():
+    """Load and cache the WDBC dataset"""
     column_names = [
         'ID', 'Diagnosis',
         'radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'smoothness_mean',
@@ -337,335 +38,284 @@ except FileNotFoundError:
         'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'smoothness_worst',
         'compactness_worst', 'concavity_worst', 'concave_points_worst', 'symmetry_worst', 'fractal_dimension_worst'
     ]
-    df = pd.read_csv('wdbc.data', header=None, names=column_names)
-
-print(f"Shape data: {df.shape}")
-print(f"Jumlah sampel: {len(df)}")
-
-
-# In[46]:
-
-
-# ========================================
-# PREPROCESSING DATA
-# ========================================
-print("=== PREPROCESSING DATA ===")
-
-# 1. Persiapan Data
-X = df.drop(['ID', 'Diagnosis'], axis=1)
-y = df['Diagnosis']
-
-print(f"Shape X (features): {X.shape}")
-print(f"Shape y (target): {y.shape}")
-
-# 2. Encoding Target
-le = LabelEncoder()
-y_encoded = le.fit_transform(y)
-
-print(f"Target encoded: {le.classes_} -> {le.transform(le.classes_)}")
-print(f"B (Benign) -> {le.transform(['B'])[0]}")
-print(f"M (Malignant) -> {le.transform(['M'])[0]}")
-
-# 3. Split Data
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y_encoded, test_size=0.2, random_state=42, stratify=y_encoded
-)
-
-print(f"\nTraining set: {X_train.shape}")
-print(f"Test set: {X_test.shape}")
-print(f"Distribusi target training: {np.bincount(y_train)}")
-print(f"Distribusi target test: {np.bincount(y_test)}")
-
-# 4. Feature Scaling
-scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
-
-print("\n✓ Data telah di-scale menggunakan StandardScaler")
-print(f"Training set scaled shape: {X_train_scaled.shape}")
-print(f"Test set scaled shape: {X_test_scaled.shape}")
-
-# Verifikasi scaling
-print(f"\nStatistik training set setelah scaling:")
-print(f"Mean: {X_train_scaled.mean():.6f}")
-print(f"Std: {X_train_scaled.std():.6f}")
-
-
-# ### Random Forest
-
-# In[47]:
-
-
-# ========================================
-# MODEL 1: RANDOM FOREST
-# ========================================
-print("=== MODEL 1: RANDOM FOREST ===")
-
-# Inisialisasi model
-rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
-
-# Training model
-print("Training Random Forest...")
-rf_model.fit(X_train_scaled, y_train)
-
-# Prediksi
-y_pred_rf = rf_model.predict(X_test_scaled)
-y_pred_proba_rf = rf_model.predict_proba(X_test_scaled)[:, 1]
-
-# Evaluasi
-accuracy_rf = accuracy_score(y_test, y_pred_rf)
-precision_rf = precision_score(y_test, y_pred_rf)
-recall_rf = recall_score(y_test, y_pred_rf)
-f1_rf = f1_score(y_test, y_pred_rf)
-
-# Cross validation
-cv_scores_rf = cross_val_score(rf_model, X_train_scaled, y_train, cv=5, scoring='accuracy')
-cv_mean_rf = cv_scores_rf.mean()
-cv_std_rf = cv_scores_rf.std()
-
-# Tampilkan hasil
-print(f"\n HASIL EVALUASI RANDOM FOREST:")
-print(f"Accuracy: {accuracy_rf:.4f}")
-print(f"Precision: {precision_rf:.4f}")
-print(f"Recall: {recall_rf:.4f}")
-print(f"F1-Score: {f1_rf:.4f}")
-print(f"CV Accuracy: {cv_mean_rf:.4f} (+/- {cv_std_rf*2:.4f})")
-
-# Classification report
-print(f"\n📋 CLASSIFICATION REPORT:")
-print(classification_report(y_test, y_pred_rf, target_names=['Benign', 'Malignant']))
-
-# Confusion Matrix
-cm_rf = confusion_matrix(y_test, y_pred_rf)
-print(f"\n CONFUSION MATRIX:")
-print(cm_rf)
-
-# Feature Importance
-feature_importance_rf = pd.DataFrame({
-    'feature': X.columns,
-    'importance': rf_model.feature_importances_
-}).sort_values('importance', ascending=False)
-
-print(f"\n TOP 10 FEATURE IMPORTANCE:")
-print(feature_importance_rf.head(10))
-
-# Visualisasi feature importance
-plt.figure(figsize=(12, 8))
-top_features_rf = feature_importance_rf.head(15)
-plt.barh(range(len(top_features_rf)), top_features_rf['importance'], color='skyblue')
-plt.yticks(range(len(top_features_rf)), top_features_rf['feature'])
-plt.xlabel('Feature Importance')
-plt.title('Top 15 Feature Importance - Random Forest')
-plt.gca().invert_yaxis()
-plt.tight_layout()
-plt.show()
-
-print("✓ Random Forest selesai!")
-
-
-# ### Logistic Regression
-
-# In[48]:
-
-
-# ========================================
-# MODEL 2: LOGISTIC REGRESSION
-# ========================================
-print("=== MODEL 2: LOGISTIC REGRESSION ===")
-
-# Inisialisasi model
-lr_model = LogisticRegression(random_state=42, max_iter=1000)
-
-# Training model
-print("Training Logistic Regression...")
-lr_model.fit(X_train_scaled, y_train)
-
-# Prediksi
-y_pred_lr = lr_model.predict(X_test_scaled)
-y_pred_proba_lr = lr_model.predict_proba(X_test_scaled)[:, 1]
-
-# Evaluasi
-accuracy_lr = accuracy_score(y_test, y_pred_lr)
-precision_lr = precision_score(y_test, y_pred_lr)
-recall_lr = recall_score(y_test, y_pred_lr)
-f1_lr = f1_score(y_test, y_pred_lr)
-
-# Cross validation
-cv_scores_lr = cross_val_score(lr_model, X_train_scaled, y_train, cv=5, scoring='accuracy')
-cv_mean_lr = cv_scores_lr.mean()
-cv_std_lr = cv_scores_lr.std()
-
-# Tampilkan hasil
-print(f"\n HASIL EVALUASI LOGISTIC REGRESSION:")
-print(f"Accuracy: {accuracy_lr:.4f}")
-print(f"Precision: {precision_lr:.4f}")
-print(f"Recall: {recall_lr:.4f}")
-print(f"F1-Score: {f1_lr:.4f}")
-print(f"CV Accuracy: {cv_mean_lr:.4f} (+/- {cv_std_lr*2:.4f})")
-
-# Classification report
-print(f"\n CLASSIFICATION REPORT:")
-print(classification_report(y_test, y_pred_lr, target_names=['Benign', 'Malignant']))
-
-# Confusion Matrix
-cm_lr = confusion_matrix(y_test, y_pred_lr)
-print(f"\n CONFUSION MATRIX:")
-print(cm_lr)
-
-# Coefficients (feature importance untuk logistic regression)
-coef_df = pd.DataFrame({
-    'feature': X.columns,
-    'coefficient': lr_model.coef_[0]
-}).sort_values('coefficient', key=abs, ascending=False)
-
-print(f"\n TOP 10 FEATURE COEFFICIENTS:")
-print(coef_df.head(10))
-
-# Visualisasi coefficients
-plt.figure(figsize=(12, 8))
-top_coef = coef_df.head(15)
-colors = ['red' if x < 0 else 'blue' for x in top_coef['coefficient']]
-plt.barh(range(len(top_coef)), top_coef['coefficient'], color=colors)
-plt.yticks(range(len(top_coef)), top_coef['feature'])
-plt.xlabel('Coefficient Value')
-plt.title('Top 15 Feature Coefficients - Logistic Regression')
-plt.gca().invert_yaxis()
-plt.tight_layout()
-plt.show()
-
-print("✓ Logistic Regression selesai!")
-
-
-# ### Support Vector Machine
-
-# In[49]:
-
-
-# ========================================
-# MODEL 3: SUPPORT VECTOR MACHINE (SVM)
-# ========================================
-print("=== MODEL 3: SUPPORT VECTOR MACHINE ===")
-
-# Inisialisasi model
-svm_model = SVC(random_state=42, probability=True)
-
-# Training model
-print("Training Support Vector Machine...")
-svm_model.fit(X_train_scaled, y_train)
-
-# Prediksi
-y_pred_svm = svm_model.predict(X_test_scaled)
-y_pred_proba_svm = svm_model.predict_proba(X_test_scaled)[:, 1]
-
-# Evaluasi
-accuracy_svm = accuracy_score(y_test, y_pred_svm)
-precision_svm = precision_score(y_test, y_pred_svm)
-recall_svm = recall_score(y_test, y_pred_svm)
-f1_svm = f1_score(y_test, y_pred_svm)
-
-# Cross validation
-cv_scores_svm = cross_val_score(svm_model, X_train_scaled, y_train, cv=5, scoring='accuracy')
-cv_mean_svm = cv_scores_svm.mean()
-cv_std_svm = cv_scores_svm.std()
-
-# Tampilkan hasil
-print(f"\n HASIL EVALUASI SUPPORT VECTOR MACHINE:")
-print(f"Accuracy: {accuracy_svm:.4f}")
-print(f"Precision: {precision_svm:.4f}")
-print(f"Recall: {recall_svm:.4f}")
-print(f"F1-Score: {f1_svm:.4f}")
-print(f"CV Accuracy: {cv_mean_svm:.4f} (+/- {cv_std_svm*2:.4f})")
-
-# Classification report
-print(f"\n CLASSIFICATION REPORT:")
-print(classification_report(y_test, y_pred_svm, target_names=['Benign', 'Malignant']))
-
-# Confusion Matrix
-cm_svm = confusion_matrix(y_test, y_pred_svm)
-print(f"\n CONFUSION MATRIX:")
-print(cm_svm)
-
-print("✓ Support Vector Machine selesai!")
-
-
-# ### Perbandingan Model
-
-# In[50]:
-
-
-# ========================================
-# SIMPAN BEST MODEL
-# ========================================
-print("=== SIMPAN BEST MODEL ===")
-
-import joblib
-import os
-
-# Buat folder models jika belum ada
-if not os.path.exists('models'):
-    os.makedirs('models')
-    print("✓ Folder 'models' berhasil dibuat")
-
-# Tentukan model terbaik berdasarkan F1-Score
-best_model_idx = comparison_df['F1-Score'].idxmax()
-best_model_name = comparison_df.loc[best_model_idx, 'Model']
-
-# Pilih model yang akan disimpan
-if best_model_name == 'Random Forest':
-    best_model = rf_model
-    print("✓ Random Forest dipilih sebagai model terbaik")
-elif best_model_name == 'Logistic Regression':
-    best_model = lr_model
-    print("✓ Logistic Regression dipilih sebagai model terbaik")
-else:
-    best_model = svm_model
-    print("✓ Support Vector Machine dipilih sebagai model terbaik")
-
-# Simpan model
-model_filename = f'models/best_model_{best_model_name.replace(" ", "_").lower()}.pkl'
-joblib.dump(best_model, model_filename)
-print(f"✓ Model tersimpan sebagai: {model_filename}")
-
-# Simpan scaler
-scaler_filename = 'models/scaler.pkl'
-joblib.dump(scaler, scaler_filename)
-print(f"✓ Scaler tersimpan sebagai: {scaler_filename}")
-
-# Simpan label encoder
-encoder_filename = 'models/label_encoder.pkl'
-joblib.dump(le, encoder_filename)
-print(f"✓ Label encoder tersimpan sebagai: {encoder_filename}")
-
-# Simpan informasi model
-model_info = {
-    'best_model_name': best_model_name,
-    'best_f1_score': best_f1_score,
-    'best_accuracy': best_accuracy,
-    'best_precision': best_precision,
-    'best_recall': best_recall,
-    'feature_names': list(X.columns),
-    'model_filename': model_filename,
-    'scaler_filename': scaler_filename,
-    'encoder_filename': encoder_filename
-}
-
-import json
-with open('models/model_info.json', 'w') as f:
-    json.dump(model_info, f, indent=4)
-print("✓ Informasi model tersimpan sebagai: models/model_info.json")
-
-# Verifikasi file tersimpan
-print(f"\n FILES YANG TERSIMPAN:")
-print(f"1. {model_filename}")
-print(f"2. {scaler_filename}")
-print(f"3. {encoder_filename}")
-print(f"4. models/model_info.json")
-
-# Cek ukuran file
-import os
-for filename in [model_filename, scaler_filename, encoder_filename]:
-    size = os.path.getsize(filename) / 1024  # dalam KB
-    print(f"   {os.path.basename(filename)}: {size:.2f} KB")
-
-print(f"\n BEST MODEL BERHASIL DISIMPAN!")
-print(f"Model {best_model_name} siap digunakan untuk deployment.")
+    try:
+        df = pd.read_csv('wdbc.data', header=None, names=column_names)
+        return df
+    except FileNotFoundError:
+        st.error("File wdbc.data tidak ditemukan!")
+        return None
+
+@st.cache_resource
+def load_model():
+    """Load the trained model and preprocessing objects"""
+    try:
+        with open('models/best_model_support_vector_machine.pkl', 'rb') as f:
+            model = pickle.load(f)
+        with open('models/scaler.pkl', 'rb') as f:
+            scaler = pickle.load(f)
+        with open('models/label_encoder.pkl', 'rb') as f:
+            label_encoder = pickle.load(f)
+        try:
+            with open('models/model_info.json', 'r') as f:
+                model_info = json.load(f)
+        except:
+            model_info = {
+                'best_model_name': 'Support Vector Machine',
+                'best_accuracy': 0.9821,
+                'best_precision': 0.8000,
+                'best_recall': 1.0000,
+                'best_f1_score': 0.8889
+            }
+        return model, scaler, label_encoder, model_info
+    except Exception as e:
+        st.error(f"Error loading model: {e}")
+        return None, None, None, None
+
+def data_understanding_section(df):
+    st.header("📊 Data Understanding")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.subheader("Dataset Overview")
+        st.write(f"**Shape:** {df.shape}")
+        st.write(f"**Columns:** {len(df.columns)}")
+        st.write(f"**Samples:** {len(df)}")
+        st.subheader("First 5 Rows")
+        st.dataframe(df.head())
+    with col2:
+        st.subheader("Data Types")
+        st.dataframe(df.dtypes.to_frame('Data Type'))
+        st.subheader("Missing Values")
+        missing_values = df.isnull().sum()
+        st.dataframe(missing_values.to_frame('Missing Count'))
+    st.subheader("Descriptive Statistics")
+    st.dataframe(df.describe())
+    st.subheader("Diagnosis Distribution")
+    diagnosis_counts = df['Diagnosis'].value_counts()
+    col1, col2 = st.columns(2)
+    with col1:
+        st.dataframe(diagnosis_counts.to_frame('Count'))
+    with col2:
+        fig = px.pie(
+            values=diagnosis_counts.values,
+            names=diagnosis_counts.index,
+            title="Diagnosis Distribution"
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+def preprocessing_section(df):
+    st.header("🧹 Data Preprocessing")
+    st.subheader("Missing Values Check")
+    missing_values = df.isnull().sum()
+    total_missing = missing_values.sum()
+    if total_missing == 0:
+        st.success("✅ No missing values found in the dataset")
+    else:
+        st.warning(f"⚠️ Found {total_missing} missing values")
+        st.dataframe(missing_values[missing_values > 0].to_frame('Missing Count'))
+    st.subheader("Feature Preparation")
+    X = df.drop(['ID', 'Diagnosis'], axis=1)
+    y = df['Diagnosis']
+    st.write(f"**Features shape:** {X.shape}")
+    st.write(f"**Target shape:** {y.shape}")
+    le = LabelEncoder()
+    y_encoded = le.fit_transform(y)
+    st.write(f"**Label mapping:** {dict(zip(le.classes_, le.transform(le.classes_)))}")
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y_encoded, test_size=0.2, random_state=42, stratify=y_encoded
+    )
+    st.write(f"**Training set:** {X_train.shape}")
+    st.write(f"**Test set:** {X_test.shape}")
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    st.success("✅ Data preprocessing completed!")
+    return X_train_scaled, X_test_scaled, y_train, y_test, scaler, le
+
+def modeling_section(X_train_scaled, X_test_scaled, y_train, y_test):
+    st.header("🤖 Model Training & Evaluation")
+    models = {
+        'Random Forest': RandomForestClassifier(n_estimators=100, random_state=42),
+        'Logistic Regression': LogisticRegression(random_state=42, max_iter=1000),
+        'Support Vector Machine': SVC(random_state=42, probability=True)
+    }
+    results = []
+    for name, model in models.items():
+        st.subheader(f"Training {name}")
+        with st.spinner(f"Training {name}..."):
+            model.fit(X_train_scaled, y_train)
+            y_pred = model.predict(X_test_scaled)
+            y_pred_proba = model.predict_proba(X_test_scaled)[:, 1]
+            accuracy = accuracy_score(y_test, y_pred)
+            precision = precision_score(y_test, y_pred)
+            recall = recall_score(y_test, y_pred)
+            f1 = f1_score(y_test, y_pred)
+            cv_scores = cross_val_score(model, X_train_scaled, y_train, cv=5, scoring='accuracy')
+            cv_mean = cv_scores.mean()
+            cv_std = cv_scores.std()
+            results.append({
+                'Model': name,
+                'Accuracy': accuracy,
+                'Precision': precision,
+                'Recall': recall,
+                'F1-Score': f1,
+                'CV_Mean': cv_mean,
+                'CV_Std': cv_std
+            })
+            col1, col2 = st.columns(2)
+            with col1:
+                st.metric("Accuracy", f"{accuracy:.4f}")
+                st.metric("Precision", f"{precision:.4f}")
+            with col2:
+                st.metric("Recall", f"{recall:.4f}")
+                st.metric("F1-Score", f"{f1:.4f}")
+            st.write(f"Cross-validation: {cv_mean:.4f} (+/- {cv_std*2:.4f})")
+    st.subheader("Model Comparison")
+    results_df = pd.DataFrame(results)
+    st.dataframe(results_df.set_index('Model'))
+    best_model_idx = results_df['F1-Score'].idxmax()
+    best_model_name = results_df.loc[best_model_idx, 'Model']
+    st.success(f"🏆 Best Model: {best_model_name}")
+    return results_df, best_model_name
+
+def prediction_section(model, scaler, label_encoder):
+    st.header("🔮 Breast Cancer Prediction")
+    st.write("Enter the cell nucleus characteristics to predict the diagnosis.")
+    feature_names = [
+        'radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'smoothness_mean',
+        'compactness_mean', 'concavity_mean', 'concave_points_mean', 'symmetry_mean', 'fractal_dimension_mean',
+        'radius_se', 'texture_se', 'perimeter_se', 'area_se', 'smoothness_se',
+        'compactness_se', 'concavity_se', 'concave_points_se', 'symmetry_se', 'fractal_dimension_se',
+        'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'smoothness_worst',
+        'compactness_worst', 'concavity_worst', 'concave_points_worst', 'symmetry_worst', 'fractal_dimension_worst'
+    ]
+    with st.form("prediction_form"):
+        col1, col2, col3 = st.columns(3)
+        features = {}
+        with col1:
+            st.subheader("Mean Values")
+            for i in range(10):
+                feature = feature_names[i]
+                features[feature] = st.number_input(
+                    f"{feature.replace('_', ' ').title()}",
+                    format="%.3f",
+                    key=f"mean_{i}"
+                )
+        with col2:
+            st.subheader("Standard Error Values")
+            for i in range(10, 20):
+                feature = feature_names[i]
+                features[feature] = st.number_input(
+                    f"{feature.replace('_', ' ').title()}",
+                    format="%.3f",
+                    key=f"se_{i}"
+                )
+        with col3:
+            st.subheader("Worst Values")
+            for i in range(20, 30):
+                feature = feature_names[i]
+                features[feature] = st.number_input(
+                    f"{feature.replace('_', ' ').title()}",
+                    format="%.3f",
+                    key=f"worst_{i}"
+                )
+        submitted = st.form_submit_button("🔮 Predict Diagnosis", type="primary")
+        if submitted and model is not None:
+            feature_values = [features[feature] for feature in feature_names]
+            features_scaled = scaler.transform([feature_values])
+            prediction = model.predict(features_scaled)[0]
+            probability = model.predict_proba(features_scaled)[0]
+            diagnosis = label_encoder.inverse_transform([prediction])[0]
+            st.markdown("---")
+            st.subheader("🎯 Prediction Results")
+            col1, col2 = st.columns(2)
+            with col1:
+                if diagnosis == 'M':
+                    st.error("🚨 **MALIGNANT** - Cancerous Tumor Detected")
+                    st.write("This indicates a high probability of breast cancer.")
+                    st.write("**Immediate medical attention is recommended.**")
+                else:
+                    st.success("✅ **BENIGN** - Non-Cancerous Tumor")
+                    st.write("This indicates a low probability of breast cancer.")
+                    st.write("**Regular monitoring is still recommended.**")
+            with col2:
+                fig = go.Figure(data=[
+                    go.Bar(
+                        x=['Benign', 'Malignant'],
+                        y=[probability[0], probability[1]],
+                        marker_color=['green', 'red'],
+                        text=[f'{probability[0]:.1%}', f'{probability[1]:.1%}'],
+                        textposition='auto'
+                    )
+                ])
+                fig.update_layout(
+                    title="Prediction Probabilities",
+                    yaxis_title="Probability",
+                    height=300
+                )
+                st.plotly_chart(fig, use_container_width=True)
+
+def main():
+    st.title("🏥 Wisconsin Diagnostic Breast Cancer (WDBC) Analysis & Prediction")
+    st.markdown("---")
+    st.sidebar.header("📊 Navigation")
+    page = st.sidebar.selectbox(
+        "Choose a section:",
+        ["Data Understanding", "Data Preprocessing", "Model Training", "Prediction", "About"]
+    )
+    df = load_data()
+    if df is None:
+        st.error("Cannot load data. Please check if wdbc.data file exists.")
+        return
+    model, scaler, label_encoder, model_info = load_model()
+    if model_info:
+        st.sidebar.header("📈 Model Info")
+        st.sidebar.write(f"**Best Model:** {model_info.get('best_model_name', 'Unknown')}")
+        st.sidebar.write(f"**Accuracy:** {model_info.get('best_accuracy', 'Unknown'):.4f}")
+        st.sidebar.write(f"**F1-Score:** {model_info.get('best_f1_score', 'Unknown'):.4f}")
+    st.sidebar.markdown("---")
+    st.sidebar.header("ℹ️ About")
+    st.sidebar.info("""
+    This application analyzes breast cancer diagnosis using the WDBC dataset.
+
+    **Diagnosis:**
+    - **M (Malignant):** Cancerous tumor
+    - **B (Benign):** Non-cancerous tumor
+
+    **Data Source:** UCI Machine Learning Repository
+    """)
+    if page == "Data Understanding":
+        data_understanding_section(df)
+    elif page == "Data Preprocessing":
+        preprocessing_section(df)
+    elif page == "Model Training":
+        st.warning("⚠️ Model training is computationally intensive. Use the Prediction tab for making predictions with pre-trained models.")
+        if st.button("Train Models (This may take a while)"):
+            with st.spinner("Preprocessing data..."):
+                X_train_scaled, X_test_scaled, y_train, y_test, scaler, le = preprocessing_section(df)
+            with st.spinner("Training models..."):
+                results_df, best_model_name = modeling_section(X_train_scaled, X_test_scaled, y_train, y_test)
+    elif page == "Prediction":
+        if model is not None:
+            prediction_section(model, scaler, label_encoder)
+        else:
+            st.error("❌ Model not loaded. Please ensure model files are available.")
+    elif page == "About":
+        st.header("📋 About This Application")
+        st.write("""
+        This application demonstrates a complete data mining workflow for breast cancer diagnosis:
+
+        1. **Data Understanding**: Explore and understand the WDBC dataset
+        2. **Data Preprocessing**: Clean and prepare data for modeling
+        3. **Model Training**: Train and evaluate multiple machine learning models
+        4. **Prediction**: Make predictions on new data
+
+        **Dataset**: Wisconsin Diagnostic Breast Cancer (WDBC)
+        **Features**: 30 cell nucleus characteristics
+        **Target**: Diagnosis (Benign/Malignant)
+
+        **Disclaimer**: This is for educational purposes only. 
+        Always consult healthcare professionals for medical decisions.
+        """)
+
+if __name__ == "__main__":
+    main()
