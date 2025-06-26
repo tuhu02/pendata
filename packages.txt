@@ -1,10 +1,1 @@
-jupyter-book
-matplotlib
-numpy
-pandas
-scikit-learn
-seaborn
-tqdm
-nltk
-streamlit
-plotly
+
